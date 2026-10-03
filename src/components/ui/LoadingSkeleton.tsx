@@ -10,13 +10,11 @@ export default function LoadingSkeleton() {
     <div className="w-full space-y-6 animate-pulse">
       {/* Hero Orbit Skeleton */}
       <div
-        className={`w-full h-[400px] rounded-3xl border flex items-center justify-center relative overflow-hidden ${
-          isDark ? "bg-[#0B1426] border-[rgba(80,150,255,0.15)]" : "bg-white border-[rgba(30,90,160,0.14)]"
-        }`}
+        className="w-full h-[60vh] min-h-[460px] flex items-center justify-center relative overflow-hidden"
       >
-        <div className="w-52 h-52 rounded-full border border-dashed border-[#18D9FF]/20 flex items-center justify-center">
-          <div className="w-40 h-40 rounded-full border border-[#8B5CF6]/20 flex items-center justify-center">
-            <div className="w-24 h-24 rounded-full bg-[#18D9FF]/10" />
+        <div className="w-56 h-56 rounded-full border border-dashed border-[#00D9FF]/20 flex items-center justify-center">
+          <div className="w-44 h-44 rounded-full border border-[#8B5CF6]/20 flex items-center justify-center">
+            <div className="w-28 h-28 rounded-full bg-[#00D9FF]/10" />
           </div>
         </div>
       </div>
