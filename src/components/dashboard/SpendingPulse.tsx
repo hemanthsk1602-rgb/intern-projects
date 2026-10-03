@@ -65,10 +65,10 @@ export default function SpendingPulse() {
 
   return (
     <div
-      className={`w-full p-6 md:p-7 rounded-3xl backdrop-blur-xl border transition-all duration-300 relative overflow-hidden ${
+      className={`w-full p-5 md:p-6 rounded-3xl border transition-all duration-200 relative overflow-hidden ${
         isDark
-          ? "bg-slate-900/60 border-slate-800 shadow-glass-dark"
-          : "bg-white border-slate-200 shadow-glass-light"
+          ? "bg-[#0B1426] border-[rgba(80,150,255,0.15)] shadow-card-dark"
+          : "bg-[#FFFFFF] border-[rgba(30,90,160,0.14)] shadow-card-light"
       }`}
     >
       {/* Background soft ambient glow */}

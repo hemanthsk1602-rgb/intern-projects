@@ -63,34 +63,34 @@ export default function LoginVisual({
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
     // 1. Single Central Futuristic Core
-    const coreGeo = new THREE.SphereGeometry(1.4, 32, 32);
+    const coreGeo = new THREE.SphereGeometry(1.3, 32, 32);
     const coreMat = new THREE.MeshBasicMaterial({
-      color: isDark ? 0x00f0ff : 0x0284c7,
+      color: isDark ? 0x18d9ff : 0x00afcf,
       wireframe: true,
       transparent: true,
-      opacity: isDark ? 0.35 : 0.45,
+      opacity: isDark ? 0.3 : 0.4,
     });
     const coreMesh = new THREE.Mesh(coreGeo, coreMat);
     scene.add(coreMesh);
     coreRef.current = coreMesh;
 
     // Inner Luminous Core
-    const innerGeo = new THREE.IcosahedronGeometry(0.95, 2);
+    const innerGeo = new THREE.IcosahedronGeometry(0.85, 2);
     const innerMat = new THREE.MeshBasicMaterial({
-      color: isDark ? 0x8b5cf6 : 0x4f46e5,
+      color: isDark ? 0x8b5cf6 : 0x7657e8,
       transparent: true,
-      opacity: isDark ? 0.45 : 0.4,
+      opacity: isDark ? 0.38 : 0.35,
     });
     const innerMesh = new THREE.Mesh(innerGeo, innerMat);
     scene.add(innerMesh);
     coreGlowRef.current = innerMesh;
 
     // 2. Exactly 1–2 Thin Orbital Rings
-    const ring1Geo = new THREE.TorusGeometry(3.2, 0.008, 16, 120);
+    const ring1Geo = new THREE.TorusGeometry(3.0, 0.006, 16, 120);
     const ring1Mat = new THREE.MeshBasicMaterial({
-      color: isDark ? 0x00f0ff : 0x0284c7,
+      color: isDark ? 0x18d9ff : 0x00afcf,
       transparent: true,
-      opacity: isDark ? 0.4 : 0.65,
+      opacity: isDark ? 0.35 : 0.55,
     });
     const ring1 = new THREE.Mesh(ring1Geo, ring1Mat);
     ring1.rotation.x = 1.15;
@@ -98,11 +98,11 @@ export default function LoginVisual({
     scene.add(ring1);
     ring1Ref.current = ring1;
 
-    const ring2Geo = new THREE.TorusGeometry(4.4, 0.006, 16, 120);
+    const ring2Geo = new THREE.TorusGeometry(4.2, 0.005, 16, 120);
     const ring2Mat = new THREE.MeshBasicMaterial({
-      color: isDark ? 0x8b5cf6 : 0x7c3aed,
+      color: isDark ? 0x2684ff : 0x1677ff,
       transparent: true,
-      opacity: isDark ? 0.3 : 0.55,
+      opacity: isDark ? 0.28 : 0.45,
     });
     const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
     ring2.rotation.x = 0.85;
@@ -110,23 +110,23 @@ export default function LoginVisual({
     scene.add(ring2);
     ring2Ref.current = ring2;
 
-    // 3. Very Small Particle Field (~70 particles max, elegant & subtle)
-    const particleCount = 70;
+    // 3. Very Small Particle Field (~40 particles, subtle & calm)
+    const particleCount = 40;
     const particleGeometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
 
-    const cyanCol = new THREE.Color(isDark ? "#00f0ff" : "#0284c7");
-    const violetCol = new THREE.Color(isDark ? "#8b5cf6" : "#7c3aed");
+    const cyanCol = new THREE.Color(isDark ? "#18D9FF" : "#00AFCF");
+    const blueCol = new THREE.Color(isDark ? "#2684FF" : "#1677FF");
 
     for (let i = 0; i < particleCount; i++) {
-      const r = 3 + Math.random() * 6;
+      const r = 3 + Math.random() * 5.5;
       const theta = Math.random() * Math.PI * 2;
       positions[i * 3] = r * Math.cos(theta);
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 6;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 4 - 1.5;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 5;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 3 - 1.5;
 
-      const c = Math.random() > 0.5 ? cyanCol : violetCol;
+      const c = Math.random() > 0.5 ? cyanCol : blueCol;
       colors[i * 3] = c.r;
       colors[i * 3 + 1] = c.g;
       colors[i * 3 + 2] = c.b;
@@ -136,10 +136,10 @@ export default function LoginVisual({
     particleGeometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
 
     const particleMaterial = new THREE.PointsMaterial({
-      size: 0.05,
+      size: 0.04,
       vertexColors: true,
       transparent: true,
-      opacity: isDark ? 0.45 : 0.35,
+      opacity: isDark ? 0.35 : 0.25,
       blending: isDark ? THREE.AdditiveBlending : THREE.NormalBlending,
     });
 

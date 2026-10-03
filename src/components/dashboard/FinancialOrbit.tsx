@@ -1,16 +1,41 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import * as THREE from "three";
 import { useExpenses } from "@/context/ExpenseContext";
 import { useTheme } from "@/context/ThemeContext";
-import { formatINR } from "@/lib/utils";
-import { Sparkles, Orbit as OrbitIcon, ArrowUpRight } from "lucide-react";
+import { formatINR, CATEGORY_METADATA } from "@/lib/utils";
+import { ExpenseCategory } from "@/types";
+import {
+  Utensils,
+  Car,
+  ShoppingBag,
+  Zap,
+  Film,
+  Activity,
+  GraduationCap,
+  TrendingUp,
+  CircleDot,
+  Orbit as OrbitIcon,
+  ArrowUpRight,
+} from "lucide-react";
 import Link from "next/link";
+
+const CATEGORY_ICONS: Record<ExpenseCategory, React.ElementType> = {
+  "Food & Dining": Utensils,
+  Transport: Car,
+  Shopping: ShoppingBag,
+  "Bills & Utilities": Zap,
+  Entertainment: Film,
+  "Health & Wellness": Activity,
+  Education: GraduationCap,
+  Investment: TrendingUp,
+  Other: CircleDot,
+};
 
 interface ProjectedNode {
   id: string;
-  category: string;
+  category: ExpenseCategory;
   amount: number;
   percentage: number;
   color: string;
@@ -31,13 +56,12 @@ export default function FinancialOrbit() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
 
-  // Three.js object references
+  // Three.js references
   const sceneRef = useRef<THREE.Scene | null>(null);
   const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
   const ringsRef = useRef<THREE.Mesh[]>([]);
   const particlesRef = useRef<THREE.Points | null>(null);
   const coreMeshRef = useRef<THREE.Mesh | null>(null);
-  const coreGlowMeshRef = useRef<THREE.Mesh | null>(null);
   const nodeMeshesRef = useRef<
     { mesh: THREE.Mesh; cat: string; baseAngle: number; radius: number; speed: number; yOffset: number }[]
   >([]);
@@ -58,13 +82,12 @@ export default function FinancialOrbit() {
     let width = container.clientWidth;
     let height = container.clientHeight;
 
-    // 1. Scene & Camera Setup with realistic 3D perspective
+    // 1. Scene & Camera Setup (Realistic perspective, smaller orbit focus)
     const scene = new THREE.Scene();
     sceneRef.current = scene;
 
-    const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
-    // Adjusted initial camera for spacious breathing room (70% breathing room, 30% density)
-    camera.position.set(0, 2.8, 12);
+    const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
+    camera.position.set(0, 1.6, 11);
     camera.lookAt(0, 0, 0);
 
     // 2. High-performance WebGL Renderer
@@ -80,74 +103,52 @@ export default function FinancialOrbit() {
     renderer.toneMappingExposure = isDark ? 1.05 : 1.15;
     rendererRef.current = renderer;
 
-    // 3. Central Financial Core (3D Geometric Aura behind the 2D glass core)
-    // Refined to be subtle and never compete with the ₹27,000 label
-    const coreGeometry = new THREE.SphereGeometry(1.3, 32, 32);
+    // 3. Compact Financial Core (Aura sphere behind HTML central element)
+    const coreGeometry = new THREE.SphereGeometry(1.05, 32, 32);
     const coreMaterial = new THREE.MeshBasicMaterial({
-      color: isDark ? 0x00f0ff : 0x0284c7,
+      color: isDark ? 0x18d9ff : 0x00afcf,
       wireframe: true,
       transparent: true,
-      opacity: isDark ? 0.18 : 0.22,
+      opacity: isDark ? 0.16 : 0.2,
     });
     const coreMesh = new THREE.Mesh(coreGeometry, coreMaterial);
     scene.add(coreMesh);
     coreMeshRef.current = coreMesh;
 
-    const glowGeo = new THREE.IcosahedronGeometry(0.9, 2);
-    const glowMat = new THREE.MeshBasicMaterial({
-      color: isDark ? 0x8b5cf6 : 0x4f46e5,
-      transparent: true,
-      opacity: isDark ? 0.25 : 0.2,
-      wireframe: true,
-    });
-    const coreGlowMesh = new THREE.Mesh(glowGeo, glowMat);
-    scene.add(coreGlowMesh);
-    coreGlowMeshRef.current = coreGlowMesh;
-
-    // 4. Clean, Thin Orbital Rings (3–4 maximum, depth-based fading, delicate line weight)
-    // Radii are carefully calibrated to leave clear central breathing room (>3.6)
+    // 4. Exactly 3 Thin, Elegant Orbital Rings
     const ringDefinitions = [
       {
-        radius: 3.6,
-        tube: 0.007,
+        radius: 2.8,
+        tube: 0.005,
         tiltX: 1.15,
-        tiltY: 0.22,
-        speed: 0.0018,
-        color: isDark ? 0x00f0ff : 0x0284c7,
-        opacity: isDark ? 0.35 : 0.65,
+        tiltY: 0.18,
+        speed: 0.0012,
+        color: isDark ? 0x18d9ff : 0x00afcf,
+        opacity: isDark ? 0.35 : 0.6,
+      },
+      {
+        radius: 3.9,
+        tube: 0.0045,
+        tiltX: 0.82,
+        tiltY: -0.24,
+        speed: -0.0009,
+        color: isDark ? 0x2684ff : 0x1677ff,
+        opacity: isDark ? 0.28 : 0.5,
       },
       {
         radius: 4.9,
-        tube: 0.006,
-        tiltX: 0.85,
-        tiltY: -0.32,
-        speed: -0.0014,
-        color: isDark ? 0x3b82f6 : 0x2563eb,
-        opacity: isDark ? 0.28 : 0.55,
-      },
-      {
-        radius: 6.2,
-        tube: 0.005,
-        tiltX: 1.32,
-        tiltY: 0.15,
-        speed: 0.001,
-        color: isDark ? 0x8b5cf6 : 0x7c3aed,
-        opacity: isDark ? 0.22 : 0.48, // Depth-based fading for distant paths
-      },
-      {
-        radius: 7.4,
         tube: 0.004,
-        tiltX: 0.72,
-        tiltY: -0.18,
-        speed: -0.0008,
-        color: isDark ? 0x10b981 : 0x059669,
-        opacity: isDark ? 0.16 : 0.4, // Subtle outer halo
+        tiltX: 1.25,
+        tiltY: 0.12,
+        speed: 0.0007,
+        color: isDark ? 0x8b5cf6 : 0x7657e8,
+        opacity: isDark ? 0.22 : 0.42,
       },
     ];
 
     const rings: THREE.Mesh[] = [];
     ringDefinitions.forEach((def) => {
-      const ringGeo = new THREE.TorusGeometry(def.radius, def.tube, 16, 140);
+      const ringGeo = new THREE.TorusGeometry(def.radius, def.tube, 16, 120);
       const ringMat = new THREE.MeshBasicMaterial({
         color: def.color,
         transparent: true,
@@ -161,19 +162,19 @@ export default function FinancialOrbit() {
     });
     ringsRef.current = rings;
 
-    // 5. Category Satellites (Floating 3D Anchors with Natural Sector Spacing)
-    // Distributed along natural distinct angular quadrants so they NEVER stack or overlap
+    // 5. Category Satellites — Exactly 4–5 Major Nodes, Non-Overlapping Sectors
     const topCategories = categories.slice(0, 5);
-    const angularOffsets = [-2.35, -0.85, 0.45, 1.85, 3.15]; // Equi-spaced 5 sectors around orbit
+    // 5 balanced angular sectors: Top-Left, Top-Right, Mid-Right, Bottom-Right, Bottom-Left
+    const sectorAngles = [-2.3, -0.75, 0.45, 1.85, 3.1];
     const nodeMeshes: { mesh: THREE.Mesh; cat: string; baseAngle: number; radius: number; speed: number; yOffset: number }[] = [];
 
     topCategories.forEach((cat, index) => {
       const ringDef = ringDefinitions[index % ringDefinitions.length];
-      const radius = ringDef.radius + 0.15;
-      const angle = angularOffsets[index % angularOffsets.length];
+      const radius = ringDef.radius + (index % 2 === 0 ? 0.1 : -0.1);
+      const angle = sectorAngles[index % sectorAngles.length];
 
-      const nodeGeo = new THREE.SphereGeometry(0.12, 16, 16);
-      const nodeColor = isDark ? cat.color : cat.color === "#00F0FF" ? "#0284C7" : cat.color;
+      const nodeGeo = new THREE.SphereGeometry(0.09, 16, 16);
+      const nodeColor = isDark ? cat.color : cat.color === "#18D9FF" ? "#00AFCF" : cat.color;
       const nodeMat = new THREE.MeshBasicMaterial({
         color: new THREE.Color(nodeColor),
         transparent: true,
@@ -182,12 +183,12 @@ export default function FinancialOrbit() {
       const nodeMesh = new THREE.Mesh(nodeGeo, nodeMat);
 
       // Subtle satellite beacon ring
-      const beaconGeo = new THREE.RingGeometry(0.18, 0.22, 24);
+      const beaconGeo = new THREE.RingGeometry(0.14, 0.17, 20);
       const beaconMat = new THREE.MeshBasicMaterial({
         color: new THREE.Color(nodeColor),
         side: THREE.DoubleSide,
         transparent: true,
-        opacity: isDark ? 0.45 : 0.35,
+        opacity: isDark ? 0.4 : 0.3,
       });
       const beacon = new THREE.Mesh(beaconGeo, beaconMat);
       beacon.rotation.x = Math.PI / 2;
@@ -199,32 +200,31 @@ export default function FinancialOrbit() {
         cat: cat.category,
         baseAngle: angle,
         radius,
-        speed: ringDef.speed * 0.9, // Gentle, slow satellite motion
-        yOffset: index % 2 === 0 ? 0.2 : -0.2,
+        speed: ringDef.speed * 0.8,
+        yOffset: index % 2 === 0 ? 0.15 : -0.15,
       });
     });
     nodeMeshesRef.current = nodeMeshes;
 
-    // 6. Reduced Particle Field (~180 particles, 35% reduction from 320, subtle & non-distracting)
-    const particleCount = 180;
+    // 6. Minimal, Subtle Particles (~50 particles, slow, low opacity)
+    const particleCount = 50;
     const particleGeometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
 
-    const c1 = new THREE.Color(isDark ? "#00f0ff" : "#0284c7");
-    const c2 = new THREE.Color(isDark ? "#8b5cf6" : "#7c3aed");
-    const c3 = new THREE.Color(isDark ? "#3b82f6" : "#2563eb");
+    const c1 = new THREE.Color(isDark ? "#18D9FF" : "#00AFCF");
+    const c2 = new THREE.Color(isDark ? "#2684FF" : "#1677FF");
+    const c3 = new THREE.Color(isDark ? "#8B5CF6" : "#7657E8");
 
     for (let i = 0; i < particleCount; i++) {
-      // Dispersed in deep spherical volume far behind and around orbit
-      const r = 4.5 + Math.random() * 8.5;
+      const r = 3.5 + Math.random() * 6.0;
       const theta = Math.random() * Math.PI * 2;
       positions[i * 3] = r * Math.cos(theta);
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 7.5;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 5.5 - 2.5;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 5.0;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 4.0 - 1.5;
 
       const mix = Math.random();
-      const chosen = mix < 0.45 ? c1 : mix < 0.75 ? c2 : c3;
+      const chosen = mix < 0.5 ? c1 : mix < 0.8 ? c2 : c3;
       colors[i * 3] = chosen.r;
       colors[i * 3 + 1] = chosen.g;
       colors[i * 3 + 2] = chosen.b;
@@ -234,10 +234,10 @@ export default function FinancialOrbit() {
     particleGeometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
 
     const particleMaterial = new THREE.PointsMaterial({
-      size: 0.045,
+      size: 0.035,
       vertexColors: true,
       transparent: true,
-      opacity: isDark ? 0.45 : 0.32,
+      opacity: isDark ? 0.35 : 0.25,
       blending: isDark ? THREE.AdditiveBlending : THREE.NormalBlending,
     });
 
@@ -245,7 +245,7 @@ export default function FinancialOrbit() {
     scene.add(particles);
     particlesRef.current = particles;
 
-    // 7. Mouse Parallax with Soft Damping
+    // 7. Subtle Mouse Parallax (Damped)
     let mouseX = 0;
     let mouseY = 0;
     let targetX = 0;
@@ -258,259 +258,204 @@ export default function FinancialOrbit() {
       mouseX = x;
       mouseY = y;
     };
-    container.addEventListener("mousemove", handleMouseMove);
 
-    // 8. Visibility change handling (pause RAF when page is inactive)
-    let isVisible = true;
-    const handleVisibility = () => {
-      isVisible = !document.hidden;
-    };
-    document.addEventListener("visibilitychange", handleVisibility);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
 
-    // 9. Resize Observer
-    const resizeObserver = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        width = entry.contentRect.width;
-        height = entry.contentRect.height;
-        if (width > 0 && height > 0) {
-          camera.aspect = width / height;
-          if (width < 640) {
-            camera.position.z = 16.5; // Wider field on mobile so elements never collide
-          } else if (width < 1024) {
-            camera.position.z = 13.8;
-          } else {
-            camera.position.z = 12.0;
-          }
-          camera.updateProjectionMatrix();
-          renderer.setSize(width, height);
-        }
-      }
-    });
-    resizeObserver.observe(container);
-
-    if (width < 640) {
-      camera.position.z = 16.5;
-    } else if (width < 1024) {
-      camera.position.z = 13.8;
-    } else {
-      camera.position.z = 12.0;
-    }
-    camera.updateProjectionMatrix();
-
-    // 10. Animation Loop (Smooth 60fps, slow, cinematic easing)
+    // 8. Animation Loop
     let animationFrameId: number;
-    const clock = new THREE.Clock();
+    let clock = new THREE.Clock();
 
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
-      if (!isVisible) return;
 
+      const delta = clock.getDelta();
       const elapsedTime = clock.getElapsedTime();
-      const motionMultiplier = isReducedMotion ? 0.05 : 1.0;
 
-      // Mouse Parallax Lerp with smooth damping
-      targetX += (mouseX * 0.9 - targetX) * 0.04;
-      targetY += (mouseY * 0.6 - targetY) * 0.04;
+      // Damped Parallax
+      targetX += (mouseX - targetX) * 0.04;
+      targetY += (mouseY - targetY) * 0.04;
 
-      camera.position.x = targetX;
-      camera.position.y = 2.8 + targetY;
+      if (!isReducedMotion) {
+        camera.position.x = targetX * 0.7;
+        camera.position.y = 1.6 + targetY * 0.4;
+      }
       camera.lookAt(0, 0, 0);
 
-      // Rotate Rings gently
-      rings.forEach((ring, index) => {
-        const speed = ringDefinitions[index].speed * motionMultiplier;
-        ring.rotation.z += speed;
-        ring.rotation.y += speed * 0.25;
+      // Rotate Core Sphere Slowly
+      if (coreMeshRef.current && !isReducedMotion) {
+        coreMeshRef.current.rotation.y = elapsedTime * 0.08;
+        coreMeshRef.current.rotation.x = Math.sin(elapsedTime * 0.06) * 0.1;
+      }
+
+      // Rotate Orbital Rings Smoothly
+      if (!isReducedMotion) {
+        ringsRef.current.forEach((ring, idx) => {
+          const speed = ringDefinitions[idx % ringDefinitions.length].speed;
+          ring.rotation.z += speed;
+        });
+      }
+
+      // Drift Particles
+      if (particlesRef.current && !isReducedMotion) {
+        particlesRef.current.rotation.y = elapsedTime * 0.015;
+      }
+
+      // Project Category Nodes to 2D HTML
+      const projected: ProjectedNode[] = [];
+      const tempVec = new THREE.Vector3();
+
+      nodeMeshesRef.current.forEach((item, index) => {
+        const catData = topCategories[index];
+        if (!catData) return;
+
+        const currentAngle = isReducedMotion
+          ? item.baseAngle
+          : item.baseAngle + elapsedTime * item.speed;
+
+        // Position on its orbital ellipse
+        const x = item.radius * Math.cos(currentAngle);
+        const z = item.radius * Math.sin(currentAngle) * 0.75;
+        const y = Math.sin(currentAngle + index) * 0.25 + item.yOffset;
+
+        item.mesh.position.set(x, y, z);
+
+        // Project 3D vector to screen coords
+        item.mesh.getWorldPosition(tempVec);
+        tempVec.project(camera);
+
+        const isVisible = tempVec.z < 1.0;
+        const screenX = (tempVec.x * 0.5 + 0.5) * width;
+        const screenY = (-tempVec.y * 0.5 + 0.5) * height;
+
+        // Depth scale
+        const scale = THREE.MathUtils.clamp(1.0 - z * 0.04, 0.85, 1.05);
+
+        projected.push({
+          id: `node_${index}`,
+          category: catData.category,
+          amount: catData.amount,
+          percentage: catData.percentage,
+          color: catData.color,
+          lightColor: CATEGORY_METADATA[catData.category]?.lightColor || catData.color,
+          x: screenX,
+          y: screenY,
+          visible: isVisible,
+          scale,
+        });
       });
 
-      // Subtle core breathing
-      if (coreMesh) {
-        const pulse = 1 + Math.sin(elapsedTime * 1.5) * 0.03;
-        coreMesh.scale.set(pulse, pulse, pulse);
-        coreMesh.rotation.y += 0.0015 * motionMultiplier;
-      }
-      if (coreGlowMesh) {
-        const pulseGlow = 1 + Math.cos(elapsedTime * 1.8) * 0.04;
-        coreGlowMesh.scale.set(pulseGlow, pulseGlow, pulseGlow);
-        coreGlowMesh.rotation.y -= 0.002 * motionMultiplier;
-      }
-
-      // Rotate Particles slowly
-      if (particles) {
-        particles.rotation.y = elapsedTime * 0.008 * motionMultiplier;
-        particles.rotation.x = Math.sin(elapsedTime * 0.006) * 0.02;
-      }
-
-      // 3D Satellites Projection to 2D UI with Non-overlapping Spacing
-      const projectedList: ProjectedNode[] = [];
-      const tempVector = new THREE.Vector3();
-
-      nodeMeshes.forEach((item, idx) => {
-        const currentAngle = item.baseAngle + elapsedTime * item.speed * motionMultiplier;
-        const currentY = item.yOffset + Math.sin(elapsedTime * 1.2 + idx) * 0.18;
-
-        const posX = Math.cos(currentAngle) * item.radius;
-        const posZ = Math.sin(currentAngle) * (item.radius * 0.88);
-
-        item.mesh.position.set(posX, currentY, posZ);
-
-        tempVector.set(posX, currentY, posZ);
-        tempVector.project(camera);
-
-        const screenX = ((tempVector.x + 1) * width) / 2;
-        const screenY = ((-tempVector.y + 1) * height) / 2;
-        const isBehind = tempVector.z > 1.0;
-
-        const catData = topCategories[idx];
-        if (catData) {
-          projectedList.push({
-            id: catData.category,
-            category: catData.category,
-            amount: catData.amount,
-            percentage: catData.percentage,
-            color: catData.color,
-            lightColor: catData.color === "#00F0FF" ? "#0284C7" : catData.color,
-            x: screenX,
-            y: screenY,
-            visible: !isBehind && screenX > 25 && screenX < width - 25 && screenY > 25 && screenY < height - 25,
-            scale: THREE.MathUtils.lerp(0.85, 1.02, (1 - tempVector.z) * 0.5),
-          });
-        }
-      });
-
-      setProjectedNodes(projectedList);
+      setProjectedNodes(projected);
       renderer.render(scene, camera);
     };
 
     animate();
 
+    // 9. Resize Observer
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { width: newWidth, height: newHeight } = entry.contentRect;
+        if (newWidth > 0 && newHeight > 0) {
+          width = newWidth;
+          height = newHeight;
+          camera.aspect = newWidth / newHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(newWidth, newHeight);
+        }
+      }
+    });
+
+    resizeObserver.observe(container);
+
+    // Cleanup
     return () => {
       cancelAnimationFrame(animationFrameId);
-      container.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("visibilitychange", handleVisibility);
+      window.removeEventListener("mousemove", handleMouseMove);
       resizeObserver.disconnect();
 
-      coreGeometry.dispose();
-      coreMaterial.dispose();
-      glowGeo.dispose();
-      glowMat.dispose();
-      rings.forEach((r) => {
-        r.geometry.dispose();
-        (r.material as THREE.Material).dispose();
-      });
-      nodeMeshes.forEach((n) => {
-        n.mesh.geometry.dispose();
-        (n.mesh.material as THREE.Material).dispose();
-      });
-      particleGeometry.dispose();
-      particleMaterial.dispose();
+      // Dispose Three.js objects
+      scene.clear();
       renderer.dispose();
     };
   }, [categories, isDark, isReducedMotion]);
 
+  // Outflow value: center shows live monthly outflow (₹27,000)
   const outflowAmount = metrics.thisMonthOutflow > 0 ? metrics.thisMonthOutflow : 27000;
 
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-[520px] md:h-[580px] lg:h-[620px] rounded-3xl overflow-hidden flex items-center justify-center select-none"
+      className={`relative w-full h-[380px] sm:h-[400px] md:h-[430px] rounded-3xl border overflow-hidden flex items-center justify-center transition-all select-none ${
+        isDark
+          ? "bg-[#07101F]/80 border-[rgba(80,150,255,0.15)] shadow-card-dark"
+          : "bg-[#FFFFFF] border-[rgba(30,90,160,0.14)] shadow-card-light"
+      }`}
     >
       {/* 3D WebGL Canvas */}
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full pointer-events-none z-10"
-      />
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" />
 
-      {/* Subtle Radial Light Source behind the Core */}
+      {/* Subtle radial ambient background glow behind the core */}
       <div
-        className={`absolute inset-0 pointer-events-none transition-opacity duration-1000 ${
+        className={`absolute inset-0 pointer-events-none transition-opacity ${
           isDark
-            ? "bg-radial from-cyan-500/10 via-slate-950/20 to-transparent"
-            : "bg-radial from-indigo-500/10 via-sky-500/5 to-transparent"
+            ? "bg-[radial-gradient(circle_at_50%_50%,rgba(24,217,255,0.06)_0%,transparent_60%)]"
+            : "bg-[radial-gradient(circle_at_50%_50%,rgba(22,119,255,0.04)_0%,transparent_60%)]"
         }`}
-        style={{
-          background: isDark
-            ? "radial-gradient(circle at center, rgba(0, 240, 255, 0.08) 0%, rgba(139, 92, 246, 0.04) 38%, transparent 70%)"
-            : "radial-gradient(circle at center, rgba(2, 132, 199, 0.08) 0%, rgba(99, 102, 241, 0.05) 38%, transparent 70%)",
-        }}
       />
-
-      {/* Hero Badge Tag */}
-      <div
-        className={`absolute top-6 left-6 z-20 flex items-center gap-2 px-3.5 py-1.5 rounded-full backdrop-blur-md border text-xs font-mono tracking-wider transition-colors ${
-          isDark
-            ? "bg-slate-950/50 border-cyan-500/30 text-cyan-400"
-            : "bg-white/80 border-slate-200 text-sky-700 shadow-sm"
-        }`}
-      >
-        <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-spin-reverse" />
-        <span>SPENDWISE 3D SPATIAL ORBIT</span>
-      </div>
 
       {/* Control Indicator */}
       <div
-        className={`hidden sm:flex absolute top-6 right-6 z-20 items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-md border text-xs font-mono transition-colors ${
+        className={`hidden sm:flex absolute top-4 right-4 z-20 items-center gap-1.5 px-2.5 py-1 rounded-full border text-[11px] font-mono transition-colors ${
           isDark
-            ? "bg-slate-950/50 border-white/10 text-slate-400"
-            : "bg-white/80 border-slate-200 text-slate-600 shadow-sm"
+            ? "bg-[#0B1426]/70 border-[rgba(80,150,255,0.15)] text-[#8FA3BF]"
+            : "bg-[#F8FBFF] border-[rgba(30,90,160,0.14)] text-[#60738F]"
         }`}
       >
-        <OrbitIcon className="w-3.5 h-3.5 text-violet-400" />
-        <span>Spatial Telemetry Active</span>
+        <OrbitIcon className="w-3 h-3 text-[#18D9FF]" />
+        <span>3D Financial Orbit</span>
       </div>
 
       {/* ======================================================== */}
-      {/* THE CENTRAL FINANCIAL CORE (FOCAL POINT)                 */}
+      {/* COMPACT CENTRAL FINANCIAL CORE (FOCAL POINT)             */}
       {/* ₹27,000 / OUTFLOW THIS MONTH / COMPARISON INDICATOR       */}
       {/* ======================================================== */}
       <div className="relative z-20 flex flex-col items-center justify-center text-center pointer-events-auto">
         <div
-          className={`relative p-8 md:p-10 rounded-full backdrop-blur-2xl border transition-all duration-500 shadow-2xl flex flex-col items-center justify-center ${
+          className={`relative p-5 sm:p-6 rounded-full backdrop-blur-xl border transition-all duration-300 flex flex-col items-center justify-center ${
             isDark
-              ? "bg-slate-950/85 border-cyan-500/40 shadow-glow-cyan"
-              : "bg-white/95 border-slate-200 shadow-glass-light"
+              ? "bg-[#0B1426]/90 border-[rgba(80,150,255,0.22)] shadow-glow-subtle"
+              : "bg-white/95 border-[rgba(30,90,160,0.2)] shadow-card-light"
           }`}
-          style={{ width: "232px", height: "232px" }}
+          style={{ width: "190px", height: "190px" }}
         >
           {/* Subtle spinning accent ring behind the core */}
           <div
-            className={`absolute -inset-2.5 rounded-full border border-dashed animate-orbit-rotate pointer-events-none transition-colors ${
-              isDark ? "border-cyan-400/25" : "border-sky-500/30"
+            className={`absolute -inset-2 rounded-full border border-dashed animate-orbit-rotate pointer-events-none transition-colors ${
+              isDark ? "border-[#18D9FF]/20" : "border-[#1677FF]/25"
             }`}
           />
           <div
-            className={`absolute -inset-5 rounded-full border animate-spin-reverse pointer-events-none transition-colors ${
-              isDark ? "border-violet-500/20" : "border-indigo-400/20"
+            className={`absolute -inset-4 rounded-full border animate-spin-reverse pointer-events-none transition-colors ${
+              isDark ? "border-[#8B5CF6]/15" : "border-[#7657E8]/20"
             }`}
           />
 
-          {/* Subtitle / System Tag */}
-          <span
-            className={`text-[10px] uppercase font-mono tracking-widest mb-1 flex items-center gap-1.5 ${
-              isDark ? "text-cyan-400" : "text-sky-700 font-bold"
-            }`}
-          >
-            <span
-              className={`w-1.5 h-1.5 rounded-full animate-ping ${
-                isDark ? "bg-cyan-400" : "bg-sky-600"
-              }`}
-            />
-            CORE OUTFLOW
-          </span>
-
-          {/* Dynamic Core Outflow Amount (₹27,000) - NEVER obscured */}
-          <div className="text-3xl md:text-4xl font-extrabold tracking-tight font-display text-slate-900 dark:text-white drop-shadow-sm my-0.5">
+          {/* Core Outflow Value - Large, crisp, never obscured */}
+          <div className="text-2xl sm:text-3xl font-extrabold tracking-tight font-display text-slate-900 dark:text-white drop-shadow-sm my-0.5">
             {formatINR(outflowAmount)}
           </div>
 
           {/* Requested specific label: OUTFLOW THIS MONTH */}
-          <div className="text-[11px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400 mt-1">
+          <div
+            className={`text-[10px] font-bold uppercase tracking-wider mt-0.5 ${
+              isDark ? "text-[#8FA3BF]" : "text-[#60738F]"
+            }`}
+          >
             OUTFLOW THIS MONTH
           </div>
 
           {/* Monthly Comparison Indicator */}
           <div
-            className={`mt-2.5 flex items-center gap-1 text-[11px] font-mono px-2.5 py-0.5 rounded-full border ${
+            className={`mt-2 flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-full border ${
               isDark
                 ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
                 : "bg-emerald-50 text-emerald-700 border-emerald-300 font-semibold"
@@ -525,53 +470,68 @@ export default function FinancialOrbit() {
       </div>
 
       {/* ======================================================== */}
-      {/* CATEGORY SATELLITES (SMALLER, ELEGANT, NON-OVERLAPPING) */}
+      {/* 4–5 MAJOR CATEGORY NODES (COMPACT FLOATING GLASS CARDS)  */}
       {/* ======================================================== */}
       <div className="absolute inset-0 pointer-events-none z-30">
         {projectedNodes.map((node) => {
           if (!node.visible) return null;
           const isHovered = activeCategory === node.category;
+          const Icon = CATEGORY_ICONS[node.category] || CircleDot;
 
           return (
             <div
               key={node.id}
-              className="absolute pointer-events-auto transition-transform duration-100 ease-out will-change-transform"
+              className="absolute pointer-events-auto transition-transform duration-150 ease-out will-change-transform"
               style={{
                 left: `${node.x}px`,
                 top: `${node.y}px`,
-                transform: `translate(-50%, -50%) scale(${node.scale * (isHovered ? 1.08 : 1)})`,
+                transform: `translate(-50%, -50%) scale(${node.scale * (isHovered ? 1.06 : 1)})`,
               }}
               onMouseEnter={() => setActiveCategory(node.category)}
               onMouseLeave={() => setActiveCategory(null)}
             >
               <div
-                className={`relative px-3 py-1.5 rounded-xl backdrop-blur-md border transition-all duration-300 cursor-pointer shadow-md flex items-center gap-2 ${
+                className={`relative px-2.5 py-1.5 rounded-xl backdrop-blur-md border transition-all duration-200 cursor-pointer flex items-center gap-2 ${
                   isDark
-                    ? "bg-slate-950/80 border-slate-800 hover:border-cyan-400 hover:shadow-glow-cyan"
-                    : "bg-white/95 border-slate-200/90 hover:border-sky-500 hover:shadow-glass-light"
+                    ? `bg-[#0B1426]/90 border-[rgba(80,150,255,0.18)] ${
+                        isHovered ? "border-[#18D9FF] shadow-glow-subtle" : ""
+                      }`
+                    : `bg-white/95 border-[rgba(30,90,160,0.16)] shadow-card-light ${
+                        isHovered ? "border-[#1677FF]" : ""
+                      }`
                 }`}
               >
-                {/* Category Indicator Dot */}
+                {/* Category Icon */}
                 <div
-                  className="w-2 h-2 rounded-full ring-2 ring-white/20 animate-pulse flex-shrink-0"
-                  style={{ backgroundColor: isDark ? node.color : node.lightColor }}
-                />
+                  className="w-5 h-5 rounded-lg flex items-center justify-center flex-shrink-0"
+                  style={{
+                    backgroundColor: `${node.color}18`,
+                    color: isDark ? node.color : node.lightColor,
+                  }}
+                >
+                  <Icon className="w-3 h-3" />
+                </div>
 
+                {/* Info: Name & Amount */}
                 <div className="flex flex-col text-left">
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                  <span
+                    className={`text-[8.5px] font-bold uppercase tracking-wider truncate max-w-[85px] ${
+                      isDark ? "text-[#8FA3BF]" : "text-[#60738F]"
+                    }`}
+                  >
                     {node.category}
                   </span>
-                  <span className="text-xs font-extrabold font-mono text-slate-900 dark:text-white">
+                  <span className="text-[11px] font-extrabold font-mono text-slate-900 dark:text-white leading-tight">
                     {formatINR(node.amount)}
                   </span>
                 </div>
 
-                {/* Percentage chip */}
+                {/* Percentage Chip */}
                 <span
-                  className={`text-[9px] font-mono px-1.5 py-0.5 rounded ml-0.5 ${
+                  className={`text-[9px] font-mono px-1 py-0.5 rounded ml-0.5 font-semibold ${
                     isDark
-                      ? "bg-slate-900/60 text-slate-300"
-                      : "bg-slate-100 text-slate-700 font-semibold"
+                      ? "bg-[#07101F] text-[#18D9FF]"
+                      : "bg-[#F4F8FC] text-[#1677FF]"
                   }`}
                 >
                   {node.percentage}%
@@ -583,25 +543,19 @@ export default function FinancialOrbit() {
       </div>
 
       {/* Orbit Footer Telemetry Strip */}
-      <div className="absolute bottom-5 inset-x-6 z-20 flex flex-wrap items-center justify-between gap-3 text-xs font-mono text-slate-500 dark:text-slate-400 pointer-events-auto">
-        <div className="flex items-center gap-4">
-          <span className="flex items-center gap-1.5">
-            <span
-              className={`w-2 h-2 rounded-full inline-block animate-ping ${
-                isDark ? "bg-cyan-400" : "bg-sky-500"
-              }`}
-            />
-            <span>Orbit Synchronized ({categories.length} Satellites)</span>
-          </span>
-        </div>
+      <div className="absolute bottom-3 inset-x-5 z-20 flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-slate-500 dark:text-slate-400 pointer-events-auto">
+        <span className="flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full inline-block bg-[#18D9FF]" />
+          <span>Active Telemetry ({categories.slice(0, 5).length} Nodes)</span>
+        </span>
         <Link
           href="/analytics"
           className={`flex items-center gap-1 transition-colors ${
-            isDark ? "text-cyan-400 hover:text-cyan-300" : "text-sky-600 hover:text-sky-700 font-bold"
+            isDark ? "text-[#18D9FF] hover:underline" : "text-[#1677FF] hover:underline font-semibold"
           }`}
         >
-          <span>Deep Orbit Analytics</span>
-          <ArrowUpRight className="w-3.5 h-3.5" />
+          <span>Analytics</span>
+          <ArrowUpRight className="w-3 h-3" />
         </Link>
       </div>
     </div>

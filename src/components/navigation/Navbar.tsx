@@ -14,7 +14,6 @@ import {
   BarChart3,
   User as UserIcon,
   RotateCcw,
-  Sparkles,
   Menu,
   X,
   LogIn,
@@ -37,28 +36,32 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full px-4 sm:px-6 lg:px-8 py-3.5 transition-colors">
+    <header className="sticky top-0 z-50 w-full px-4 sm:px-6 lg:px-8 py-2.5 transition-colors">
       <div
-        className={`max-w-7xl mx-auto rounded-2xl backdrop-blur-xl border transition-all duration-300 px-4 sm:px-6 py-2.5 flex items-center justify-between shadow-lg ${
+        className={`max-w-7xl mx-auto rounded-2xl backdrop-blur-xl border transition-all duration-200 px-4 sm:px-5 py-2 flex items-center justify-between ${
           isDark
-            ? "bg-slate-950/80 border-slate-800/80 shadow-glass-dark"
-            : "bg-white/95 border-slate-200/90 shadow-glass-light"
+            ? "bg-[#0B1426]/90 border-[rgba(80,150,255,0.15)] shadow-card-dark"
+            : "bg-white/95 border-[rgba(30,90,160,0.14)] shadow-card-light"
         }`}
       >
         {/* Brand Logo & Orbit Emblem */}
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="relative w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-500 to-violet-600 flex items-center justify-center p-0.5 shadow-glow-cyan group-hover:scale-105 transition-transform">
-            <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-              <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping absolute" />
-              <span className="w-2 h-2 rounded-full bg-cyan-400 relative z-10" />
+          <div className="relative w-7 h-7 rounded-xl bg-gradient-to-tr from-[#18D9FF] to-[#8B5CF6] flex items-center justify-center p-0.5 shadow-glow-subtle group-hover:scale-105 transition-transform">
+            <div className="w-full h-full bg-[#050914] rounded-[10px] flex items-center justify-center">
+              <span className="w-2 h-2 rounded-full bg-[#18D9FF] animate-ping absolute" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#18D9FF] relative z-10" />
             </div>
           </div>
           <div className="flex flex-col">
-            <span className="text-base sm:text-lg font-black tracking-wider font-display bg-gradient-to-r from-cyan-400 via-sky-300 to-violet-400 bg-clip-text text-transparent">
+            <span className="text-sm sm:text-base font-bold tracking-wider font-display bg-gradient-to-r from-[#18D9FF] via-[#2684FF] to-[#8B5CF6] bg-clip-text text-transparent">
               SPENDWISE
             </span>
-            <span className="text-[9px] font-mono tracking-widest text-slate-500 dark:text-slate-400 uppercase -mt-0.5">
-              Your money. Your orbit.
+            <span
+              className={`text-[8.5px] font-mono tracking-widest uppercase -mt-0.5 ${
+                isDark ? "text-[#8FA3BF]" : "text-[#60738F]"
+              }`}
+            >
+              Command Center
             </span>
           </div>
         </Link>
@@ -72,32 +75,32 @@ export default function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className={`relative px-4 py-2 rounded-xl text-xs font-mono font-medium transition-all duration-200 flex items-center gap-2 ${
+                className={`relative px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium transition-all duration-200 flex items-center gap-2 ${
                   isActive
                     ? isDark
-                      ? "text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 shadow-glow-cyan"
-                      : "text-sky-700 bg-sky-50 border border-sky-200 shadow-sm font-semibold"
+                      ? "text-[#18D9FF] bg-[#18D9FF]/10 border border-[#18D9FF]/30 shadow-glow-subtle"
+                      : "text-[#1677FF] bg-[#1677FF]/10 border border-[#1677FF]/25 font-semibold"
                     : isDark
-                    ? "text-slate-400 hover:text-white hover:bg-slate-800/40"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                    ? "text-[#8FA3BF] hover:text-[#F5F8FF] hover:bg-[#0F1B31]"
+                    : "text-[#60738F] hover:text-[#10213A] hover:bg-[#F4F8FC]"
                 }`}
               >
                 <Icon
                   className={`w-3.5 h-3.5 transition-colors ${
                     isActive
                       ? isDark
-                        ? "text-cyan-400"
-                        : "text-sky-600"
-                      : "text-slate-400"
+                        ? "text-[#18D9FF]"
+                        : "text-[#1677FF]"
+                      : isDark
+                      ? "text-[#60738F]"
+                      : "text-[#8A9BB2]"
                   }`}
                 />
                 <span>{link.name}</span>
                 {isActive && (
                   <span
                     className={`absolute bottom-0 inset-x-3 h-[2px] rounded-full ${
-                      isDark
-                        ? "bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-glow-cyan"
-                        : "bg-gradient-to-r from-transparent via-sky-500 to-transparent"
+                      isDark ? "bg-[#18D9FF]" : "bg-[#1677FF]"
                     }`}
                   />
                 )}
@@ -106,12 +109,12 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Action Controls: Add Expense, Login, Reset Demo, Theme Toggle */}
+        {/* Action Controls: Add Expense, Profile/Login, Theme Toggle */}
         <div className="flex items-center gap-2">
           {/* Prominent + Add Expense Button */}
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="relative group overflow-hidden px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 via-sky-500 to-blue-600 text-slate-950 font-bold text-xs font-mono tracking-wide flex items-center gap-1.5 shadow-glow-cyan hover:shadow-cyan-400/50 hover:scale-[1.02] active:scale-[0.98] transition-all"
+            className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#18D9FF] to-[#2684FF] text-[#050914] font-bold text-xs font-mono tracking-wide flex items-center gap-1.5 shadow-glow-subtle hover:scale-[1.02] active:scale-[0.98] transition-all"
           >
             <Plus className="w-3.5 h-3.5 stroke-[3]" />
             <span>Add Expense</span>
@@ -125,28 +128,28 @@ export default function Navbar() {
                 className={`flex items-center gap-2 px-2.5 py-1.5 rounded-xl border text-xs font-mono transition-all ${
                   pathname === "/profile"
                     ? isDark
-                      ? "bg-cyan-500/10 border-cyan-500/30 text-cyan-400 shadow-glow-cyan"
-                      : "bg-sky-50 border-sky-300 text-sky-700 shadow-sm"
+                      ? "bg-[#18D9FF]/10 border-[#18D9FF]/30 text-[#18D9FF]"
+                      : "bg-[#1677FF]/10 border-[#1677FF]/25 text-[#1677FF]"
                     : isDark
-                    ? "bg-slate-900/40 border-slate-800 text-slate-300 hover:border-cyan-500/30"
-                    : "bg-slate-50 border-slate-200 text-slate-700 hover:border-sky-300"
+                    ? "bg-[#0B1426] border-[rgba(80,150,255,0.15)] text-[#8FA3BF] hover:text-[#F5F8FF]"
+                    : "bg-[#F8FBFF] border-[rgba(30,90,160,0.14)] text-[#60738F] hover:text-[#10213A]"
                 }`}
               >
                 <img
                   src={user.avatar}
                   alt={user.name}
-                  className="w-5 h-5 rounded-full object-cover border border-cyan-400"
+                  className="w-4 h-4 rounded-full object-cover border border-[#18D9FF]"
                 />
-                <span className="hidden lg:inline truncate max-w-[100px]">{user.name.split(" ")[0]}</span>
+                <span className="hidden lg:inline truncate max-w-[90px]">{user.name.split(" ")[0]}</span>
               </Link>
               <button
                 type="button"
                 onClick={logout}
                 title="Sign out of command center"
-                className={`p-2 rounded-xl border text-xs transition-all ${
+                className={`p-1.5 rounded-xl border text-xs transition-all ${
                   isDark
-                    ? "border-slate-800 text-slate-400 hover:text-rose-400 hover:border-rose-500/30 bg-slate-900/40"
-                    : "border-slate-200 text-slate-500 hover:text-rose-600 hover:border-rose-300 bg-slate-50"
+                    ? "border-[rgba(80,150,255,0.15)] text-[#8FA3BF] hover:text-rose-400 hover:border-rose-500/30 bg-[#0B1426]"
+                    : "border-[rgba(30,90,160,0.14)] text-[#60738F] hover:text-rose-600 hover:border-rose-300 bg-[#F8FBFF]"
                 }`}
               >
                 <LogOut className="w-3.5 h-3.5" />
@@ -155,15 +158,15 @@ export default function Navbar() {
           ) : (
             <Link
               href="/login"
-              title="Enter Financial Core Portal"
-              className={`hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-mono transition-all ${
+              title="Enter Financial Command Center"
+              className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-mono transition-all ${
                 pathname === "/login"
                   ? isDark
-                    ? "bg-cyan-500/10 border-cyan-500/30 text-cyan-400 shadow-glow-cyan"
-                    : "bg-sky-50 border-sky-300 text-sky-700 shadow-sm"
+                    ? "bg-[#18D9FF]/10 border-[#18D9FF]/30 text-[#18D9FF]"
+                    : "bg-[#1677FF]/10 border-[#1677FF]/25 text-[#1677FF]"
                   : isDark
-                  ? "bg-slate-900/40 border-slate-800 text-slate-400 hover:text-cyan-400 hover:border-cyan-500/30"
-                  : "bg-slate-50 border-slate-200 text-slate-600 hover:text-sky-700 hover:border-sky-300"
+                  ? "bg-[#0B1426] border-[rgba(80,150,255,0.15)] text-[#8FA3BF] hover:text-[#18D9FF]"
+                  : "bg-[#F8FBFF] border-[rgba(30,90,160,0.14)] text-[#60738F] hover:text-[#1677FF]"
               }`}
             >
               <LogIn className="w-3.5 h-3.5" />
@@ -171,46 +174,46 @@ export default function Navbar() {
             </Link>
           )}
 
-          {/* Quick Demo Reset Button */}
+          {/* Quick Demo Reset */}
           <button
             onClick={resetToDemo}
-            title="Reset to default seed data"
-            className={`hidden xl:flex p-2 rounded-xl border transition-all text-xs ${
+            title="Reset to default ₹27,000 seed data"
+            className={`hidden xl:flex p-1.5 rounded-xl border transition-all text-xs ${
               isDark
-                ? "border-slate-800 text-slate-400 hover:text-cyan-400 hover:border-cyan-500/30 bg-slate-900/40"
-                : "border-slate-200 text-slate-500 hover:text-sky-700 hover:border-slate-300 bg-slate-50"
+                ? "border-[rgba(80,150,255,0.15)] text-[#8FA3BF] hover:text-[#18D9FF] bg-[#0B1426]"
+                : "border-[rgba(30,90,160,0.14)] text-[#60738F] hover:text-[#1677FF] bg-[#F8FBFF]"
             }`}
           >
-            <RotateCcw className="w-4 h-4" />
+            <RotateCcw className="w-3.5 h-3.5" />
           </button>
 
-          {/* Smooth Theme Toggle Button */}
+          {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
             aria-label="Toggle theme"
-            className={`p-2 rounded-xl border transition-all ${
+            className={`p-1.5 rounded-xl border transition-all ${
               isDark
-                ? "border-slate-800 text-slate-400 hover:text-cyan-400 hover:border-cyan-500/30 bg-slate-900/40"
-                : "border-slate-200 text-slate-600 hover:text-sky-700 hover:border-slate-300 bg-slate-50 shadow-sm"
+                ? "border-[rgba(80,150,255,0.15)] text-[#F5B942] bg-[#0B1426] hover:border-[#18D9FF]/40"
+                : "border-[rgba(30,90,160,0.14)] text-[#1677FF] bg-[#F8FBFF] hover:border-[#1677FF]/40"
             }`}
           >
             {theme === "dark" ? (
-              <Sun className="w-4 h-4 text-amber-400 transition-transform duration-300 rotate-0 hover:rotate-45" />
+              <Sun className="w-3.5 h-3.5 transition-transform hover:rotate-45" />
             ) : (
-              <Moon className="w-4 h-4 text-indigo-600 transition-transform duration-300 rotate-0 hover:-rotate-12" />
+              <Moon className="w-3.5 h-3.5 transition-transform hover:-rotate-12" />
             )}
           </button>
 
-          {/* Mobile Menu Toggle Button */}
+          {/* Mobile Menu Toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className={`md:hidden p-2 rounded-xl border ${
+            className={`md:hidden p-1.5 rounded-xl border ${
               isDark
-                ? "border-slate-800 text-slate-400 hover:text-white"
-                : "border-slate-200 text-slate-600 hover:text-slate-900"
+                ? "border-[rgba(80,150,255,0.15)] text-[#8FA3BF]"
+                : "border-[rgba(30,90,160,0.14)] text-[#60738F]"
             }`}
           >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
           </button>
         </div>
       </div>
@@ -218,11 +221,13 @@ export default function Navbar() {
       {/* Mobile Dropdown Navigation */}
       {mobileMenuOpen && (
         <div
-          className={`md:hidden mt-2 p-4 rounded-2xl backdrop-blur-xl border transition-all shadow-xl ${
-            isDark ? "bg-slate-950/95 border-slate-800" : "bg-white/95 border-slate-200"
+          className={`md:hidden mt-2 p-3 rounded-2xl backdrop-blur-xl border transition-all shadow-xl ${
+            isDark
+              ? "bg-[#0B1426]/95 border-[rgba(80,150,255,0.15)]"
+              : "bg-white/95 border-[rgba(30,90,160,0.14)] shadow-card-light"
           }`}
         >
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1.5">
             {navLinks.map((link) => {
               const isActive = pathname === link.href;
               const Icon = link.icon;
@@ -231,21 +236,22 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`px-4 py-2.5 rounded-xl text-xs font-mono font-medium flex items-center gap-3 ${
+                  className={`px-3 py-2 rounded-xl text-xs font-mono font-medium flex items-center gap-2.5 ${
                     isActive
                       ? isDark
-                        ? "text-cyan-400 bg-cyan-500/10 border border-cyan-500/30 shadow-glow-cyan"
-                        : "text-sky-700 bg-sky-50 border border-sky-200 font-semibold"
+                        ? "text-[#18D9FF] bg-[#18D9FF]/10 border border-[#18D9FF]/30"
+                        : "text-[#1677FF] bg-[#1677FF]/10 border border-[#1677FF]/25 font-semibold"
                       : isDark
-                      ? "text-slate-400 hover:text-white"
-                      : "text-slate-600 hover:text-slate-900"
+                      ? "text-[#8FA3BF] hover:text-[#F5F8FF]"
+                      : "text-[#60738F] hover:text-[#10213A]"
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
+                  <Icon className="w-3.5 h-3.5" />
                   <span>{link.name}</span>
                 </Link>
               );
             })}
+
             {isAuthenticated ? (
               <button
                 type="button"
@@ -253,43 +259,29 @@ export default function Navbar() {
                   logout();
                   setMobileMenuOpen(false);
                 }}
-                className={`px-4 py-2.5 rounded-xl text-xs font-mono flex items-center gap-3 border text-left ${
+                className={`px-3 py-2 rounded-xl text-xs font-mono flex items-center gap-2.5 border text-left ${
                   isDark
                     ? "border-rose-500/20 text-rose-400 hover:bg-rose-500/10"
                     : "border-rose-200 text-rose-600 hover:bg-rose-50"
                 }`}
               >
-                <LogOut className="w-4 h-4" />
+                <LogOut className="w-3.5 h-3.5" />
                 <span>Sign Out ({user.name.split(" ")[0]})</span>
               </button>
             ) : (
               <Link
                 href="/login"
                 onClick={() => setMobileMenuOpen(false)}
-                className={`px-4 py-2.5 rounded-xl text-xs font-mono flex items-center gap-3 border ${
+                className={`px-3 py-2 rounded-xl text-xs font-mono flex items-center gap-2.5 border ${
                   isDark
-                    ? "border-slate-800 text-slate-400 hover:text-cyan-400"
-                    : "border-slate-200 text-slate-600 hover:text-sky-700"
+                    ? "border-[rgba(80,150,255,0.15)] text-[#8FA3BF] hover:text-[#18D9FF]"
+                    : "border-[rgba(30,90,160,0.14)] text-[#60738F] hover:text-[#1677FF]"
                 }`}
               >
-                <LogIn className="w-4 h-4" />
-                <span>Sign In (Auth Core)</span>
+                <LogIn className="w-3.5 h-3.5" />
+                <span>Sign In (Command Center)</span>
               </Link>
             )}
-            <button
-              onClick={() => {
-                resetToDemo();
-                setMobileMenuOpen(false);
-              }}
-              className={`px-4 py-2.5 rounded-xl text-xs font-mono flex items-center gap-3 border ${
-                isDark
-                  ? "border-slate-800 text-slate-400 hover:text-cyan-400"
-                  : "border-slate-200 text-slate-600 hover:text-sky-700"
-              }`}
-            >
-              <RotateCcw className="w-4 h-4" />
-              <span>Reset Demo Seed</span>
-            </button>
           </div>
         </div>
       )}

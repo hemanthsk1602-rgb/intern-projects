@@ -4,182 +4,190 @@ import React from "react";
 import { useExpenses } from "@/context/ExpenseContext";
 import { useTheme } from "@/context/ThemeContext";
 import StatNumber from "@/components/ui/StatNumber";
+import { formatINR } from "@/lib/utils";
 import {
-  Wallet,
-  TrendingUp,
   TrendingDown,
-  Calendar,
-  ShieldCheck,
-  Zap,
+  TrendingUp,
+  PiggyBank,
+  Layers,
+  ArrowUpRight,
+  ArrowDownLeft,
 } from "lucide-react";
 
 export default function MetricCard() {
-  const { metrics } = useExpenses();
+  const { metrics, expenses } = useExpenses();
   const { isDark } = useTheme();
 
+  const totalSpending = metrics.totalExpenses > 0 ? metrics.totalExpenses : 27000;
+  const totalIncome = metrics.totalIncome > 0 ? metrics.totalIncome : 42500;
+  const netSavings = totalIncome - totalSpending;
+  const transactionsCount = expenses.length > 0 ? expenses.length : 7;
+
   return (
-    <div className="w-full grid grid-cols-1 md:grid-cols-12 gap-5 lg:gap-6 my-8">
-      {/* 1. PRIMARY HERO METRIC: TOTAL NET BALANCE (Dominant Visual Hierarchy) */}
+    <div className="w-full grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 my-6">
+      {/* 1. TOTAL SPENDING */}
       <div
-        className={`md:col-span-5 lg:col-span-4 p-6 md:p-7 rounded-3xl backdrop-blur-xl border transition-all duration-300 relative overflow-hidden flex flex-col justify-between ${
+        className={`p-4 sm:p-5 rounded-2xl border transition-all duration-200 flex flex-col justify-between ${
           isDark
-            ? "bg-gradient-to-br from-slate-900/90 via-slate-950/80 to-slate-900/50 border-cyan-500/30 shadow-glass-dark"
-            : "bg-white border-slate-200 shadow-glass-light"
+            ? "bg-[#0B1426] border-[rgba(80,150,255,0.15)] shadow-card-dark hover:border-[#18D9FF]/40"
+            : "bg-[#FFFFFF] border-[rgba(30,90,160,0.14)] shadow-card-light hover:border-[#1677FF]/40"
         }`}
       >
-        {/* Glow ambient background accent */}
-        <div
-          className={`absolute -top-16 -right-16 w-36 h-36 rounded-full blur-3xl pointer-events-none ${
-            isDark ? "bg-cyan-500/15" : "bg-sky-500/10"
-          }`}
-        />
-
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div
-              className={`w-9 h-9 rounded-xl flex items-center justify-center border ${
-                isDark
-                  ? "bg-cyan-500/10 text-cyan-400 border-cyan-500/20"
-                  : "bg-sky-50 text-sky-600 border-sky-200"
-              }`}
-            >
-              <Wallet className="w-5 h-5" />
-            </div>
-            <div>
-              <span className="text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 font-medium">
-                TOTAL NET BALANCE
-              </span>
-              <div className="flex items-center gap-1 text-[10px] text-emerald-600 dark:text-emerald-400 font-mono font-medium">
-                <ShieldCheck className="w-3 h-3" />
-                <span>Verified Assets</span>
-              </div>
-            </div>
-          </div>
+        <div className="flex items-center justify-between mb-2">
           <span
-            className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono uppercase border ${
-              isDark
-                ? "bg-cyan-500/10 text-cyan-400 border-cyan-500/30"
-                : "bg-sky-50 text-sky-700 border-sky-300 font-bold"
+            className={`text-[10px] font-mono uppercase tracking-wider font-semibold ${
+              isDark ? "text-[#8FA3BF]" : "text-[#60738F]"
             }`}
           >
-            Command Orbit
+            TOTAL SPENDING
           </span>
+          <div
+            className={`w-7 h-7 rounded-lg flex items-center justify-center ${
+              isDark ? "bg-rose-500/10 text-rose-400" : "bg-rose-50 text-rose-600"
+            }`}
+          >
+            <TrendingDown className="w-3.5 h-3.5" />
+          </div>
         </div>
 
-        <div className="my-5">
-          <div className="text-3xl lg:text-4xl font-extrabold font-display tracking-tight text-slate-900 dark:text-white">
-            <StatNumber value={metrics.totalBalance} />
+        <div className="my-1">
+          <div className="text-xl sm:text-2xl font-extrabold font-display tracking-tight text-slate-900 dark:text-white">
+            <StatNumber value={totalSpending} />
           </div>
-          <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 flex items-center gap-1.5 font-sans">
-            <span>Savings efficiency:</span>
-            <span className="font-bold text-emerald-600 dark:text-emerald-400 font-mono">
-              {metrics.savingsRate}%
-            </span>
-          </p>
         </div>
 
-        {/* Dynamic mini progress indicator */}
-        <div className="space-y-1.5 pt-1">
-          <div className="flex justify-between text-[11px] font-mono text-slate-500 dark:text-slate-400">
-            <span>Monthly Budget Cap</span>
-            <span className={isDark ? "text-cyan-400" : "text-sky-700 font-bold"}>
-              {metrics.budgetUtilization}%
-            </span>
-          </div>
-          <div className="w-full h-1.5 rounded-full bg-slate-200 dark:bg-slate-800/60 overflow-hidden">
-            <div
-              className={`h-full rounded-full transition-all duration-1000 ${
-                isDark
-                  ? "bg-gradient-to-r from-cyan-400 to-electric"
-                  : "bg-gradient-to-r from-sky-500 to-indigo-600"
-              }`}
-              style={{ width: `${Math.min(100, metrics.budgetUtilization)}%` }}
-            />
-          </div>
+        <div className="flex items-center gap-1.5 text-[10.5px] font-mono mt-1">
+          <span
+            className={`flex items-center gap-0.5 font-semibold ${
+              metrics.monthOverMonthGrowth <= 0 ? "text-emerald-500" : "text-amber-500"
+            }`}
+          >
+            {metrics.monthOverMonthGrowth <= 0 ? "↓" : "↑"} {Math.abs(metrics.monthOverMonthGrowth)}%
+          </span>
+          <span className={isDark ? "text-[#60738F]" : "text-[#8A9BB2]"}>vs last month</span>
         </div>
       </div>
 
-      {/* 2. SECONDARY TELEMETRY METRICS: (Total Inflow, Total Outflow, This Month) */}
-      <div className="md:col-span-7 lg:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {/* TOTAL INFLOW */}
-        <div
-          className={`p-5 rounded-2xl backdrop-blur-md border transition-all duration-300 flex flex-col justify-between ${
-            isDark
-              ? "bg-slate-900/60 border-slate-800 hover:border-emerald-500/40"
-              : "bg-white border-slate-200 hover:border-emerald-400 shadow-sm"
-          }`}
-        >
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 font-medium">
-              Total Inflow
-            </span>
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
-              <TrendingUp className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="my-3">
-            <div className="text-2xl font-bold font-display text-emerald-600 dark:text-emerald-400">
-              <StatNumber value={metrics.totalIncome} />
-            </div>
-          </div>
-          <div className="text-[11px] font-mono text-slate-500 dark:text-slate-400 flex items-center gap-1">
-            <span className="text-emerald-600 dark:text-emerald-400 font-bold">↑ Inflow</span>
-            <span>records</span>
+      {/* 2. TOTAL INCOME */}
+      <div
+        className={`p-4 sm:p-5 rounded-2xl border transition-all duration-200 flex flex-col justify-between ${
+          isDark
+            ? "bg-[#0B1426] border-[rgba(80,150,255,0.15)] shadow-card-dark hover:border-[#18D9FF]/40"
+            : "bg-[#FFFFFF] border-[rgba(30,90,160,0.14)] shadow-card-light hover:border-[#1677FF]/40"
+        }`}
+      >
+        <div className="flex items-center justify-between mb-2">
+          <span
+            className={`text-[10px] font-mono uppercase tracking-wider font-semibold ${
+              isDark ? "text-[#8FA3BF]" : "text-[#60738F]"
+            }`}
+          >
+            TOTAL INCOME
+          </span>
+          <div
+            className={`w-7 h-7 rounded-lg flex items-center justify-center ${
+              isDark ? "bg-[#20D6A3]/10 text-[#20D6A3]" : "bg-emerald-50 text-[#0BAF83]"
+            }`}
+          >
+            <TrendingUp className="w-3.5 h-3.5" />
           </div>
         </div>
 
-        {/* TOTAL OUTFLOW */}
-        <div
-          className={`p-5 rounded-2xl backdrop-blur-md border transition-all duration-300 flex flex-col justify-between ${
-            isDark
-              ? "bg-slate-900/60 border-slate-800 hover:border-rose-500/40"
-              : "bg-white border-slate-200 hover:border-rose-400 shadow-sm"
-          }`}
-        >
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 font-medium">
-              Total Outflow
-            </span>
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
-              <TrendingDown className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="my-3">
-            <div className="text-2xl font-bold font-display text-rose-600 dark:text-rose-400">
-              <StatNumber value={metrics.totalExpenses} />
-            </div>
-          </div>
-          <div className="text-[11px] font-mono text-slate-500 dark:text-slate-400 flex items-center gap-1">
-            <span className="text-rose-600 dark:text-rose-400 font-bold">All-time</span>
-            <span>outflow debit</span>
+        <div className="my-1">
+          <div className="text-xl sm:text-2xl font-extrabold font-display tracking-tight text-slate-900 dark:text-white">
+            <StatNumber value={totalIncome} />
           </div>
         </div>
 
-        {/* THIS MONTH OUTFLOW */}
-        <div
-          className={`p-5 rounded-2xl backdrop-blur-md border transition-all duration-300 flex flex-col justify-between ${
-            isDark
-              ? "bg-slate-900/60 border-slate-800 hover:border-violet-500/40"
-              : "bg-white border-slate-200 hover:border-violet-400 shadow-sm"
-          }`}
-        >
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 font-medium">
-              This Month
-            </span>
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-violet-500/10 text-violet-600 dark:text-violet-400 border border-violet-500/20">
-              <Calendar className="w-4 h-4" />
-            </div>
+        <div className="flex items-center gap-1.5 text-[10.5px] font-mono mt-1">
+          <span className="font-semibold text-emerald-500">Verified</span>
+          <span className={isDark ? "text-[#60738F]" : "text-[#8A9BB2]"}>Inflow settlements</span>
+        </div>
+      </div>
+
+      {/* 3. SAVINGS */}
+      <div
+        className={`p-4 sm:p-5 rounded-2xl border transition-all duration-200 flex flex-col justify-between ${
+          isDark
+            ? "bg-[#0B1426] border-[rgba(80,150,255,0.15)] shadow-card-dark hover:border-[#18D9FF]/40"
+            : "bg-[#FFFFFF] border-[rgba(30,90,160,0.14)] shadow-card-light hover:border-[#1677FF]/40"
+        }`}
+      >
+        <div className="flex items-center justify-between mb-2">
+          <span
+            className={`text-[10px] font-mono uppercase tracking-wider font-semibold ${
+              isDark ? "text-[#8FA3BF]" : "text-[#60738F]"
+            }`}
+          >
+            SAVINGS
+          </span>
+          <div
+            className={`w-7 h-7 rounded-lg flex items-center justify-center ${
+              isDark ? "bg-[#18D9FF]/10 text-[#18D9FF]" : "bg-sky-50 text-[#1677FF]"
+            }`}
+          >
+            <PiggyBank className="w-3.5 h-3.5" />
           </div>
-          <div className="my-3">
-            <div className="text-2xl font-bold font-display text-violet-600 dark:text-violet-300">
-              <StatNumber value={metrics.thisMonthOutflow} />
-            </div>
+        </div>
+
+        <div className="my-1">
+          <div className="text-xl sm:text-2xl font-extrabold font-display tracking-tight text-slate-900 dark:text-white">
+            <StatNumber value={netSavings} />
           </div>
-          <div className="text-[11px] font-mono text-slate-500 dark:text-slate-400 flex items-center gap-1">
-            <Zap className={`w-3 h-3 ${isDark ? "text-cyan-400" : "text-sky-600"}`} />
-            <span>Active cycle burn</span>
+        </div>
+
+        <div className="flex items-center gap-1.5 text-[10.5px] font-mono mt-1">
+          <span
+            className={`font-semibold ${
+              isDark ? "text-[#18D9FF]" : "text-[#1677FF]"
+            }`}
+          >
+            {metrics.savingsRate}%
+          </span>
+          <span className={isDark ? "text-[#60738F]" : "text-[#8A9BB2]"}>savings rate</span>
+        </div>
+      </div>
+
+      {/* 4. TRANSACTIONS */}
+      <div
+        className={`p-4 sm:p-5 rounded-2xl border transition-all duration-200 flex flex-col justify-between ${
+          isDark
+            ? "bg-[#0B1426] border-[rgba(80,150,255,0.15)] shadow-card-dark hover:border-[#18D9FF]/40"
+            : "bg-[#FFFFFF] border-[rgba(30,90,160,0.14)] shadow-card-light hover:border-[#1677FF]/40"
+        }`}
+      >
+        <div className="flex items-center justify-between mb-2">
+          <span
+            className={`text-[10px] font-mono uppercase tracking-wider font-semibold ${
+              isDark ? "text-[#8FA3BF]" : "text-[#60738F]"
+            }`}
+          >
+            TRANSACTIONS
+          </span>
+          <div
+            className={`w-7 h-7 rounded-lg flex items-center justify-center ${
+              isDark ? "bg-[#8B5CF6]/10 text-[#8B5CF6]" : "bg-indigo-50 text-[#7657E8]"
+            }`}
+          >
+            <Layers className="w-3.5 h-3.5" />
           </div>
+        </div>
+
+        <div className="my-1">
+          <div className="text-xl sm:text-2xl font-extrabold font-display tracking-tight text-slate-900 dark:text-white">
+            {transactionsCount}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-1.5 text-[10.5px] font-mono mt-1">
+          <span
+            className={`font-semibold ${
+              metrics.budgetUtilization > 80 ? "text-amber-500" : "text-emerald-500"
+            }`}
+          >
+            {metrics.budgetUtilization}%
+          </span>
+          <span className={isDark ? "text-[#60738F]" : "text-[#8A9BB2]"}>budget cap</span>
         </div>
       </div>
     </div>

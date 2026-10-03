@@ -46,14 +46,14 @@ export default function LoginPage() {
       <div className="w-full max-w-7xl mx-auto px-4 py-2 flex items-center justify-between">
         <Link
           href="/"
-          className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-400 hover:text-cyan-400 transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs font-mono text-[#60738F] hover:text-[#18D9FF] dark:text-[#8FA3BF] dark:hover:text-[#18D9FF] transition-colors"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Return to Dashboard</span>
         </Link>
 
-        <div className="flex items-center gap-2 text-[11px] font-mono text-slate-500">
-          <Shield className="w-3.5 h-3.5 text-emerald-400" />
+        <div className="flex items-center gap-2 text-[11px] font-mono text-[#60738F] dark:text-[#8FA3BF]">
+          <Shield className="w-3.5 h-3.5 text-[#20D6A3]" />
           <span>256-Bit Spatial Encryption</span>
         </div>
       </div>
@@ -67,10 +67,10 @@ export default function LoginPage() {
             isSuccessTransition={isSuccessTransition}
           />
           <div className="mt-2 text-center max-w-xs">
-            <span className="text-[10px] uppercase font-mono tracking-widest text-cyan-400 mb-1 inline-block">
+            <span className="text-[10px] uppercase font-mono tracking-widest text-[#18D9FF] mb-1 inline-block">
               INTELLIGENT FINANCIAL CORE
             </span>
-            <p className="text-xs text-slate-500 dark:text-slate-400 font-sans">
+            <p className="text-xs text-[#60738F] dark:text-[#8FA3BF] font-sans">
               Your money is organized inside one intelligent financial system.
             </p>
           </div>

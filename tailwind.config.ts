@@ -10,57 +10,60 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        orbit: {
-          darkBg: "#05070D",
-          darkCard: "#0B1120",
-          darkSurface: "#0F172A",
-          darkBorder: "#1E293B",
-          darkHover: "#1E2B45",
-          lightBg: "#F5F7FB",
-          lightCard: "#FFFFFF",
-          lightSurface: "#F8FAFC",
-          lightBorder: "#E2E8F0",
-          lightHover: "#EDF2F7",
-          cyan: "#00F0FF",
-          cyanGlow: "rgba(0, 240, 255, 0.4)",
-          electric: "#3B82F6",
-          electricGlow: "rgba(59, 130, 246, 0.4)",
+        brand: {
+          // Dark Mode Foundation
+          darkBg: "#050914",
+          darkSecondary: "#07101F",
+          darkCard: "#0B1426",
+          darkElevated: "#0F1B31",
+          darkText: "#F5F8FF",
+          darkSecondaryText: "#8FA3BF",
+          darkMuted: "#60738F",
+          darkBorder: "rgba(80, 150, 255, 0.15)",
+
+          // Light Mode Foundation
+          lightBg: "#F4F8FC",
+          lightSurface: "#FFFFFF",
+          lightSecondary: "#F8FBFF",
+          lightText: "#10213A",
+          lightSecondaryText: "#60738F",
+          lightMuted: "#8A9BB2",
+          lightBorder: "rgba(30, 90, 160, 0.14)",
+
+          // Distinct Fintech Accents
+          cyan: "#18D9FF",
+          cyanLight: "#00AFCF",
+          blue: "#2684FF",
+          blueLight: "#1677FF",
           violet: "#8B5CF6",
-          violetGlow: "rgba(139, 92, 246, 0.4)",
-          emerald: "#10B981",
-          emeraldGlow: "rgba(16, 185, 129, 0.4)",
-          rose: "#F43F5E",
-          amber: "#F59E0B"
-        }
+          violetLight: "#7657E8",
+          success: "#20D6A3",
+          successLight: "#0BAF83",
+          warning: "#F5B942",
+        },
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "-apple-system", "sans-serif"],
-        display: ["var(--font-space-grotesk)", "var(--font-inter)", "sans-serif"],
-        mono: ["var(--font-jetbrains-mono)", "monospace"],
-      },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "mesh-dark": "radial-gradient(at 0% 0%, rgba(6, 182, 212, 0.12) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%), radial-gradient(at 50% 100%, rgba(59, 130, 246, 0.12) 0px, transparent 50%)",
-        "mesh-light": "radial-gradient(at 0% 0%, rgba(79, 70, 229, 0.08) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(8, 145, 178, 0.08) 0px, transparent 50%), radial-gradient(at 50% 100%, rgba(124, 58, 237, 0.05) 0px, transparent 50%)",
+        sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+        display: ["Space Grotesk", "Inter", "-apple-system", "sans-serif"],
+        mono: ["JetBrains Mono", "ui-monospace", "monospace"],
       },
       boxShadow: {
-        "glow-cyan": "0 0 25px -5px rgba(0, 240, 255, 0.35)",
-        "glow-electric": "0 0 25px -5px rgba(59, 130, 246, 0.35)",
-        "glow-violet": "0 0 25px -5px rgba(139, 92, 246, 0.35)",
-        "glow-emerald": "0 0 25px -5px rgba(16, 185, 129, 0.35)",
-        "glass-dark": "0 8px 32px 0 rgba(0, 0, 0, 0.45)",
-        "glass-light": "0 8px 30px 0 rgba(0, 0, 0, 0.06)",
+        "glow-cyan": "0 0 20px -3px rgba(24, 217, 255, 0.25)",
+        "glow-blue": "0 0 20px -3px rgba(38, 132, 255, 0.25)",
+        "glow-subtle": "0 0 15px -3px rgba(24, 217, 255, 0.15)",
+        "card-dark": "0 8px 30px rgba(5, 9, 20, 0.6)",
+        "card-light": "0 4px 24px -2px rgba(22, 119, 255, 0.08), 0 2px 8px -1px rgba(16, 33, 58, 0.04)",
       },
       animation: {
         "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "float": "float 6s ease-in-out infinite",
-        "orbit-rotate": "rotate 30s linear infinite",
-        "spin-reverse": "spin-reverse 25s linear infinite",
+        "orbit-rotate": "rotate 35s linear infinite",
+        "spin-reverse": "spin-reverse 30s linear infinite",
       },
       keyframes: {
         float: {
           "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-8px)" },
+          "50%": { transform: "translateY(-6px)" },
         },
         "spin-reverse": {
           from: { transform: "rotate(360deg)" },

@@ -90,20 +90,20 @@ export default function AnalyticsPage() {
         <div
           className={`p-4 rounded-2xl border transition-all ${
             isDark
-              ? "bg-slate-900/60 border-slate-800 shadow-glass-dark"
-              : "bg-white border-slate-200 shadow-glass-light"
+              ? "bg-[#0B1426] border-[rgba(80,150,255,0.15)] shadow-[0_12px_40px_rgba(5,9,20,0.4)]"
+              : "bg-white border-[rgba(30,90,160,0.14)] shadow-[0_8px_30px_rgba(15,30,60,0.06)]"
           }`}
         >
           <div className="flex items-center justify-between mb-2">
-            <span className="text-[11px] font-mono uppercase text-slate-500 dark:text-slate-400">
+            <span className="text-[11px] font-mono uppercase text-[#60738F] dark:text-[#8FA3BF]">
               Total Ledger Events
             </span>
-            <Layers className="w-4 h-4 text-cyan-500" />
+            <Layers className="w-4 h-4 text-[#18D9FF]" />
           </div>
-          <div className="text-xl sm:text-2xl font-black font-display text-slate-900 dark:text-white">
+          <div className="text-xl sm:text-2xl font-black font-display text-[#10213A] dark:text-[#F5F8FF]">
             {stats.totalTransactions}
           </div>
-          <span className="text-[10px] font-mono text-slate-500 mt-1 block">
+          <span className="text-[10px] font-mono text-[#60738F] dark:text-[#8FA3BF] mt-1 block">
             Indexed transactions
           </span>
         </div>
@@ -112,20 +112,20 @@ export default function AnalyticsPage() {
         <div
           className={`p-4 rounded-2xl border transition-all ${
             isDark
-              ? "bg-slate-900/60 border-slate-800 shadow-glass-dark"
-              : "bg-white border-slate-200 shadow-glass-light"
+              ? "bg-[#0B1426] border-[rgba(80,150,255,0.15)] shadow-[0_12px_40px_rgba(5,9,20,0.4)]"
+              : "bg-white border-[rgba(30,90,160,0.14)] shadow-[0_8px_30px_rgba(15,30,60,0.06)]"
           }`}
         >
           <div className="flex items-center justify-between mb-2">
-            <span className="text-[11px] font-mono uppercase text-slate-500 dark:text-slate-400">
+            <span className="text-[11px] font-mono uppercase text-[#60738F] dark:text-[#8FA3BF]">
               Average Outflow
             </span>
-            <Activity className="w-4 h-4 text-violet-500" />
+            <Activity className="w-4 h-4 text-[#8B5CF6]" />
           </div>
-          <div className="text-xl sm:text-2xl font-black font-display text-slate-900 dark:text-white">
+          <div className="text-xl sm:text-2xl font-black font-display text-[#10213A] dark:text-[#F5F8FF]">
             {formatINR(stats.avgExpense)}
           </div>
-          <span className="text-[10px] font-mono text-slate-500 mt-1 block">
+          <span className="text-[10px] font-mono text-[#60738F] dark:text-[#8FA3BF] mt-1 block">
             Per expense event
           </span>
         </div>
@@ -134,20 +134,20 @@ export default function AnalyticsPage() {
         <div
           className={`p-4 rounded-2xl border transition-all ${
             isDark
-              ? "bg-slate-900/60 border-slate-800 shadow-glass-dark"
-              : "bg-white border-slate-200 shadow-glass-light"
+              ? "bg-[#0B1426] border-[rgba(80,150,255,0.15)] shadow-[0_12px_40px_rgba(5,9,20,0.4)]"
+              : "bg-white border-[rgba(30,90,160,0.14)] shadow-[0_8px_30px_rgba(15,30,60,0.06)]"
           }`}
         >
           <div className="flex items-center justify-between mb-2">
-            <span className="text-[11px] font-mono uppercase text-slate-500 dark:text-slate-400">
+            <span className="text-[11px] font-mono uppercase text-[#60738F] dark:text-[#8FA3BF]">
               Largest Single Outflow
             </span>
             <ArrowUpRight className="w-4 h-4 text-rose-500" />
           </div>
-          <div className="text-xl sm:text-2xl font-black font-display text-slate-900 dark:text-white">
+          <div className="text-xl sm:text-2xl font-black font-display text-[#10213A] dark:text-[#F5F8FF]">
             {formatINR(stats.largestExpense)}
           </div>
-          <span className="text-[10px] font-mono text-slate-500 mt-1 block">
+          <span className="text-[10px] font-mono text-[#60738F] dark:text-[#8FA3BF] mt-1 block">
             Max capital drawdown
           </span>
         </div>
@@ -156,20 +156,20 @@ export default function AnalyticsPage() {
         <div
           className={`p-4 rounded-2xl border transition-all ${
             isDark
-              ? "bg-slate-900/60 border-slate-800 shadow-glass-dark"
-              : "bg-white border-slate-200 shadow-glass-light"
+              ? "bg-[#0B1426] border-[rgba(80,150,255,0.15)] shadow-[0_12px_40px_rgba(5,9,20,0.4)]"
+              : "bg-white border-[rgba(30,90,160,0.14)] shadow-[0_8px_30px_rgba(15,30,60,0.06)]"
           }`}
         >
           <div className="flex items-center justify-between mb-2">
-            <span className="text-[11px] font-mono uppercase text-slate-500 dark:text-slate-400">
+            <span className="text-[11px] font-mono uppercase text-[#60738F] dark:text-[#8FA3BF]">
               Primary Rail
             </span>
-            <CreditCard className="w-4 h-4 text-emerald-500" />
+            <CreditCard className="w-4 h-4 text-[#20D6A3]" />
           </div>
-          <div className="text-xl sm:text-2xl font-black font-display text-slate-900 dark:text-white truncate">
+          <div className="text-xl sm:text-2xl font-black font-display text-[#10213A] dark:text-[#F5F8FF] truncate">
             {stats.topMethod}
           </div>
-          <span className="text-[10px] font-mono text-slate-500 mt-1 block">
+          <span className="text-[10px] font-mono text-[#60738F] dark:text-[#8FA3BF] mt-1 block">
             Most active settlement
           </span>
         </div>

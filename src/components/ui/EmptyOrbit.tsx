@@ -27,12 +27,12 @@ export default function EmptyOrbit() {
       </div>
 
       {/* Primary Empty State Heading */}
-      <h3 className="text-xl md:text-2xl font-bold font-display tracking-tight text-slate-900 dark:text-white mb-2">
+      <h3 className="text-xl md:text-2xl font-bold font-display tracking-tight text-[#10213A] dark:text-[#F5F8FF] mb-2">
         YOUR FINANCIAL ORBIT IS EMPTY
       </h3>
 
       {/* Subtitle */}
-      <p className="text-sm text-slate-500 dark:text-slate-400 max-w-sm mb-6 font-sans">
+      <p className="text-sm text-[#60738F] dark:text-[#8FA3BF] max-w-sm mb-6 font-sans">
         Start tracking your first expense to awaken your financial command center.
       </p>
 
@@ -40,7 +40,7 @@ export default function EmptyOrbit() {
       <div className="flex flex-col sm:flex-row items-center gap-3">
         <button
           onClick={() => setIsAddModalOpen(true)}
-          className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 via-sky-500 to-blue-600 text-slate-950 font-bold font-mono text-xs tracking-wider flex items-center gap-2 shadow-glow-cyan hover:shadow-cyan-400/50 hover:scale-[1.02] active:scale-[0.98] transition-all"
+          className="px-6 py-3 rounded-xl bg-gradient-to-r from-[#18D9FF] to-[#2684FF] text-[#050914] font-bold font-mono text-xs tracking-wider flex items-center gap-2 shadow-sm hover:opacity-95 hover:scale-[1.02] active:scale-[0.98] transition-all"
         >
           <Plus className="w-4 h-4 stroke-[3]" />
           <span>ADD FIRST EXPENSE</span>
@@ -48,7 +48,7 @@ export default function EmptyOrbit() {
 
         <button
           onClick={resetToDemo}
-          className="px-5 py-3 rounded-xl border border-slate-700/60 text-slate-400 hover:text-cyan-400 hover:border-cyan-500/40 bg-slate-900/30 dark:bg-black/30 font-mono text-xs flex items-center gap-2 transition-all"
+          className="px-5 py-3 rounded-xl border border-[rgba(80,150,255,0.2)] text-[#60738F] dark:text-[#8FA3BF] hover:text-[#18D9FF] hover:border-[#18D9FF]/40 bg-transparent font-mono text-xs flex items-center gap-2 transition-all"
         >
           <RotateCcw className="w-3.5 h-3.5" />
           <span>Load Demo System</span>

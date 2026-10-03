@@ -151,10 +151,10 @@ export default function AddExpenseModal() {
 
       if (res.success) {
         confetti({
-          particleCount: 60,
-          spread: 70,
+          particleCount: 45,
+          spread: 60,
           origin: { y: 0.6 },
-          colors: ["#00F0FF", "#3B82F6", "#8B5CF6", "#10B981"],
+          colors: ["#18D9FF", "#2684FF", "#8B5CF6", "#20D6A3"],
         });
 
         setSuccessMessage(
@@ -168,7 +168,7 @@ export default function AddExpenseModal() {
           setDescription("");
           setNotes("");
           setSuccessMessage(null);
-        }, 800);
+        }, 750);
       } else {
         setErrors({ form: res.error || "Failed to commit transaction." });
       }
@@ -180,67 +180,69 @@ export default function AddExpenseModal() {
   const quickAmounts = [100, 500, 1000, 2500, 5000];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-md overflow-y-auto animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm overflow-y-auto animate-in fade-in duration-150">
       <div
-        className={`relative w-full max-w-xl rounded-3xl p-6 md:p-8 backdrop-blur-2xl border shadow-2xl transition-all my-8 ${
+        className={`relative w-full max-w-lg rounded-3xl p-6 md:p-7 border shadow-2xl transition-all my-6 ${
           isDark
-            ? "bg-slate-950/95 border-slate-800 shadow-glow-cyan"
-            : "bg-white border-slate-200 shadow-glass-light"
+            ? "bg-[#0B1426] border-[rgba(80,150,255,0.18)] shadow-card-dark"
+            : "bg-[#FFFFFF] border-[rgba(30,90,160,0.16)] shadow-card-light"
         }`}
       >
         {/* Close Button */}
         <button
           onClick={() => setIsAddModalOpen(false)}
-          className={`absolute top-5 right-5 p-2 rounded-full transition-colors ${
+          className={`absolute top-4 right-4 p-1.5 rounded-full transition-colors ${
             isDark
-              ? "text-slate-400 hover:text-white hover:bg-slate-800/60"
-              : "text-slate-500 hover:text-slate-900 hover:bg-slate-100"
+              ? "text-[#8FA3BF] hover:text-white hover:bg-[#07101F]"
+              : "text-[#60738F] hover:text-[#10213A] hover:bg-[#F4F8FC]"
           }`}
         >
-          <X className="w-5 h-5" />
+          <X className="w-4 h-4" />
         </button>
 
         {/* Header */}
-        <div className="mb-6">
+        <div className="mb-5">
           <div className="flex items-center gap-2 mb-1">
             <span
               className={`w-2 h-2 rounded-full animate-ping ${
-                isDark ? "bg-cyan-400" : "bg-sky-600"
+                isDark ? "bg-[#18D9FF]" : "bg-[#1677FF]"
               }`}
             />
             <span
-              className={`text-[11px] font-mono uppercase tracking-widest ${
-                isDark ? "text-cyan-500" : "text-sky-700 font-bold"
+              className={`text-[10.5px] font-mono uppercase tracking-widest font-semibold ${
+                isDark ? "text-[#18D9FF]" : "text-[#1677FF]"
               }`}
             >
-              {editingExpense ? "MODIFY FINANCIAL TELEMETRY" : "NEW FINANCIAL TELEMETRY"}
+              {editingExpense ? "MODIFY EVENT" : "NEW EVENT"}
             </span>
           </div>
-          <h2 className="text-2xl font-bold font-display tracking-tight text-slate-900 dark:text-white">
+          <h2 className="text-xl md:text-2xl font-bold font-display tracking-tight text-slate-900 dark:text-white">
             {editingExpense ? "Edit Transaction" : "Log Transaction"}
           </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+          <p className={`text-xs mt-0.5 ${isDark ? "text-[#8FA3BF]" : "text-[#60738F]"}`}>
             {editingExpense
-              ? "Update transaction values and recalibrate your financial orbit in real time."
-              : "Inject a new capital event directly into your financial orbit."}
+              ? "Update parameters to recalibrate your financial orbit in real time."
+              : "Log a capital inflow or outflow into your financial ledger."}
           </p>
         </div>
 
         {/* Type Switcher */}
         <div
-          className={`grid grid-cols-2 gap-2 p-1 mb-6 rounded-2xl border ${
+          className={`grid grid-cols-2 gap-1.5 p-1 mb-5 rounded-2xl border ${
             isDark
-              ? "bg-slate-900/60 border-slate-800"
-              : "bg-slate-100 border-slate-200"
+              ? "bg-[#07101F] border-[rgba(80,150,255,0.12)]"
+              : "bg-[#F4F8FC] border-[rgba(30,90,160,0.14)]"
           }`}
         >
           <button
             type="button"
             onClick={() => setType("expense")}
-            className={`py-2 text-xs font-mono font-bold rounded-xl transition-all ${
+            className={`py-1.5 text-xs font-mono font-bold rounded-xl transition-all ${
               type === "expense"
-                ? "bg-rose-500/20 text-rose-500 dark:text-rose-400 border border-rose-500/40 shadow-sm"
-                : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                ? "bg-rose-500/15 text-rose-500 border border-rose-500/30"
+                : isDark
+                ? "text-[#8FA3BF] hover:text-[#F5F8FF]"
+                : "text-[#60738F] hover:text-[#10213A]"
             }`}
           >
             Outflow (Expense)
@@ -248,32 +250,34 @@ export default function AddExpenseModal() {
           <button
             type="button"
             onClick={() => setType("income")}
-            className={`py-2 text-xs font-mono font-bold rounded-xl transition-all ${
+            className={`py-1.5 text-xs font-mono font-bold rounded-xl transition-all ${
               type === "income"
-                ? "bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/40 shadow-sm"
-                : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                ? "bg-emerald-500/15 text-emerald-500 border border-emerald-500/30"
+                : isDark
+                ? "text-[#8FA3BF] hover:text-[#F5F8FF]"
+                : "text-[#60738F] hover:text-[#10213A]"
             }`}
           >
             Inflow (Income)
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* VISUAL FOCUS: AMOUNT INPUT */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Amount Box */}
           <div
-            className={`flex flex-col items-center justify-center p-6 rounded-2xl border ${
+            className={`flex flex-col items-center justify-center p-4 rounded-2xl border ${
               isDark
-                ? "bg-slate-900/40 border-slate-800/80"
-                : "bg-slate-50 border-slate-200"
+                ? "bg-[#07101F] border-[rgba(80,150,255,0.15)]"
+                : "bg-[#F8FBFF] border-[rgba(30,90,160,0.14)]"
             }`}
           >
-            <label className="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
-              Transaction Quantum
+            <label className={`text-[10px] font-mono uppercase tracking-wider mb-1 font-semibold ${isDark ? "text-[#8FA3BF]" : "text-[#60738F]"}`}>
+              Quantum Amount
             </label>
             <div className="relative flex items-center justify-center w-full">
               <span
-                className={`text-3xl md:text-4xl font-extrabold mr-2 font-display ${
-                  isDark ? "text-cyan-400" : "text-sky-700"
+                className={`text-2xl sm:text-3xl font-extrabold mr-1 font-display ${
+                  isDark ? "text-[#18D9FF]" : "text-[#1677FF]"
                 }`}
               >
                 ₹
@@ -288,12 +292,12 @@ export default function AddExpenseModal() {
                 }}
                 placeholder="0"
                 autoFocus
-                className="w-full text-center text-4xl md:text-5xl font-extrabold font-display bg-transparent text-slate-900 dark:text-white focus:outline-none placeholder-slate-400 dark:placeholder-slate-600"
+                className="w-full text-center text-3xl sm:text-4xl font-extrabold font-display bg-transparent text-slate-900 dark:text-white focus:outline-none placeholder-slate-400 dark:placeholder-slate-600"
               />
             </div>
 
             {/* Quick Amount Pills */}
-            <div className="flex flex-wrap gap-2 justify-center mt-4">
+            <div className="flex flex-wrap gap-1.5 justify-center mt-3">
               {quickAmounts.map((q) => (
                 <button
                   key={q}
@@ -302,10 +306,10 @@ export default function AddExpenseModal() {
                     const current = parseFloat(amount) || 0;
                     setAmount(String(current + q));
                   }}
-                  className={`px-2.5 py-1 text-[11px] font-mono rounded-lg border transition-colors ${
+                  className={`px-2 py-0.5 text-[10.5px] font-mono rounded-lg border transition-colors ${
                     isDark
-                      ? "bg-slate-800/60 hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-300 border-slate-700/60"
-                      : "bg-white hover:bg-sky-50 text-slate-700 hover:text-sky-700 border-slate-200 shadow-sm"
+                      ? "bg-[#0B1426] hover:bg-[#18D9FF]/20 text-[#8FA3BF] hover:text-[#18D9FF] border-[rgba(80,150,255,0.15)]"
+                      : "bg-white hover:bg-sky-50 text-[#60738F] hover:text-[#1677FF] border-[rgba(30,90,160,0.14)]"
                   }`}
                 >
                   +{q}
@@ -314,7 +318,7 @@ export default function AddExpenseModal() {
             </div>
 
             {errors.amount && (
-              <p className="text-xs text-rose-500 dark:text-rose-400 mt-2 flex items-center gap-1 font-mono">
+              <p className="text-xs text-rose-500 mt-2 flex items-center gap-1 font-mono">
                 <AlertCircle className="w-3.5 h-3.5" />
                 {errors.amount}
               </p>
@@ -323,7 +327,7 @@ export default function AddExpenseModal() {
 
           {/* Description */}
           <div>
-            <label className="block text-xs font-mono uppercase text-slate-500 dark:text-slate-400 tracking-wider mb-1.5 font-medium">
+            <label className={`block text-[11px] font-mono uppercase tracking-wider mb-1 font-semibold ${isDark ? "text-[#8FA3BF]" : "text-[#60738F]"}`}>
               Description
             </label>
             <input
@@ -333,27 +337,27 @@ export default function AddExpenseModal() {
                 setDescription(e.target.value);
                 if (errors.description) setErrors((prev) => ({ ...prev, description: "" }));
               }}
-              placeholder="e.g. Blue Tokai Coffee & Bakery"
-              className={`w-full px-4 py-3 rounded-xl border text-sm font-sans transition-all focus:outline-none ${
+              placeholder="e.g. Metro pass or Artisan Coffee"
+              className={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all focus:outline-none ${
                 isDark
-                  ? "bg-slate-900/60 border-slate-800 text-white focus:border-cyan-400"
-                  : "bg-slate-50 border-slate-300 text-slate-900 focus:border-sky-500"
+                  ? "bg-[#07101F] border-[rgba(80,150,255,0.15)] text-[#F5F8FF] focus:border-[#18D9FF]"
+                  : "bg-[#F8FBFF] border-[rgba(30,90,160,0.16)] text-[#10213A] focus:border-[#1677FF]"
               }`}
             />
             {errors.description && (
-              <p className="text-xs text-rose-500 dark:text-rose-400 mt-1 flex items-center gap-1 font-mono">
+              <p className="text-xs text-rose-500 mt-1 flex items-center gap-1 font-mono">
                 <AlertCircle className="w-3.5 h-3.5" />
                 {errors.description}
               </p>
             )}
           </div>
 
-          {/* Category Selection with Interactive Icons */}
+          {/* Category Selection */}
           <div>
-            <label className="block text-xs font-mono uppercase text-slate-500 dark:text-slate-400 tracking-wider mb-2 font-medium">
-              Category Matrix
+            <label className={`block text-[11px] font-mono uppercase tracking-wider mb-1.5 font-semibold ${isDark ? "text-[#8FA3BF]" : "text-[#60738F]"}`}>
+              Category
             </label>
-            <div className="grid grid-cols-3 sm:grid-cols-3 gap-2.5 max-h-48 overflow-y-auto pr-1">
+            <div className="grid grid-cols-3 gap-2 max-h-40 overflow-y-auto pr-1">
               {(Object.keys(CATEGORY_METADATA) as ExpenseCategory[]).map((catKey) => {
                 const Icon = CATEGORY_ICONS[catKey] || CircleDot;
                 const isSelected = category === catKey;
@@ -364,65 +368,65 @@ export default function AddExpenseModal() {
                     key={catKey}
                     type="button"
                     onClick={() => setCategory(catKey)}
-                    className={`flex items-center gap-2 p-2.5 rounded-xl border text-left transition-all ${
+                    className={`flex items-center gap-2 p-2 rounded-xl border text-left transition-all ${
                       isSelected
                         ? isDark
-                          ? "bg-slate-800/90 border-cyan-400 shadow-glow-cyan text-white"
-                          : "bg-sky-50 border-sky-400 text-sky-950 shadow-sm font-semibold"
+                          ? "bg-[#18D9FF]/10 border-[#18D9FF] text-white shadow-glow-subtle font-semibold"
+                          : "bg-[#1677FF]/10 border-[#1677FF] text-[#10213A] font-semibold"
                         : isDark
-                        ? "bg-slate-900/40 border-slate-800 text-slate-400 hover:border-slate-700 hover:text-white"
-                        : "bg-slate-50 border-slate-200 text-slate-600 hover:border-slate-300"
+                        ? "bg-[#07101F] border-[rgba(80,150,255,0.12)] text-[#8FA3BF] hover:text-white"
+                        : "bg-[#F8FBFF] border-[rgba(30,90,160,0.14)] text-[#60738F] hover:text-[#10213A]"
                     }`}
                   >
                     <div
-                      className="p-1.5 rounded-lg flex items-center justify-center"
+                      className="p-1 rounded-lg flex items-center justify-center flex-shrink-0"
                       style={{
-                        backgroundColor: isSelected ? meta.color : undefined,
-                        color: isSelected ? "#05070D" : meta.color,
+                        backgroundColor: `${meta.color}20`,
+                        color: isDark ? meta.color : meta.lightColor,
                       }}
                     >
-                      <Icon className="w-4 h-4" />
+                      <Icon className="w-3.5 h-3.5" />
                     </div>
-                    <span className="text-xs font-medium truncate">{catKey}</span>
+                    <span className="text-xs truncate">{catKey}</span>
                   </button>
                 );
               })}
             </div>
           </div>
 
-          {/* Date & Payment Method */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Date & Payment Rail */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-mono uppercase text-slate-500 dark:text-slate-400 tracking-wider mb-1.5 flex items-center gap-1 font-medium">
+              <label className={`block text-[11px] font-mono uppercase tracking-wider mb-1 flex items-center gap-1 font-semibold ${isDark ? "text-[#8FA3BF]" : "text-[#60738F]"}`}>
                 <Calendar className="w-3.5 h-3.5" /> Date
               </label>
               <input
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}
-                className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all focus:outline-none ${
+                className={`w-full px-3 py-2 rounded-xl border text-xs transition-all focus:outline-none ${
                   isDark
-                    ? "bg-slate-900/60 border-slate-800 text-white focus:border-cyan-400"
-                    : "bg-slate-50 border-slate-300 text-slate-900 focus:border-sky-500"
+                    ? "bg-[#07101F] border-[rgba(80,150,255,0.15)] text-[#F5F8FF] focus:border-[#18D9FF]"
+                    : "bg-[#F8FBFF] border-[rgba(30,90,160,0.16)] text-[#10213A] focus:border-[#1677FF]"
                 }`}
               />
             </div>
 
             <div>
-              <label className="block text-xs font-mono uppercase text-slate-500 dark:text-slate-400 tracking-wider mb-1.5 flex items-center gap-1 font-medium">
+              <label className={`block text-[11px] font-mono uppercase tracking-wider mb-1 flex items-center gap-1 font-semibold ${isDark ? "text-[#8FA3BF]" : "text-[#60738F]"}`}>
                 <CreditCard className="w-3.5 h-3.5" /> Payment Method
               </label>
               <select
                 value={paymentMethod}
                 onChange={(e) => setPaymentMethod(e.target.value as PaymentMethod)}
-                className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all focus:outline-none ${
+                className={`w-full px-3 py-2 rounded-xl border text-xs transition-all focus:outline-none ${
                   isDark
-                    ? "bg-slate-900/60 border-slate-800 text-white focus:border-cyan-400"
-                    : "bg-slate-50 border-slate-300 text-slate-900 focus:border-sky-500"
+                    ? "bg-[#07101F] border-[rgba(80,150,255,0.15)] text-[#F5F8FF] focus:border-[#18D9FF]"
+                    : "bg-[#F8FBFF] border-[rgba(30,90,160,0.16)] text-[#10213A] focus:border-[#1677FF]"
                 }`}
               >
                 {PAYMENT_METHODS.map((pm) => (
-                  <option key={pm} value={pm} className={isDark ? "bg-slate-900 text-white" : "bg-white text-slate-900"}>
+                  <option key={pm} value={pm} className={isDark ? "bg-[#0B1426] text-white" : "bg-white text-slate-900"}>
                     {pm}
                   </option>
                 ))}
@@ -432,7 +436,7 @@ export default function AddExpenseModal() {
 
           {/* Notes */}
           <div>
-            <label className="block text-xs font-mono uppercase text-slate-500 dark:text-slate-400 tracking-wider mb-1.5 flex items-center gap-1 font-medium">
+            <label className={`block text-[11px] font-mono uppercase tracking-wider mb-1 flex items-center gap-1 font-semibold ${isDark ? "text-[#8FA3BF]" : "text-[#60738F]"}`}>
               <FileText className="w-3.5 h-3.5" /> Telemetry Notes (Optional)
             </label>
             <input
@@ -440,23 +444,23 @@ export default function AddExpenseModal() {
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="e.g. Reimbursable project expense"
-              className={`w-full px-4 py-2.5 rounded-xl border text-sm transition-all focus:outline-none ${
+              className={`w-full px-3 py-2 rounded-xl border text-xs transition-all focus:outline-none ${
                 isDark
-                  ? "bg-slate-900/60 border-slate-800 text-white focus:border-cyan-400"
-                  : "bg-slate-50 border-slate-300 text-slate-900 focus:border-sky-500"
+                  ? "bg-[#07101F] border-[rgba(80,150,255,0.15)] text-[#F5F8FF] focus:border-[#18D9FF]"
+                  : "bg-[#F8FBFF] border-[rgba(30,90,160,0.16)] text-[#10213A] focus:border-[#1677FF]"
               }`}
             />
           </div>
 
           {errors.form && (
-            <p className="text-xs text-rose-500 dark:text-rose-400 font-mono flex items-center gap-1">
-              <AlertCircle className="w-4 h-4" />
+            <p className="text-xs text-rose-500 font-mono flex items-center gap-1">
+              <AlertCircle className="w-3.5 h-3.5" />
               {errors.form}
             </p>
           )}
           {successMessage && (
-            <p className="text-xs text-emerald-600 dark:text-emerald-400 font-mono flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4" />
+            <p className="text-xs text-emerald-500 font-mono flex items-center gap-1">
+              <CheckCircle2 className="w-3.5 h-3.5" />
               {successMessage}
             </p>
           )}
@@ -465,10 +469,10 @@ export default function AddExpenseModal() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-cyan-500 via-sky-500 to-blue-600 text-slate-950 font-bold font-mono tracking-wider flex items-center justify-center gap-2 shadow-glow-cyan hover:shadow-cyan-400/50 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50"
+            className="w-full py-3 rounded-2xl bg-gradient-to-r from-[#18D9FF] to-[#2684FF] text-[#050914] font-bold font-mono tracking-wider flex items-center justify-center gap-2 shadow-glow-subtle hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-50"
           >
             {isSubmitting ? (
-              <span className="w-5 h-5 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
+              <span className="w-4 h-4 border-2 border-[#050914] border-t-transparent rounded-full animate-spin" />
             ) : editingExpense ? (
               <>
                 <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />

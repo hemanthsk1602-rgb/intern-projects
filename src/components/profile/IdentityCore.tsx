@@ -142,28 +142,28 @@ export default function IdentityCore() {
           <div className="flex items-center gap-2 mb-1">
             <span
               className={`w-2 h-2 rounded-full animate-ping ${
-                isDark ? "bg-cyan-400" : "bg-sky-600"
+                isDark ? "bg-[#18D9FF]" : "bg-[#1677FF]"
               }`}
             />
             <span
               className={`text-[11px] font-mono uppercase tracking-widest ${
-                isDark ? "text-cyan-400" : "text-sky-700 font-bold"
+                isDark ? "text-[#18D9FF]" : "text-[#1677FF] font-bold"
               }`}
             >
               BIOMETRIC IDENTITY LAYER
             </span>
           </div>
-          <h1 className="text-2xl md:text-3xl font-bold font-display tracking-tight text-slate-900 dark:text-white">
+          <h1 className="text-2xl md:text-3xl font-bold font-display tracking-tight text-[#10213A] dark:text-[#F5F8FF]">
             Identity Core
           </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+          <p className="text-xs text-[#60738F] dark:text-[#8FA3BF] mt-0.5">
             Encrypted user profile and spatial financial authority credentials
           </p>
         </div>
 
         {/* Global Save Alert */}
         {saveSuccess && (
-          <div className="px-3.5 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 text-xs font-mono flex items-center gap-1.5 animate-in fade-in">
+          <div className="px-3.5 py-1.5 rounded-xl bg-[#20D6A3]/10 border border-[#20D6A3]/30 text-[#20D6A3] text-xs font-mono flex items-center gap-1.5 animate-in fade-in">
             <Check className="w-3.5 h-3.5" />
             <span>{saveSuccess}</span>
           </div>
@@ -173,94 +173,94 @@ export default function IdentityCore() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Hologram Radar Identity Visualization */}
         <div
-          className={`lg:col-span-4 p-6 sm:p-8 rounded-3xl backdrop-blur-xl border transition-all flex flex-col items-center justify-center text-center relative overflow-hidden ${
+          className={`lg:col-span-4 p-6 sm:p-8 rounded-3xl border transition-all flex flex-col items-center justify-center text-center relative overflow-hidden ${
             isDark
-              ? "bg-slate-900/60 border-slate-800 shadow-glass-dark"
-              : "bg-white border-slate-200 shadow-glass-light"
+              ? "bg-[#0B1426] border-[rgba(80,150,255,0.15)] shadow-[0_12px_40px_rgba(5,9,20,0.4)]"
+              : "bg-white border-[rgba(30,90,160,0.14)] shadow-[0_8px_30px_rgba(15,30,60,0.06)]"
           }`}
         >
           <div className="relative w-48 h-48 sm:w-56 sm:h-56 flex items-center justify-center my-3">
             <div
               className={`absolute inset-0 rounded-full border border-dashed animate-orbit-rotate ${
-                isDark ? "border-cyan-400/30" : "border-sky-400/40"
+                isDark ? "border-[#18D9FF]/30" : "border-[#1677FF]/40"
               }`}
             />
             <div
               className={`absolute inset-4 rounded-full border animate-spin-reverse ${
-                isDark ? "border-violet-500/20" : "border-indigo-400/30"
+                isDark ? "border-[#8B5CF6]/20" : "border-[#7657E8]/30"
               }`}
             />
             <div
               className={`absolute inset-8 rounded-full border animate-pulse ${
-                isDark ? "border-blue-500/20" : "border-blue-400/25"
+                isDark ? "border-[#2684FF]/20" : "border-blue-400/25"
               }`}
             />
 
             {/* Avatar container */}
-            <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full p-1 bg-gradient-to-tr from-cyan-400 via-sky-400 to-violet-500 shadow-glow-cyan">
+            <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full p-1 bg-gradient-to-tr from-[#18D9FF] via-[#2684FF] to-[#8B5CF6] shadow-sm">
               <img
                 src={formData.avatar || user.avatar}
                 alt={formData.name || user.name}
                 className="w-full h-full object-cover rounded-full"
               />
-              <span className="absolute bottom-0 right-1 w-6 h-6 rounded-full bg-emerald-500 border-2 border-slate-950 flex items-center justify-center shadow-sm">
-                <Check className="w-3.5 h-3.5 text-white stroke-[3]" />
+              <span className="absolute bottom-0 right-1 w-6 h-6 rounded-full bg-[#20D6A3] border-2 border-[#0B1426] flex items-center justify-center shadow-sm">
+                <Check className="w-3.5 h-3.5 text-[#050914] stroke-[3]" />
               </span>
             </div>
           </div>
 
-          <h2 className="text-xl font-bold font-display text-slate-900 dark:text-white mt-1">
+          <h2 className="text-xl font-bold font-display text-[#10213A] dark:text-[#F5F8FF] mt-1">
             {formData.name || user.name}
           </h2>
           <span
             className={`text-xs font-mono flex items-center gap-1.5 mt-0.5 ${
-              isDark ? "text-cyan-400" : "text-sky-700 font-semibold"
+              isDark ? "text-[#18D9FF]" : "text-[#1677FF] font-semibold"
             }`}
           >
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+            <ShieldCheck className="w-3.5 h-3.5 text-[#20D6A3]" />
             {user.accountStatus}
           </span>
-          <span className="text-[11px] font-mono text-slate-500 mt-1">
+          <span className="text-[11px] font-mono text-[#60738F] dark:text-[#8FA3BF] mt-1">
             {user.memberSince || "Operator Authority"}
           </span>
 
           {/* Dynamic Profile Completeness Dial */}
-          <div className={`w-full mt-6 pt-5 border-t ${isDark ? "border-slate-800/80" : "border-slate-200"}`}>
+          <div className={`w-full mt-6 pt-5 border-t ${isDark ? "border-[rgba(80,150,255,0.12)]" : "border-[rgba(30,90,160,0.12)]"}`}>
             <div className="flex justify-between items-center text-xs font-mono mb-2">
-              <span className="text-slate-500 dark:text-slate-400">Core Telemetry Integrity</span>
-              <span className={`font-bold ${isDark ? "text-cyan-400" : "text-sky-700"}`}>
+              <span className="text-[#60738F] dark:text-[#8FA3BF]">Core Telemetry Integrity</span>
+              <span className={`font-bold ${isDark ? "text-[#18D9FF]" : "text-[#1677FF]"}`}>
                 {completenessPercentage}%
               </span>
             </div>
             <div
               className={`w-full h-2 rounded-full p-0.5 border ${
-                isDark ? "bg-slate-950/80 border-slate-800" : "bg-slate-100 border-slate-200"
+                isDark ? "bg-[#07101F] border-[rgba(80,150,255,0.15)]" : "bg-[#F8FBFF] border-[rgba(30,90,160,0.15)]"
               }`}
             >
               <div
-                className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-violet-500 transition-all duration-1000"
+                className="h-full rounded-full bg-gradient-to-r from-[#18D9FF] to-[#8B5CF6] transition-all duration-1000"
                 style={{ width: `${completenessPercentage}%` }}
               />
             </div>
-            <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 mt-2 block">
-              Biometric hash: <span className="font-mono text-cyan-500">SHA-256:0x7F9A..C4</span>
+            <span className="text-[10px] font-mono text-[#60738F] dark:text-[#8FA3BF] mt-2 block">
+              Biometric hash: <span className="font-mono text-[#18D9FF]">SHA-256:0x7F9A..C4</span>
             </span>
           </div>
         </div>
 
         {/* Tabbed Interactive Control Panel */}
         <div
-          className={`lg:col-span-8 p-6 md:p-8 rounded-3xl backdrop-blur-xl border transition-all flex flex-col justify-between ${
+          className={`lg:col-span-8 p-6 md:p-8 rounded-3xl border transition-all flex flex-col justify-between ${
             isDark
-              ? "bg-slate-900/60 border-slate-800 shadow-glass-dark"
-              : "bg-white border-slate-200 shadow-glass-light"
+              ? "bg-[#0B1426] border-[rgba(80,150,255,0.15)] shadow-[0_12px_40px_rgba(5,9,20,0.4)]"
+              : "bg-white border-[rgba(30,90,160,0.14)] shadow-[0_8px_30px_rgba(15,30,60,0.06)]"
           }`}
         >
           <div>
             {/* Navigation Tabs */}
             <div
               className={`flex items-center gap-1 p-1 rounded-2xl border mb-6 overflow-x-auto ${
-                isDark ? "bg-slate-950/70 border-slate-800" : "bg-slate-100 border-slate-200"
+                isDark ? "bg-[#07101F] border-[rgba(80,150,255,0.12)]" : "bg-[#F8FBFF] border-[rgba(30,90,160,0.12)]"
               }`}
             >
               <button
@@ -269,9 +269,9 @@ export default function IdentityCore() {
                 className={`px-3 py-2 rounded-xl text-xs font-mono font-bold whitespace-nowrap transition-all flex items-center gap-1.5 ${
                   activeTab === "identity"
                     ? isDark
-                      ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 shadow-sm"
-                      : "bg-white text-sky-800 border border-slate-200 shadow-sm"
-                    : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                      ? "bg-[#0F1B31] text-[#18D9FF] border border-[#18D9FF]/30 shadow-sm"
+                      : "bg-white text-[#1677FF] border border-[rgba(30,90,160,0.2)] shadow-sm"
+                    : "text-[#60738F] hover:text-[#10213A] dark:text-[#8FA3BF] dark:hover:text-[#F5F8FF]"
                 }`}
               >
                 <Fingerprint className="w-3.5 h-3.5" />
@@ -284,9 +284,9 @@ export default function IdentityCore() {
                 className={`px-3 py-2 rounded-xl text-xs font-mono font-bold whitespace-nowrap transition-all flex items-center gap-1.5 ${
                   activeTab === "financial"
                     ? isDark
-                      ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 shadow-sm"
-                      : "bg-white text-sky-800 border border-slate-200 shadow-sm"
-                    : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                      ? "bg-[#0F1B31] text-[#18D9FF] border border-[#18D9FF]/30 shadow-sm"
+                      : "bg-white text-[#1677FF] border border-[rgba(30,90,160,0.2)] shadow-sm"
+                    : "text-[#60738F] hover:text-[#10213A] dark:text-[#8FA3BF] dark:hover:text-[#F5F8FF]"
                 }`}
               >
                 <Wallet className="w-3.5 h-3.5" />
@@ -299,9 +299,9 @@ export default function IdentityCore() {
                 className={`px-3 py-2 rounded-xl text-xs font-mono font-bold whitespace-nowrap transition-all flex items-center gap-1.5 ${
                   activeTab === "appearance"
                     ? isDark
-                      ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 shadow-sm"
-                      : "bg-white text-sky-800 border border-slate-200 shadow-sm"
-                    : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                      ? "bg-[#0F1B31] text-[#18D9FF] border border-[#18D9FF]/30 shadow-sm"
+                      : "bg-white text-[#1677FF] border border-[rgba(30,90,160,0.2)] shadow-sm"
+                    : "text-[#60738F] hover:text-[#10213A] dark:text-[#8FA3BF] dark:hover:text-[#F5F8FF]"
                 }`}
               >
                 <Sliders className="w-3.5 h-3.5" />
@@ -314,9 +314,9 @@ export default function IdentityCore() {
                 className={`px-3 py-2 rounded-xl text-xs font-mono font-bold whitespace-nowrap transition-all flex items-center gap-1.5 ${
                   activeTab === "security"
                     ? isDark
-                      ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 shadow-sm"
-                      : "bg-white text-sky-800 border border-slate-200 shadow-sm"
-                    : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                      ? "bg-[#0F1B31] text-[#18D9FF] border border-[#18D9FF]/30 shadow-sm"
+                      : "bg-white text-[#1677FF] border border-[rgba(30,90,160,0.2)] shadow-sm"
+                    : "text-[#60738F] hover:text-[#10213A] dark:text-[#8FA3BF] dark:hover:text-[#F5F8FF]"
                 }`}
               >
                 <KeyRound className="w-3.5 h-3.5" />
@@ -329,9 +329,9 @@ export default function IdentityCore() {
                 className={`px-3 py-2 rounded-xl text-xs font-mono font-bold whitespace-nowrap transition-all flex items-center gap-1.5 ${
                   activeTab === "account"
                     ? isDark
-                      ? "bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 shadow-sm"
-                      : "bg-white text-sky-800 border border-slate-200 shadow-sm"
-                    : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                      ? "bg-[#0F1B31] text-[#18D9FF] border border-[#18D9FF]/30 shadow-sm"
+                      : "bg-white text-[#1677FF] border border-[rgba(30,90,160,0.2)] shadow-sm"
+                    : "text-[#60738F] hover:text-[#10213A] dark:text-[#8FA3BF] dark:hover:text-[#F5F8FF]"
                 }`}
               >
                 <Cpu className="w-3.5 h-3.5" />
@@ -343,7 +343,7 @@ export default function IdentityCore() {
             {activeTab === "identity" && (
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-base font-bold font-display text-slate-900 dark:text-white">
+                  <h3 className="text-base font-bold font-display text-[#10213A] dark:text-[#F5F8FF]">
                     Personal Identity Parameters
                   </h3>
                   <button
@@ -351,8 +351,8 @@ export default function IdentityCore() {
                     onClick={() => setIsEditing(!isEditing)}
                     className={`px-3 py-1.5 rounded-xl border text-xs font-mono flex items-center gap-1.5 transition-all ${
                       isDark
-                        ? "border-cyan-500/40 bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20"
-                        : "border-sky-300 bg-sky-50 text-sky-700 hover:bg-sky-100 font-semibold"
+                        ? "border-[#18D9FF]/40 bg-[#18D9FF]/10 text-[#18D9FF] hover:bg-[#18D9FF]/20"
+                        : "border-[rgba(30,90,160,0.3)] bg-sky-50 text-[#1677FF] hover:bg-sky-100 font-semibold"
                     }`}
                   >
                     {isEditing ? <X className="w-3.5 h-3.5" /> : <Edit3 className="w-3.5 h-3.5" />}
@@ -364,7 +364,7 @@ export default function IdentityCore() {
                   <form onSubmit={handleSaveIdentity} className="space-y-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-mono uppercase text-slate-500 dark:text-slate-400 mb-1">
+                        <label className="block text-xs font-mono uppercase text-[#60738F] dark:text-[#8FA3BF] mb-1">
                           Full Legal Name
                         </label>
                         <input
@@ -373,15 +373,15 @@ export default function IdentityCore() {
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                           className={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all focus:outline-none ${
                             isDark
-                              ? "border-slate-800 bg-slate-950/70 text-white focus:border-cyan-400"
-                              : "border-slate-300 bg-slate-50 text-slate-900 focus:border-sky-500"
+                              ? "border-[rgba(80,150,255,0.15)] bg-[#07101F] text-[#F5F8FF] focus:border-[#18D9FF]"
+                              : "border-[rgba(30,90,160,0.15)] bg-[#F8FBFF] text-[#10213A] focus:border-[#1677FF]"
                           }`}
                           required
                         />
                       </div>
 
                       <div>
-                        <label className="block text-xs font-mono uppercase text-slate-500 dark:text-slate-400 mb-1">
+                        <label className="block text-xs font-mono uppercase text-[#60738F] dark:text-[#8FA3BF] mb-1">
                           Secure Email Relay
                         </label>
                         <input
@@ -390,15 +390,15 @@ export default function IdentityCore() {
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                           className={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all focus:outline-none ${
                             isDark
-                              ? "border-slate-800 bg-slate-950/70 text-white focus:border-cyan-400"
-                              : "border-slate-300 bg-slate-50 text-slate-900 focus:border-sky-500"
+                              ? "border-[rgba(80,150,255,0.15)] bg-[#07101F] text-[#F5F8FF] focus:border-[#18D9FF]"
+                              : "border-[rgba(30,90,160,0.15)] bg-[#F8FBFF] text-[#10213A] focus:border-[#1677FF]"
                           }`}
                           required
                         />
                       </div>
 
                       <div>
-                        <label className="block text-xs font-mono uppercase text-slate-500 dark:text-slate-400 mb-1">
+                        <label className="block text-xs font-mono uppercase text-[#60738F] dark:text-[#8FA3BF] mb-1">
                           Phone Relay
                         </label>
                         <input
@@ -407,15 +407,15 @@ export default function IdentityCore() {
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                           className={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all focus:outline-none ${
                             isDark
-                              ? "border-slate-800 bg-slate-950/70 text-white focus:border-cyan-400"
-                              : "border-slate-300 bg-slate-50 text-slate-900 focus:border-sky-500"
+                              ? "border-[rgba(80,150,255,0.15)] bg-[#07101F] text-[#F5F8FF] focus:border-[#18D9FF]"
+                              : "border-[rgba(30,90,160,0.15)] bg-[#F8FBFF] text-[#10213A] focus:border-[#1677FF]"
                           }`}
                           required
                         />
                       </div>
 
                       <div>
-                        <label className="block text-xs font-mono uppercase text-slate-500 dark:text-slate-400 mb-1">
+                        <label className="block text-xs font-mono uppercase text-[#60738F] dark:text-[#8FA3BF] mb-1">
                           Avatar Image URL
                         </label>
                         <input
@@ -424,8 +424,8 @@ export default function IdentityCore() {
                           onChange={(e) => setFormData({ ...formData, avatar: e.target.value })}
                           className={`w-full px-3.5 py-2.5 rounded-xl border text-sm transition-all focus:outline-none ${
                             isDark
-                              ? "border-slate-800 bg-slate-950/70 text-white focus:border-cyan-400"
-                              : "border-slate-300 bg-slate-50 text-slate-900 focus:border-sky-500"
+                              ? "border-[rgba(80,150,255,0.15)] bg-[#07101F] text-[#F5F8FF] focus:border-[#18D9FF]"
+                              : "border-[rgba(30,90,160,0.15)] bg-[#F8FBFF] text-[#10213A] focus:border-[#1677FF]"
                           }`}
                         />
                       </div>
@@ -434,7 +434,7 @@ export default function IdentityCore() {
                     <div className="flex gap-3 pt-3">
                       <button
                         type="submit"
-                        className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-xs font-mono shadow-glow-cyan"
+                        className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#18D9FF] to-[#2684FF] text-[#050914] font-bold text-xs font-mono shadow-sm hover:opacity-95"
                       >
                         Commit Modifications
                       </button>
@@ -442,7 +442,7 @@ export default function IdentityCore() {
                         type="button"
                         onClick={() => setIsEditing(false)}
                         className={`px-4 py-2.5 rounded-xl border text-xs font-mono ${
-                          isDark ? "border-slate-800 text-slate-400" : "border-slate-300 text-slate-600"
+                          isDark ? "border-[rgba(80,150,255,0.15)] text-[#8FA3BF]" : "border-[rgba(30,90,160,0.15)] text-[#60738F]"
                         }`}
                       >
                         Cancel
@@ -453,52 +453,52 @@ export default function IdentityCore() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div
                       className={`p-3.5 rounded-2xl border ${
-                        isDark ? "bg-slate-950/40 border-slate-800/80" : "bg-slate-50 border-slate-200"
+                        isDark ? "bg-[#07101F] border-[rgba(80,150,255,0.12)]" : "bg-[#F8FBFF] border-[rgba(30,90,160,0.12)]"
                       }`}
                     >
-                      <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1 font-medium">
-                        <Mail className="w-3 h-3 text-cyan-500" /> Contact Email
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-[#60738F] dark:text-[#8FA3BF] flex items-center gap-1 font-medium">
+                        <Mail className="w-3 h-3 text-[#18D9FF]" /> Contact Email
                       </span>
-                      <p className="text-sm font-semibold text-slate-900 dark:text-white mt-1 truncate">
+                      <p className="text-sm font-semibold text-[#10213A] dark:text-[#F5F8FF] mt-1 truncate">
                         {formData.email}
                       </p>
                     </div>
 
                     <div
                       className={`p-3.5 rounded-2xl border ${
-                        isDark ? "bg-slate-950/40 border-slate-800/80" : "bg-slate-50 border-slate-200"
+                        isDark ? "bg-[#07101F] border-[rgba(80,150,255,0.12)]" : "bg-[#F8FBFF] border-[rgba(30,90,160,0.12)]"
                       }`}
                     >
-                      <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1 font-medium">
-                        <Phone className="w-3 h-3 text-cyan-500" /> Phone Relay
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-[#60738F] dark:text-[#8FA3BF] flex items-center gap-1 font-medium">
+                        <Phone className="w-3 h-3 text-[#18D9FF]" /> Phone Relay
                       </span>
-                      <p className="text-sm font-semibold text-slate-900 dark:text-white mt-1">
+                      <p className="text-sm font-semibold text-[#10213A] dark:text-[#F5F8FF] mt-1">
                         {formData.phone}
                       </p>
                     </div>
 
                     <div
                       className={`p-3.5 rounded-2xl border ${
-                        isDark ? "bg-slate-950/40 border-slate-800/80" : "bg-slate-50 border-slate-200"
+                        isDark ? "bg-[#07101F] border-[rgba(80,150,255,0.12)]" : "bg-[#F8FBFF] border-[rgba(30,90,160,0.12)]"
                       }`}
                     >
-                      <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1 font-medium">
-                        <Calendar className="w-3 h-3 text-violet-500" /> Member Since
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-[#60738F] dark:text-[#8FA3BF] flex items-center gap-1 font-medium">
+                        <Calendar className="w-3 h-3 text-[#8B5CF6]" /> Member Since
                       </span>
-                      <p className="text-sm font-semibold text-slate-900 dark:text-white mt-1">
+                      <p className="text-sm font-semibold text-[#10213A] dark:text-[#F5F8FF] mt-1">
                         {user.memberSince || "January 2024"}
                       </p>
                     </div>
 
                     <div
                       className={`p-3.5 rounded-2xl border ${
-                        isDark ? "bg-slate-950/40 border-slate-800/80" : "bg-slate-50 border-slate-200"
+                        isDark ? "bg-[#07101F] border-[rgba(80,150,255,0.12)]" : "bg-[#F8FBFF] border-[rgba(30,90,160,0.12)]"
                       }`}
                     >
-                      <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1 font-medium">
-                        <ShieldCheck className="w-3 h-3 text-emerald-500" /> Tier Authority
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-[#60738F] dark:text-[#8FA3BF] flex items-center gap-1 font-medium">
+                        <ShieldCheck className="w-3 h-3 text-[#20D6A3]" /> Tier Authority
                       </span>
-                      <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400 mt-1">
+                      <p className="text-sm font-semibold text-[#20D6A3] mt-1">
                         {user.accountStatus || "Verified Prime"}
                       </p>
                     </div>
@@ -510,20 +510,20 @@ export default function IdentityCore() {
             {/* TAB 2: FINANCIAL DIRECTIVES */}
             {activeTab === "financial" && (
               <div className="space-y-4">
-                <h3 className="text-base font-bold font-display text-slate-900 dark:text-white">
+                <h3 className="text-base font-bold font-display text-[#10213A] dark:text-[#F5F8FF]">
                   Financial Directives & Ceiling Budgets
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-[#60738F] dark:text-[#8FA3BF]">
                   Configure dynamic outflow thresholds that govern financial orbit alert states.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                   <div
                     className={`p-4 rounded-2xl border ${
-                      isDark ? "bg-slate-950/40 border-slate-800" : "bg-slate-50 border-slate-200"
+                      isDark ? "bg-[#07101F] border-[rgba(80,150,255,0.12)]" : "bg-[#F8FBFF] border-[rgba(30,90,160,0.12)]"
                     }`}
                   >
-                    <label className="text-[10px] font-mono uppercase text-slate-500 block mb-1.5 font-bold">
+                    <label className="text-[10px] font-mono uppercase text-[#60738F] dark:text-[#8FA3BF] block mb-1.5 font-bold">
                       Monthly Budget Ceiling (₹)
                     </label>
                     <div className="flex items-center gap-2">
@@ -533,8 +533,8 @@ export default function IdentityCore() {
                         onChange={(e) => setFormData({ ...formData, monthlyBudget: parseFloat(e.target.value) || 0 })}
                         className={`w-full px-3 py-2 rounded-xl text-sm font-mono border transition-all focus:outline-none ${
                           isDark
-                            ? "bg-slate-900 border-slate-700 text-white focus:border-cyan-400"
-                            : "bg-white border-slate-300 text-slate-900 focus:border-sky-500"
+                            ? "bg-[#0B1426] border-[rgba(80,150,255,0.15)] text-[#F5F8FF] focus:border-[#18D9FF]"
+                            : "bg-white border-[rgba(30,90,160,0.15)] text-[#10213A] focus:border-[#1677FF]"
                         }`}
                       />
                       <button
@@ -545,22 +545,22 @@ export default function IdentityCore() {
                           setSaveSuccess("Monthly budget ceiling updated.");
                           setTimeout(() => setSaveSuccess(null), 2500);
                         }}
-                        className="px-3 py-2 rounded-xl bg-cyan-500 text-slate-950 font-bold text-xs font-mono hover:bg-cyan-400"
+                        className="px-3.5 py-2 rounded-xl bg-gradient-to-r from-[#18D9FF] to-[#2684FF] text-[#050914] font-bold text-xs font-mono shadow-sm hover:opacity-95"
                       >
                         Apply
                       </button>
                     </div>
-                    <span className="text-[11px] font-mono text-slate-500 mt-2 block">
+                    <span className="text-[11px] font-mono text-[#60738F] dark:text-[#8FA3BF] mt-2 block">
                       Current Target: {formatINR(formData.monthlyBudget)}
                     </span>
                   </div>
 
                   <div
                     className={`p-4 rounded-2xl border ${
-                      isDark ? "bg-slate-950/40 border-slate-800" : "bg-slate-50 border-slate-200"
+                      isDark ? "bg-[#07101F] border-[rgba(80,150,255,0.12)]" : "bg-[#F8FBFF] border-[rgba(30,90,160,0.12)]"
                     }`}
                   >
-                    <label className="text-[10px] font-mono uppercase text-slate-500 block mb-1.5 font-bold">
+                    <label className="text-[10px] font-mono uppercase text-[#60738F] dark:text-[#8FA3BF] block mb-1.5 font-bold">
                       Base Valuation Currency
                     </label>
                     <select
@@ -575,8 +575,8 @@ export default function IdentityCore() {
                       }}
                       className={`w-full px-3 py-2 rounded-xl text-sm font-mono border transition-all focus:outline-none ${
                         isDark
-                          ? "bg-slate-900 border-slate-700 text-white focus:border-cyan-400"
-                          : "bg-white border-slate-300 text-slate-900 focus:border-sky-500"
+                          ? "bg-[#0B1426] border-[rgba(80,150,255,0.15)] text-[#F5F8FF] focus:border-[#18D9FF]"
+                          : "bg-white border-[rgba(30,90,160,0.15)] text-[#10213A] focus:border-[#1677FF]"
                       }`}
                     >
                       <option value="INR">INR (₹) — Indian Rupee</option>
@@ -584,7 +584,7 @@ export default function IdentityCore() {
                       <option value="EUR">EUR (€) — Euro</option>
                       <option value="GBP">GBP (£) — British Pound</option>
                     </select>
-                    <span className="text-[11px] font-mono text-slate-500 mt-2 block">
+                    <span className="text-[11px] font-mono text-[#60738F] dark:text-[#8FA3BF] mt-2 block">
                       All calculations calibrated to native currency
                     </span>
                   </div>
@@ -592,21 +592,21 @@ export default function IdentityCore() {
 
                 <div
                   className={`p-4 rounded-2xl border flex items-center justify-between ${
-                    isDark ? "bg-slate-950/40 border-slate-800" : "bg-slate-50 border-slate-200"
+                    isDark ? "bg-[#07101F] border-[rgba(80,150,255,0.12)]" : "bg-[#F8FBFF] border-[rgba(30,90,160,0.12)]"
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <Bell className="w-5 h-5 text-amber-500" />
+                    <Bell className="w-5 h-5 text-[#F5B942]" />
                     <div>
-                      <h4 className="text-xs font-bold text-slate-900 dark:text-white">
+                      <h4 className="text-xs font-bold text-[#10213A] dark:text-[#F5F8FF]">
                         Outflow Velocity Alerts
                       </h4>
-                      <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                      <p className="text-[11px] text-[#60738F] dark:text-[#8FA3BF]">
                         Trigger orbital pulse warning when monthly spend reaches 80%
                       </p>
                     </div>
                   </div>
-                  <span className="text-xs font-mono font-bold text-emerald-500">Active</span>
+                  <span className="text-xs font-mono font-bold text-[#20D6A3]">Active</span>
                 </div>
               </div>
             )}
@@ -614,10 +614,10 @@ export default function IdentityCore() {
             {/* TAB 3: APPEARANCE */}
             {activeTab === "appearance" && (
               <div className="space-y-4">
-                <h3 className="text-base font-bold font-display text-slate-900 dark:text-white">
+                <h3 className="text-base font-bold font-display text-[#10213A] dark:text-[#F5F8FF]">
                   Visual Spectrum & Spatial Atmosphere
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-[#60738F] dark:text-[#8FA3BF]">
                   Switch between the deep spatial obsidian darkness and the crisp arctic light deck.
                 </p>
 
@@ -630,19 +630,19 @@ export default function IdentityCore() {
                     }}
                     className={`p-4 rounded-2xl border text-left transition-all ${
                       isDark
-                        ? "bg-slate-950 border-cyan-400 shadow-glow-cyan"
-                        : "bg-slate-900 border-slate-700 opacity-70 hover:opacity-100"
+                        ? "bg-[#0B1426] border-[#18D9FF] shadow-[0_0_20px_rgba(24,217,255,0.2)]"
+                        : "bg-[#07101F] border-[rgba(80,150,255,0.15)] opacity-70 hover:opacity-100"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-2 text-cyan-400">
+                      <div className="flex items-center gap-2 text-[#18D9FF]">
                         <Moon className="w-4 h-4" />
                         <span className="text-xs font-mono font-bold uppercase">Obsidian Orbit (Dark)</span>
                       </div>
-                      {isDark && <Check className="w-4 h-4 text-cyan-400" />}
+                      {isDark && <Check className="w-4 h-4 text-[#18D9FF]" />}
                     </div>
-                    <p className="text-xs text-slate-400">
-                      Near-black navy (#05070D), vibrant cyan glow, floating spatial particles.
+                    <p className="text-xs text-[#8FA3BF]">
+                      Near-black navy (#050914), vibrant cyan glow, floating spatial particles.
                     </p>
                   </button>
 
@@ -654,40 +654,40 @@ export default function IdentityCore() {
                     }}
                     className={`p-4 rounded-2xl border text-left transition-all ${
                       !isDark
-                        ? "bg-white border-sky-500 shadow-glass-light"
-                        : "bg-slate-100 border-slate-300 text-slate-900 opacity-70 hover:opacity-100"
+                        ? "bg-white border-[#1677FF] shadow-[0_8px_30px_rgba(15,30,60,0.08)]"
+                        : "bg-slate-100 border-[rgba(30,90,160,0.15)] text-[#10213A] opacity-70 hover:opacity-100"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-2 text-sky-700">
+                      <div className="flex items-center gap-2 text-[#1677FF]">
                         <Sun className="w-4 h-4" />
                         <span className="text-xs font-mono font-bold uppercase">Arctic Deck (Light)</span>
                       </div>
-                      {!isDark && <Check className="w-4 h-4 text-sky-700" />}
+                      {!isDark && <Check className="w-4 h-4 text-[#1677FF]" />}
                     </div>
-                    <p className="text-xs text-slate-600">
-                      Pure arctic white (#F5F7FB), deep navy text (#0F172A), sharp sky-blue rings.
+                    <p className="text-xs text-[#60738F]">
+                      Pure light surface (#F4F8FC), deep navy text (#10213A), sharp sky-blue rings.
                     </p>
                   </button>
                 </div>
 
                 <div
                   className={`p-4 rounded-2xl border flex items-center justify-between mt-4 ${
-                    isDark ? "bg-slate-950/40 border-slate-800" : "bg-slate-50 border-slate-200"
+                    isDark ? "bg-[#07101F] border-[rgba(80,150,255,0.12)]" : "bg-[#F8FBFF] border-[rgba(30,90,160,0.12)]"
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <Sparkles className="w-5 h-5 text-violet-400" />
+                    <Sparkles className="w-5 h-5 text-[#8B5CF6]" />
                     <div>
-                      <h4 className="text-xs font-bold text-slate-900 dark:text-white">
+                      <h4 className="text-xs font-bold text-[#10213A] dark:text-[#F5F8FF]">
                         60fps Hardware Acceleration
                       </h4>
-                      <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                      <p className="text-[11px] text-[#60738F] dark:text-[#8FA3BF]">
                         WebGL 3D depth-aware rendering with adaptive device pixel ratio
                       </p>
                     </div>
                   </div>
-                  <span className="text-xs font-mono font-bold text-cyan-400">Enabled</span>
+                  <span className="text-xs font-mono font-bold text-[#18D9FF]">Enabled</span>
                 </div>
               </div>
             )}
@@ -695,26 +695,26 @@ export default function IdentityCore() {
             {/* TAB 4: SECURITY */}
             {activeTab === "security" && (
               <div className="space-y-4">
-                <h3 className="text-base font-bold font-display text-slate-900 dark:text-white">
+                <h3 className="text-base font-bold font-display text-[#10213A] dark:text-[#F5F8FF]">
                   Zero-Knowledge Cryptographic Enclave
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-[#60738F] dark:text-[#8FA3BF]">
                   Manage your cipher keys and review cryptographic authority credentials.
                 </p>
 
                 <div className="space-y-3 pt-2">
                   <div
                     className={`p-4 rounded-2xl border flex items-center justify-between ${
-                      isDark ? "bg-slate-950/40 border-slate-800" : "bg-slate-50 border-slate-200"
+                      isDark ? "bg-[#07101F] border-[rgba(80,150,255,0.12)]" : "bg-[#F8FBFF] border-[rgba(30,90,160,0.12)]"
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <Lock className="w-5 h-5 text-cyan-400" />
+                      <Lock className="w-5 h-5 text-[#18D9FF]" />
                       <div>
-                        <h4 className="text-xs font-bold text-slate-900 dark:text-white">
+                        <h4 className="text-xs font-bold text-[#10213A] dark:text-[#F5F8FF]">
                           Cipher Key Rotation
                         </h4>
-                        <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                        <p className="text-[11px] text-[#60738F] dark:text-[#8FA3BF]">
                           Update your authentication cipher key used to access this node
                         </p>
                       </div>
@@ -722,7 +722,7 @@ export default function IdentityCore() {
                     <button
                       type="button"
                       onClick={() => setIsPasswordModalOpen(true)}
-                      className="px-3.5 py-1.5 rounded-xl bg-cyan-500/10 border border-cyan-500/40 text-cyan-400 text-xs font-mono font-bold hover:bg-cyan-500/20 transition-all"
+                      className="px-3.5 py-1.5 rounded-xl bg-[#18D9FF]/10 border border-[#18D9FF]/40 text-[#18D9FF] text-xs font-mono font-bold hover:bg-[#18D9FF]/20 transition-all"
                     >
                       Rotate Key
                     </button>
@@ -730,21 +730,21 @@ export default function IdentityCore() {
 
                   <div
                     className={`p-4 rounded-2xl border flex items-center justify-between ${
-                      isDark ? "bg-slate-950/40 border-slate-800" : "bg-slate-50 border-slate-200"
+                      isDark ? "bg-[#07101F] border-[rgba(80,150,255,0.12)]" : "bg-[#F8FBFF] border-[rgba(30,90,160,0.12)]"
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <ShieldCheck className="w-5 h-5 text-emerald-400" />
+                      <ShieldCheck className="w-5 h-5 text-[#20D6A3]" />
                       <div>
-                        <h4 className="text-xs font-bold text-slate-900 dark:text-white">
+                        <h4 className="text-xs font-bold text-[#10213A] dark:text-[#F5F8FF]">
                           Spatial 256-Bit Ledger Encryption
                         </h4>
-                        <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                        <p className="text-[11px] text-[#60738F] dark:text-[#8FA3BF]">
                           Transactions signed and sealed with AES-GCM-256 standard
                         </p>
                       </div>
                     </div>
-                    <span className="text-xs font-mono font-bold text-emerald-500">Verified</span>
+                    <span className="text-xs font-mono font-bold text-[#20D6A3]">Verified</span>
                   </div>
                 </div>
               </div>
@@ -753,10 +753,10 @@ export default function IdentityCore() {
             {/* TAB 5: VAULT ACTIONS */}
             {activeTab === "account" && (
               <div className="space-y-4">
-                <h3 className="text-base font-bold font-display text-slate-900 dark:text-white">
+                <h3 className="text-base font-bold font-display text-[#10213A] dark:text-[#F5F8FF]">
                   Vault Operations & Data Control
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-[#60738F] dark:text-[#8FA3BF]">
                   Export complete transaction telemetry or manage ledger state.
                 </p>
 
@@ -767,17 +767,17 @@ export default function IdentityCore() {
                     onClick={handleExportJSON}
                     className={`p-3.5 rounded-2xl border text-left flex items-center justify-between transition-all ${
                       isDark
-                        ? "bg-slate-950/40 border-slate-800 hover:border-cyan-500/40"
-                        : "bg-slate-50 border-slate-200 hover:border-sky-300"
+                        ? "bg-[#07101F] border-[rgba(80,150,255,0.12)] hover:border-[#18D9FF]/40"
+                        : "bg-[#F8FBFF] border-[rgba(30,90,160,0.12)] hover:border-[#1677FF]/40"
                     }`}
                   >
                     <div>
-                      <span className="text-xs font-bold text-slate-900 dark:text-white block">
+                      <span className="text-xs font-bold text-[#10213A] dark:text-[#F5F8FF] block">
                         Backup Vault (JSON)
                       </span>
-                      <span className="text-[11px] font-mono text-slate-500">Full telemetry snapshot</span>
+                      <span className="text-[11px] font-mono text-[#60738F] dark:text-[#8FA3BF]">Full telemetry snapshot</span>
                     </div>
-                    <Download className="w-4 h-4 text-cyan-400" />
+                    <Download className="w-4 h-4 text-[#18D9FF]" />
                   </button>
 
                   {/* Export CSV */}
@@ -786,17 +786,17 @@ export default function IdentityCore() {
                     onClick={handleExportCSV}
                     className={`p-3.5 rounded-2xl border text-left flex items-center justify-between transition-all ${
                       isDark
-                        ? "bg-slate-950/40 border-slate-800 hover:border-cyan-500/40"
-                        : "bg-slate-50 border-slate-200 hover:border-sky-300"
+                        ? "bg-[#07101F] border-[rgba(80,150,255,0.12)] hover:border-[#18D9FF]/40"
+                        : "bg-[#F8FBFF] border-[rgba(30,90,160,0.12)] hover:border-[#1677FF]/40"
                     }`}
                   >
                     <div>
-                      <span className="text-xs font-bold text-slate-900 dark:text-white block">
+                      <span className="text-xs font-bold text-[#10213A] dark:text-[#F5F8FF] block">
                         Export Ledger (CSV)
                       </span>
-                      <span className="text-[11px] font-mono text-slate-500">Spreadsheet compatible</span>
+                      <span className="text-[11px] font-mono text-[#60738F] dark:text-[#8FA3BF]">Spreadsheet compatible</span>
                     </div>
-                    <Download className="w-4 h-4 text-cyan-400" />
+                    <Download className="w-4 h-4 text-[#18D9FF]" />
                   </button>
 
                   {/* Reset to Demo Seed */}
@@ -811,17 +811,17 @@ export default function IdentityCore() {
                     }}
                     className={`p-3.5 rounded-2xl border text-left flex items-center justify-between transition-all ${
                       isDark
-                        ? "bg-slate-950/40 border-slate-800 hover:border-amber-500/40"
-                        : "bg-slate-50 border-slate-200 hover:border-amber-300"
+                        ? "bg-[#07101F] border-[rgba(80,150,255,0.12)] hover:border-[#F5B942]/40"
+                        : "bg-[#F8FBFF] border-[rgba(30,90,160,0.12)] hover:border-[#F5B942]/40"
                     }`}
                   >
                     <div>
-                      <span className="text-xs font-bold text-slate-900 dark:text-white block">
+                      <span className="text-xs font-bold text-[#10213A] dark:text-[#F5F8FF] block">
                         Reset Demo Orbit
                       </span>
-                      <span className="text-[11px] font-mono text-slate-500">Restore ₹27,000 monthly seed</span>
+                      <span className="text-[11px] font-mono text-[#60738F] dark:text-[#8FA3BF]">Restore ₹27,000 monthly seed</span>
                     </div>
-                    <RotateCcw className="w-4 h-4 text-amber-500" />
+                    <RotateCcw className="w-4 h-4 text-[#F5B942]" />
                   </button>
 
                   {/* Clear All Data */}
@@ -836,27 +836,27 @@ export default function IdentityCore() {
                     }}
                     className={`p-3.5 rounded-2xl border text-left flex items-center justify-between transition-all ${
                       isDark
-                        ? "bg-slate-950/40 border-slate-800 hover:border-rose-500/40"
-                        : "bg-slate-50 border-slate-200 hover:border-rose-300"
+                        ? "bg-[#07101F] border-[rgba(80,150,255,0.12)] hover:border-rose-500/40"
+                        : "bg-[#F8FBFF] border-[rgba(30,90,160,0.12)] hover:border-rose-400"
                     }`}
                   >
                     <div>
                       <span className="text-xs font-bold text-rose-500 block">
                         Clear All Data
                       </span>
-                      <span className="text-[11px] font-mono text-slate-500">Purge entire history</span>
+                      <span className="text-[11px] font-mono text-[#60738F] dark:text-[#8FA3BF]">Purge entire history</span>
                     </div>
                     <Trash2 className="w-4 h-4 text-rose-500" />
                   </button>
                 </div>
 
                 {/* Sign Out Section */}
-                <div className="pt-4 border-t border-slate-800/60 flex items-center justify-between">
+                <div className="pt-4 border-t border-[rgba(80,150,255,0.12)] dark:border-[rgba(80,150,255,0.12)] flex items-center justify-between">
                   <div>
-                    <h4 className="text-xs font-bold text-slate-900 dark:text-white">
+                    <h4 className="text-xs font-bold text-[#10213A] dark:text-[#F5F8FF]">
                       Sign Out of Command Center
                     </h4>
-                    <p className="text-[11px] text-slate-500">
+                    <p className="text-[11px] text-[#60738F] dark:text-[#8FA3BF]">
                       Disconnect active spatial session
                     </p>
                   </div>
@@ -877,28 +877,28 @@ export default function IdentityCore() {
 
       {/* ROTATE CIPHER KEY MODAL */}
       {isPasswordModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#050914]/80 backdrop-blur-md animate-in fade-in duration-200">
           <div
-            className={`relative w-full max-w-md p-6 sm:p-7 rounded-3xl border shadow-2xl backdrop-blur-2xl transition-all ${
-              isDark ? "bg-slate-950/95 border-cyan-500/30 shadow-glow-cyan" : "bg-white border-slate-200 shadow-xl"
+            className={`relative w-full max-w-md p-6 sm:p-7 rounded-3xl border shadow-2xl transition-all ${
+              isDark ? "bg-[#0B1426] border-[rgba(80,150,255,0.25)] shadow-[0_20px_50px_rgba(5,9,20,0.8)]" : "bg-white border-[rgba(30,90,160,0.14)] shadow-xl"
             }`}
           >
             <button
               onClick={() => setIsPasswordModalOpen(false)}
-              className="absolute top-4 right-4 p-1.5 rounded-full text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+              className="absolute top-4 right-4 p-1.5 rounded-full text-[#60738F] hover:text-[#F5F8FF] hover:bg-[#07101F] transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
 
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+              <div className="w-10 h-10 rounded-2xl bg-[#18D9FF]/10 border border-[#18D9FF]/30 flex items-center justify-center text-[#18D9FF]">
                 <KeyRound className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-[10px] font-mono uppercase tracking-wider text-cyan-500 font-bold">
+                <span className="text-[10px] font-mono uppercase tracking-wider text-[#18D9FF] font-bold">
                   CIPHER KEY ROTATION
                 </span>
-                <h3 className="text-lg font-bold font-display text-slate-900 dark:text-white">
+                <h3 className="text-lg font-bold font-display text-[#10213A] dark:text-[#F5F8FF]">
                   Update Encryption Key
                 </h3>
               </div>
@@ -906,7 +906,7 @@ export default function IdentityCore() {
 
             <form onSubmit={handlePasswordRotate} className="space-y-3.5">
               <div>
-                <label className="block text-[11px] font-mono uppercase text-slate-500 mb-1">
+                <label className="block text-[11px] font-mono uppercase text-[#60738F] dark:text-[#8FA3BF] mb-1">
                   Current Key
                 </label>
                 <input
@@ -917,14 +917,14 @@ export default function IdentityCore() {
                   required
                   className={`w-full px-3.5 py-2 rounded-xl text-sm border focus:outline-none ${
                     isDark
-                      ? "bg-slate-900 border-slate-700 text-white focus:border-cyan-400"
-                      : "bg-slate-50 border-slate-300 text-slate-900 focus:border-sky-500"
+                      ? "bg-[#07101F] border-[rgba(80,150,255,0.15)] text-[#F5F8FF] focus:border-[#18D9FF]"
+                      : "bg-[#F8FBFF] border-[rgba(30,90,160,0.15)] text-[#10213A] focus:border-[#1677FF]"
                   }`}
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-mono uppercase text-slate-500 mb-1">
+                <label className="block text-[11px] font-mono uppercase text-[#60738F] dark:text-[#8FA3BF] mb-1">
                   New Key
                 </label>
                 <input
@@ -935,14 +935,14 @@ export default function IdentityCore() {
                   required
                   className={`w-full px-3.5 py-2 rounded-xl text-sm border focus:outline-none ${
                     isDark
-                      ? "bg-slate-900 border-slate-700 text-white focus:border-cyan-400"
-                      : "bg-slate-50 border-slate-300 text-slate-900 focus:border-sky-500"
+                      ? "bg-[#07101F] border-[rgba(80,150,255,0.15)] text-[#F5F8FF] focus:border-[#18D9FF]"
+                      : "bg-[#F8FBFF] border-[rgba(30,90,160,0.15)] text-[#10213A] focus:border-[#1677FF]"
                   }`}
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-mono uppercase text-slate-500 mb-1">
+                <label className="block text-[11px] font-mono uppercase text-[#60738F] dark:text-[#8FA3BF] mb-1">
                   Confirm New Key
                 </label>
                 <input
@@ -953,8 +953,8 @@ export default function IdentityCore() {
                   required
                   className={`w-full px-3.5 py-2 rounded-xl text-sm border focus:outline-none ${
                     isDark
-                      ? "bg-slate-900 border-slate-700 text-white focus:border-cyan-400"
-                      : "bg-slate-50 border-slate-300 text-slate-900 focus:border-sky-500"
+                      ? "bg-[#07101F] border-[rgba(80,150,255,0.15)] text-[#F5F8FF] focus:border-[#18D9FF]"
+                      : "bg-[#F8FBFF] border-[rgba(30,90,160,0.15)] text-[#10213A] focus:border-[#1677FF]"
                   }`}
                 />
               </div>
@@ -965,7 +965,7 @@ export default function IdentityCore() {
                 </p>
               )}
               {cipherSuccess && (
-                <p className="text-xs text-emerald-500 font-mono pt-1">
+                <p className="text-xs text-[#20D6A3] font-mono pt-1">
                   {cipherSuccess}
                 </p>
               )}
@@ -975,14 +975,14 @@ export default function IdentityCore() {
                   type="button"
                   onClick={() => setIsPasswordModalOpen(false)}
                   className={`flex-1 py-2.5 rounded-xl border text-xs font-mono ${
-                    isDark ? "border-slate-800 text-slate-400" : "border-slate-300 text-slate-600"
+                    isDark ? "border-[rgba(80,150,255,0.15)] text-[#8FA3BF]" : "border-[rgba(30,90,160,0.15)] text-[#60738F]"
                   }`}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-bold text-xs font-mono shadow-glow-cyan"
+                  className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-[#18D9FF] to-[#2684FF] text-[#050914] font-bold text-xs font-mono shadow-sm hover:opacity-95"
                 >
                   Confirm Rotation
                 </button>
