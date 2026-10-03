@@ -12,25 +12,28 @@ import {
   Compass,
   ArrowLeftRight,
   BarChart3,
-  User,
+  User as UserIcon,
   RotateCcw,
   Sparkles,
   Menu,
   X,
   LogIn,
+  LogOut,
 } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar() {
   const pathname = usePathname();
   const { theme, toggleTheme, isDark } = useTheme();
   const { setIsAddModalOpen, resetToDemo } = useExpenses();
+  const { user, isAuthenticated, logout } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
     { name: "Dashboard", href: "/", icon: Compass },
     { name: "Transactions", href: "/transactions", icon: ArrowLeftRight },
     { name: "Analytics", href: "/analytics", icon: BarChart3 },
-    { name: "Profile", href: "/profile", icon: User },
+    { name: "Profile", href: "/profile", icon: UserIcon },
   ];
 
   return (
@@ -114,23 +117,59 @@ export default function Navbar() {
             <span>Add Expense</span>
           </button>
 
-          {/* Login / Auth Portal Link */}
-          <Link
-            href="/login"
-            title="Enter Financial Core Portal"
-            className={`hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-mono transition-all ${
-              pathname === "/login"
-                ? isDark
-                  ? "bg-cyan-500/10 border-cyan-500/30 text-cyan-400 shadow-glow-cyan"
-                  : "bg-sky-50 border-sky-300 text-sky-700 shadow-sm"
-                : isDark
-                ? "bg-slate-900/40 border-slate-800 text-slate-400 hover:text-cyan-400 hover:border-cyan-500/30"
-                : "bg-slate-50 border-slate-200 text-slate-600 hover:text-sky-700 hover:border-sky-300"
-            }`}
-          >
-            <LogIn className="w-3.5 h-3.5" />
-            <span className="hidden lg:inline">Sign In</span>
-          </Link>
+          {/* Auth State Button / Profile Badge */}
+          {isAuthenticated ? (
+            <div className="hidden sm:flex items-center gap-1.5">
+              <Link
+                href="/profile"
+                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-xl border text-xs font-mono transition-all ${
+                  pathname === "/profile"
+                    ? isDark
+                      ? "bg-cyan-500/10 border-cyan-500/30 text-cyan-400 shadow-glow-cyan"
+                      : "bg-sky-50 border-sky-300 text-sky-700 shadow-sm"
+                    : isDark
+                    ? "bg-slate-900/40 border-slate-800 text-slate-300 hover:border-cyan-500/30"
+                    : "bg-slate-50 border-slate-200 text-slate-700 hover:border-sky-300"
+                }`}
+              >
+                <img
+                  src={user.avatar}
+                  alt={user.name}
+                  className="w-5 h-5 rounded-full object-cover border border-cyan-400"
+                />
+                <span className="hidden lg:inline truncate max-w-[100px]">{user.name.split(" ")[0]}</span>
+              </Link>
+              <button
+                type="button"
+                onClick={logout}
+                title="Sign out of command center"
+                className={`p-2 rounded-xl border text-xs transition-all ${
+                  isDark
+                    ? "border-slate-800 text-slate-400 hover:text-rose-400 hover:border-rose-500/30 bg-slate-900/40"
+                    : "border-slate-200 text-slate-500 hover:text-rose-600 hover:border-rose-300 bg-slate-50"
+                }`}
+              >
+                <LogOut className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              title="Enter Financial Core Portal"
+              className={`hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-mono transition-all ${
+                pathname === "/login"
+                  ? isDark
+                    ? "bg-cyan-500/10 border-cyan-500/30 text-cyan-400 shadow-glow-cyan"
+                    : "bg-sky-50 border-sky-300 text-sky-700 shadow-sm"
+                  : isDark
+                  ? "bg-slate-900/40 border-slate-800 text-slate-400 hover:text-cyan-400 hover:border-cyan-500/30"
+                  : "bg-slate-50 border-slate-200 text-slate-600 hover:text-sky-700 hover:border-sky-300"
+              }`}
+            >
+              <LogIn className="w-3.5 h-3.5" />
+              <span className="hidden lg:inline">Sign In</span>
+            </Link>
+          )}
 
           {/* Quick Demo Reset Button */}
           <button
@@ -207,18 +246,36 @@ export default function Navbar() {
                 </Link>
               );
             })}
-            <Link
-              href="/login"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`px-4 py-2.5 rounded-xl text-xs font-mono flex items-center gap-3 border ${
-                isDark
-                  ? "border-slate-800 text-slate-400 hover:text-cyan-400"
-                  : "border-slate-200 text-slate-600 hover:text-sky-700"
-              }`}
-            >
-              <LogIn className="w-4 h-4" />
-              <span>Sign In (Auth Core)</span>
-            </Link>
+            {isAuthenticated ? (
+              <button
+                type="button"
+                onClick={() => {
+                  logout();
+                  setMobileMenuOpen(false);
+                }}
+                className={`px-4 py-2.5 rounded-xl text-xs font-mono flex items-center gap-3 border text-left ${
+                  isDark
+                    ? "border-rose-500/20 text-rose-400 hover:bg-rose-500/10"
+                    : "border-rose-200 text-rose-600 hover:bg-rose-50"
+                }`}
+              >
+                <LogOut className="w-4 h-4" />
+                <span>Sign Out ({user.name.split(" ")[0]})</span>
+              </button>
+            ) : (
+              <Link
+                href="/login"
+                onClick={() => setMobileMenuOpen(false)}
+                className={`px-4 py-2.5 rounded-xl text-xs font-mono flex items-center gap-3 border ${
+                  isDark
+                    ? "border-slate-800 text-slate-400 hover:text-cyan-400"
+                    : "border-slate-200 text-slate-600 hover:text-sky-700"
+                }`}
+              >
+                <LogIn className="w-4 h-4" />
+                <span>Sign In (Auth Core)</span>
+              </Link>
+            )}
             <button
               onClick={() => {
                 resetToDemo();

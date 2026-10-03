@@ -38,6 +38,23 @@ class InMemoryStore {
     return this.expenses.length < lenBefore;
   }
 
+  public update(id: string, partial: Partial<Expense>): Expense | null {
+    this.init();
+    const index = this.expenses.findIndex((e) => e.id === id);
+    if (index === -1) return null;
+    const existing = this.expenses[index];
+    const updated: Expense = {
+      ...existing,
+      ...partial,
+      id: existing.id,
+      userId: existing.userId,
+      createdAt: existing.createdAt,
+      updatedAt: new Date().toISOString(),
+    };
+    this.expenses[index] = updated;
+    return updated;
+  }
+
   public reset(): Expense[] {
     this.expenses = getInitialExpenses();
     return this.expenses;
@@ -134,6 +151,43 @@ export async function deleteExpense(id: string): Promise<boolean> {
   }
 
   return memoryStore.delete(id);
+}
+
+export async function updateExpense(
+  id: string,
+  partial: Partial<Omit<Expense, "id" | "userId" | "createdAt" | "updatedAt">>
+): Promise<Expense | null> {
+  const db = await getDatabase();
+  const now = new Date().toISOString();
+  if (db) {
+    try {
+      const collection = db.collection("expenses");
+      const res = await collection.findOneAndUpdate(
+        { $or: [{ id }, { _id: id as any }] },
+        { $set: { ...partial, updatedAt: now } },
+        { returnDocument: "after" }
+      );
+      if (res) {
+        return {
+          id: (res as any).id || (res as any)._id?.toString() || id,
+          userId: (res as any).userId || "user_orbit_01",
+          amount: Number((res as any).amount),
+          description: (res as any).description,
+          category: (res as any).category,
+          date: (res as any).date,
+          paymentMethod: (res as any).paymentMethod,
+          notes: (res as any).notes || "",
+          type: (res as any).type || "expense",
+          createdAt: (res as any).createdAt || now,
+          updatedAt: (res as any).updatedAt || now,
+        };
+      }
+    } catch (err) {
+      console.warn("Error updating in MongoDB, falling back to memory:", err);
+    }
+  }
+
+  return memoryStore.update(id, partial);
 }
 
 export async function resetExpenses(): Promise<Expense[]> {

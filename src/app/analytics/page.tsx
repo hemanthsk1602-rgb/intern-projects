@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import { useExpenses } from "@/context/ExpenseContext";
+import { useTheme } from "@/context/ThemeContext";
 import SpendingPulse from "@/components/dashboard/SpendingPulse";
 import CategoryOrbit from "@/components/dashboard/CategoryOrbit";
 import MonthlySpending from "@/components/analytics/MonthlySpending";
@@ -9,10 +10,51 @@ import IncomeVsExpense from "@/components/analytics/IncomeVsExpense";
 import TopCategories from "@/components/analytics/TopCategories";
 import LoadingSkeleton from "@/components/ui/LoadingSkeleton";
 import EmptyOrbit from "@/components/ui/EmptyOrbit";
-import { BarChart3, TrendingUp, Sparkles } from "lucide-react";
+import { formatINR } from "@/lib/utils";
+import {
+  BarChart3,
+  TrendingUp,
+  Sparkles,
+  Layers,
+  ArrowUpRight,
+  Activity,
+  CreditCard,
+  PieChart,
+} from "lucide-react";
 
 export default function AnalyticsPage() {
   const { expenses, isLoading } = useExpenses();
+  const { isDark } = useTheme();
+
+  // Dynamic Telemetry Computations
+  const stats = useMemo(() => {
+    const expenseItems = expenses.filter((e) => e.type === "expense");
+    const totalOutflow = expenseItems.reduce((acc, curr) => acc + curr.amount, 0);
+    const avgExpense = expenseItems.length > 0 ? totalOutflow / expenseItems.length : 0;
+    const largestExpense =
+      expenseItems.length > 0 ? Math.max(...expenseItems.map((e) => e.amount)) : 0;
+
+    // Find most used payment method
+    const methodCounts: Record<string, number> = {};
+    expenses.forEach((e) => {
+      methodCounts[e.paymentMethod] = (methodCounts[e.paymentMethod] || 0) + 1;
+    });
+    let topMethod = "None";
+    let maxMethodCount = 0;
+    Object.entries(methodCounts).forEach(([method, count]) => {
+      if (count > maxMethodCount) {
+        maxMethodCount = count;
+        topMethod = method;
+      }
+    });
+
+    return {
+      totalTransactions: expenses.length,
+      avgExpense,
+      largestExpense,
+      topMethod,
+    };
+  }, [expenses]);
 
   if (isLoading) {
     return <LoadingSkeleton />;
@@ -42,6 +84,97 @@ export default function AnalyticsPage() {
         </div>
       </div>
 
+      {/* Row 0: High-Level Analytics Telemetry Bar */}
+      <section className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Total Events */}
+        <div
+          className={`p-4 rounded-2xl border transition-all ${
+            isDark
+              ? "bg-slate-900/60 border-slate-800 shadow-glass-dark"
+              : "bg-white border-slate-200 shadow-glass-light"
+          }`}
+        >
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[11px] font-mono uppercase text-slate-500 dark:text-slate-400">
+              Total Ledger Events
+            </span>
+            <Layers className="w-4 h-4 text-cyan-500" />
+          </div>
+          <div className="text-xl sm:text-2xl font-black font-display text-slate-900 dark:text-white">
+            {stats.totalTransactions}
+          </div>
+          <span className="text-[10px] font-mono text-slate-500 mt-1 block">
+            Indexed transactions
+          </span>
+        </div>
+
+        {/* Avg Outflow */}
+        <div
+          className={`p-4 rounded-2xl border transition-all ${
+            isDark
+              ? "bg-slate-900/60 border-slate-800 shadow-glass-dark"
+              : "bg-white border-slate-200 shadow-glass-light"
+          }`}
+        >
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[11px] font-mono uppercase text-slate-500 dark:text-slate-400">
+              Average Outflow
+            </span>
+            <Activity className="w-4 h-4 text-violet-500" />
+          </div>
+          <div className="text-xl sm:text-2xl font-black font-display text-slate-900 dark:text-white">
+            {formatINR(stats.avgExpense)}
+          </div>
+          <span className="text-[10px] font-mono text-slate-500 mt-1 block">
+            Per expense event
+          </span>
+        </div>
+
+        {/* Largest Outflow */}
+        <div
+          className={`p-4 rounded-2xl border transition-all ${
+            isDark
+              ? "bg-slate-900/60 border-slate-800 shadow-glass-dark"
+              : "bg-white border-slate-200 shadow-glass-light"
+          }`}
+        >
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[11px] font-mono uppercase text-slate-500 dark:text-slate-400">
+              Largest Single Outflow
+            </span>
+            <ArrowUpRight className="w-4 h-4 text-rose-500" />
+          </div>
+          <div className="text-xl sm:text-2xl font-black font-display text-slate-900 dark:text-white">
+            {formatINR(stats.largestExpense)}
+          </div>
+          <span className="text-[10px] font-mono text-slate-500 mt-1 block">
+            Max capital drawdown
+          </span>
+        </div>
+
+        {/* Top Rail */}
+        <div
+          className={`p-4 rounded-2xl border transition-all ${
+            isDark
+              ? "bg-slate-900/60 border-slate-800 shadow-glass-dark"
+              : "bg-white border-slate-200 shadow-glass-light"
+          }`}
+        >
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[11px] font-mono uppercase text-slate-500 dark:text-slate-400">
+              Primary Rail
+            </span>
+            <CreditCard className="w-4 h-4 text-emerald-500" />
+          </div>
+          <div className="text-xl sm:text-2xl font-black font-display text-slate-900 dark:text-white truncate">
+            {stats.topMethod}
+          </div>
+          <span className="text-[10px] font-mono text-slate-500 mt-1 block">
+            Most active settlement
+          </span>
+        </div>
+      </section>
+
       {/* Row 1: Spending Pulse */}
       <section className="w-full">
         <SpendingPulse />
@@ -69,3 +202,4 @@ export default function AnalyticsPage() {
     </div>
   );
 }
+

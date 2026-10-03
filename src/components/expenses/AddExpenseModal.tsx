@@ -47,11 +47,11 @@ const PAYMENT_METHODS: PaymentMethod[] = [
 ];
 
 export default function AddExpenseModal() {
-  const { isAddModalOpen, setIsAddModalOpen, addExpense } = useExpenses();
+  const { isAddModalOpen, setIsAddModalOpen, addExpense, editExpense, editingExpense } = useExpenses();
   const { isDark } = useTheme();
 
   const [type, setType] = useState<TransactionType>("expense");
-  const [amount, setAmount] = useState<string>("");
+  const [amount, setAmount] = useState<string>("0");
   const [description, setDescription] = useState<string>("");
   const [category, setCategory] = useState<ExpenseCategory>("Food & Dining");
   const [date, setDate] = useState<string>("");
@@ -64,12 +64,28 @@ export default function AddExpenseModal() {
 
   useEffect(() => {
     if (isAddModalOpen) {
-      const today = new Date().toISOString().split("T")[0];
-      setDate(today);
+      if (editingExpense) {
+        setType(editingExpense.type);
+        setAmount(String(editingExpense.amount));
+        setDescription(editingExpense.description);
+        setCategory(editingExpense.category);
+        setDate(editingExpense.date);
+        setPaymentMethod(editingExpense.paymentMethod);
+        setNotes(editingExpense.notes || "");
+      } else {
+        const today = new Date().toISOString().split("T")[0];
+        setDate(today);
+        setType("expense");
+        setAmount("");
+        setDescription("");
+        setCategory("Food & Dining");
+        setPaymentMethod("UPI");
+        setNotes("");
+      }
       setErrors({});
       setSuccessMessage(null);
     }
-  }, [isAddModalOpen]);
+  }, [isAddModalOpen, editingExpense]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -110,15 +126,28 @@ export default function AddExpenseModal() {
 
     try {
       setIsSubmitting(true);
-      const res = await addExpense({
-        amount: parseFloat(amount),
-        description: description.trim(),
-        category,
-        date,
-        paymentMethod,
-        notes: notes.trim(),
-        type,
-      });
+      let res;
+      if (editingExpense) {
+        res = await editExpense(editingExpense.id, {
+          amount: parseFloat(amount),
+          description: description.trim(),
+          category,
+          date,
+          paymentMethod,
+          notes: notes.trim(),
+          type,
+        });
+      } else {
+        res = await addExpense({
+          amount: parseFloat(amount),
+          description: description.trim(),
+          category,
+          date,
+          paymentMethod,
+          notes: notes.trim(),
+          type,
+        });
+      }
 
       if (res.success) {
         confetti({
@@ -128,7 +157,11 @@ export default function AddExpenseModal() {
           colors: ["#00F0FF", "#3B82F6", "#8B5CF6", "#10B981"],
         });
 
-        setSuccessMessage("Transaction committed to Financial Orbit!");
+        setSuccessMessage(
+          editingExpense
+            ? "Transaction updated in Financial Orbit!"
+            : "Transaction committed to Financial Orbit!"
+        );
         setTimeout(() => {
           setIsAddModalOpen(false);
           setAmount("");
@@ -180,12 +213,17 @@ export default function AddExpenseModal() {
                 isDark ? "text-cyan-500" : "text-sky-700 font-bold"
               }`}
             >
-              NEW FINANCIAL TELEMETRY
+              {editingExpense ? "MODIFY FINANCIAL TELEMETRY" : "NEW FINANCIAL TELEMETRY"}
             </span>
           </div>
           <h2 className="text-2xl font-bold font-display tracking-tight text-slate-900 dark:text-white">
-            Log Transaction
+            {editingExpense ? "Edit Transaction" : "Log Transaction"}
           </h2>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            {editingExpense
+              ? "Update transaction values and recalibrate your financial orbit in real time."
+              : "Inject a new capital event directly into your financial orbit."}
+          </p>
         </div>
 
         {/* Type Switcher */}
@@ -431,6 +469,11 @@ export default function AddExpenseModal() {
           >
             {isSubmitting ? (
               <span className="w-5 h-5 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
+            ) : editingExpense ? (
+              <>
+                <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
+                <span>SAVE MODIFICATIONS</span>
+              </>
             ) : (
               <>
                 <Plus className="w-4 h-4 stroke-[3]" />

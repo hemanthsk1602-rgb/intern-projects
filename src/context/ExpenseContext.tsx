@@ -13,8 +13,12 @@ interface ExpenseContextType {
   isLoading: boolean;
   isAddModalOpen: boolean;
   setIsAddModalOpen: (open: boolean) => void;
+  editingExpense: Expense | null;
+  setEditingExpense: (expense: Expense | null) => void;
+  openEditModal: (expense: Expense) => void;
   fetchData: () => Promise<void>;
   addExpense: (data: Omit<Expense, "id" | "userId" | "createdAt" | "updatedAt">) => Promise<{ success: boolean; error?: string }>;
+  editExpense: (id: string, data: Partial<Omit<Expense, "id" | "userId" | "createdAt" | "updatedAt">>) => Promise<{ success: boolean; error?: string }>;
   deleteExpense: (id: string) => Promise<{ success: boolean; error?: string }>;
   resetToDemo: () => Promise<void>;
   clearAll: () => Promise<void>;
@@ -42,6 +46,20 @@ export function ExpenseProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User>(INITIAL_USER);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isAddModalOpen, setIsAddModalOpen] = useState<boolean>(false);
+
+  const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
+
+  const openEditModal = (expense: Expense) => {
+    setEditingExpense(expense);
+    setIsAddModalOpen(true);
+  };
+
+  const handleSetIsAddModalOpen = (open: boolean) => {
+    setIsAddModalOpen(open);
+    if (!open) {
+      setEditingExpense(null);
+    }
+  };
 
   const fetchData = useCallback(async () => {
     try {
@@ -78,6 +96,27 @@ export function ExpenseProvider({ children }: { children: React.ReactNode }) {
         return { success: false, error: json.error || "Failed to add transaction" };
       }
       // Refresh real state
+      await fetchData();
+      return { success: true };
+    } catch (err: any) {
+      return { success: false, error: err.message || "Network error" };
+    }
+  };
+
+  const editExpense = async (
+    id: string,
+    data: Partial<Omit<Expense, "id" | "userId" | "createdAt" | "updatedAt">>
+  ) => {
+    try {
+      const res = await fetch(`/api/expenses/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const json = await res.json();
+      if (!res.ok || !json.success) {
+        return { success: false, error: json.error || "Failed to update transaction" };
+      }
       await fetchData();
       return { success: true };
     } catch (err: any) {
@@ -155,9 +194,13 @@ export function ExpenseProvider({ children }: { children: React.ReactNode }) {
         user,
         isLoading,
         isAddModalOpen,
-        setIsAddModalOpen,
+        setIsAddModalOpen: handleSetIsAddModalOpen,
+        editingExpense,
+        setEditingExpense,
+        openEditModal,
         fetchData,
         addExpense,
+        editExpense,
         deleteExpense,
         resetToDemo,
         clearAll,
