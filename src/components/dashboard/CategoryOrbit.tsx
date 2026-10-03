@@ -41,8 +41,8 @@ export default function CategoryOrbit() {
     <div
       className={`w-full p-5 md:p-6 rounded-3xl border transition-all duration-200 relative overflow-hidden flex flex-col justify-between ${
         isDark
-          ? "bg-[#0B1426] border-[rgba(80,150,255,0.15)] shadow-card-dark"
-          : "bg-[#FFFFFF] border-[rgba(30,90,160,0.14)] shadow-card-light"
+          ? "bg-[#060B14] border-[rgba(0,217,255,0.16)] shadow-[0_4px_25px_rgba(0,0,0,0.6)]"
+          : "bg-white border-[rgba(15,23,42,0.10)] shadow-card-light"
       }`}
     >
       {/* Background radial accent */}

@@ -40,34 +40,34 @@ export default function Navbar() {
       <div
         className={`max-w-7xl mx-auto rounded-2xl backdrop-blur-xl border transition-all duration-200 px-4 sm:px-5 py-2 flex items-center justify-between ${
           isDark
-            ? "bg-[#0B1426]/90 border-[rgba(80,150,255,0.15)] shadow-card-dark"
-            : "bg-white/95 border-[rgba(30,90,160,0.14)] shadow-card-light"
+            ? "bg-[#060B14]/85 border-[rgba(0,217,255,0.2)] shadow-[0_4px_30px_rgba(0,217,255,0.08)]"
+            : "bg-white/90 border-[rgba(15,23,42,0.12)] shadow-card-light"
         }`}
       >
         {/* Brand Logo & Orbit Emblem */}
         <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="relative w-7 h-7 rounded-xl bg-gradient-to-tr from-[#18D9FF] to-[#8B5CF6] flex items-center justify-center p-0.5 shadow-glow-subtle group-hover:scale-105 transition-transform">
-            <div className="w-full h-full bg-[#050914] rounded-[10px] flex items-center justify-center">
-              <span className="w-2 h-2 rounded-full bg-[#18D9FF] animate-ping absolute" />
-              <span className="w-1.5 h-1.5 rounded-full bg-[#18D9FF] relative z-10" />
+          <div className="relative w-7 h-7 rounded-xl bg-gradient-to-tr from-[#00D9FF] to-[#8B5CF6] flex items-center justify-center p-0.5 shadow-[0_0_15px_rgba(0,217,255,0.3)] group-hover:scale-105 transition-transform">
+            <div className="w-full h-full bg-[#03060D] rounded-[10px] flex items-center justify-center">
+              <span className="w-2 h-2 rounded-full bg-[#00D9FF] animate-ping absolute" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00D9FF] relative z-10" />
             </div>
           </div>
           <div className="flex flex-col">
-            <span className="text-sm sm:text-base font-bold tracking-wider font-display bg-gradient-to-r from-[#18D9FF] via-[#2684FF] to-[#8B5CF6] bg-clip-text text-transparent">
+            <span className="text-sm sm:text-base font-extrabold tracking-wider font-display bg-gradient-to-r from-[#00D9FF] via-[#3B82F6] to-[#8B5CF6] bg-clip-text text-transparent">
               SPENDWISE
             </span>
             <span
-              className={`text-[8.5px] font-mono tracking-widest uppercase -mt-0.5 ${
-                isDark ? "text-[#8FA3BF]" : "text-[#60738F]"
+              className={`text-[8px] font-mono tracking-widest uppercase -mt-0.5 font-semibold ${
+                isDark ? "text-[#00D9FF]" : "text-[#0891B2]"
               }`}
             >
-              Command Center
+              YOUR MONEY. YOUR ORBIT.
             </span>
           </div>
         </Link>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden md:flex items-center gap-1.5">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
             const Icon = link.icon;
@@ -78,29 +78,29 @@ export default function Navbar() {
                 className={`relative px-3.5 py-1.5 rounded-xl text-xs font-mono font-medium transition-all duration-200 flex items-center gap-2 ${
                   isActive
                     ? isDark
-                      ? "text-[#18D9FF] bg-[#18D9FF]/10 border border-[#18D9FF]/30 shadow-glow-subtle"
-                      : "text-[#1677FF] bg-[#1677FF]/10 border border-[#1677FF]/25 font-semibold"
+                      ? "text-[#00D9FF] bg-[#00D9FF]/10 border border-[#00D9FF]/40 shadow-[0_0_15px_rgba(0,217,255,0.25)] font-semibold"
+                      : "text-[#0891B2] bg-[#0891B2]/10 border border-[#0891B2]/30 font-semibold"
                     : isDark
-                    ? "text-[#8FA3BF] hover:text-[#F5F8FF] hover:bg-[#0F1B31]"
-                    : "text-[#60738F] hover:text-[#10213A] hover:bg-[#F4F8FC]"
+                    ? "text-[#A8B4C7] hover:text-[#F4F7FB] hover:bg-[#09111F]"
+                    : "text-[#475569] hover:text-[#0F172A] hover:bg-[#F1F5F9]"
                 }`}
               >
                 <Icon
                   className={`w-3.5 h-3.5 transition-colors ${
                     isActive
                       ? isDark
-                        ? "text-[#18D9FF]"
-                        : "text-[#1677FF]"
+                        ? "text-[#00D9FF]"
+                        : "text-[#0891B2]"
                       : isDark
-                      ? "text-[#60738F]"
-                      : "text-[#8A9BB2]"
+                      ? "text-[#64748B]"
+                      : "text-[#94A3B8]"
                   }`}
                 />
                 <span>{link.name}</span>
                 {isActive && (
                   <span
                     className={`absolute bottom-0 inset-x-3 h-[2px] rounded-full ${
-                      isDark ? "bg-[#18D9FF]" : "bg-[#1677FF]"
+                      isDark ? "bg-[#00D9FF] shadow-[0_0_8px_#00D9FF]" : "bg-[#0891B2]"
                     }`}
                   />
                 )}
@@ -109,15 +109,15 @@ export default function Navbar() {
           })}
         </nav>
 
-        {/* Action Controls: Add Expense, Profile/Login, Theme Toggle */}
+        {/* Action Controls: Add Expense, History Undo, Profile/Login, Theme Toggle */}
         <div className="flex items-center gap-2">
           {/* Prominent + Add Expense Button */}
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#18D9FF] to-[#2684FF] text-[#050914] font-bold text-xs font-mono tracking-wide flex items-center gap-1.5 shadow-glow-subtle hover:scale-[1.02] active:scale-[0.98] transition-all"
+            className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#00D9FF] to-[#3B82F6] text-[#03060D] font-bold text-xs font-mono tracking-wide flex items-center gap-1.5 shadow-[0_0_15px_rgba(0,217,255,0.3)] hover:shadow-[0_0_20px_rgba(0,217,255,0.5)] hover:scale-[1.02] active:scale-[0.98] transition-all"
           >
             <Plus className="w-3.5 h-3.5 stroke-[3]" />
-            <span>Add Expense</span>
+            <span>+ Add Expense</span>
           </button>
 
           {/* Auth State Button / Profile Badge */}
@@ -174,14 +174,14 @@ export default function Navbar() {
             </Link>
           )}
 
-          {/* Quick Demo Reset */}
+          {/* Quick Undo / Telemetry Reset */}
           <button
             onClick={resetToDemo}
-            title="Reset to default ₹27,000 seed data"
-            className={`hidden xl:flex p-1.5 rounded-xl border transition-all text-xs ${
+            title="Reset to canonical ₹27,000 seed data"
+            className={`flex p-1.5 rounded-xl border transition-all text-xs ${
               isDark
-                ? "border-[rgba(80,150,255,0.15)] text-[#8FA3BF] hover:text-[#18D9FF] bg-[#0B1426]"
-                : "border-[rgba(30,90,160,0.14)] text-[#60738F] hover:text-[#1677FF] bg-[#F8FBFF]"
+                ? "border-[rgba(0,217,255,0.2)] text-[#A8B4C7] hover:text-[#00D9FF] bg-[#09111F] hover:border-[#00D9FF]/40"
+                : "border-[rgba(15,23,42,0.12)] text-[#475569] hover:text-[#0891B2] bg-[#F8FBFF]"
             }`}
           >
             <RotateCcw className="w-3.5 h-3.5" />

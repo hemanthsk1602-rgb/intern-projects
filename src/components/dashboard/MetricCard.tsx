@@ -37,8 +37,8 @@ export default function MetricCard() {
       <div
         className={`p-4 sm:p-5 rounded-2xl border transition-all duration-200 flex flex-col justify-between hover:-translate-y-0.5 ${
           isDark
-            ? "bg-[#0B1426] border-[rgba(80,150,255,0.15)] shadow-card-dark hover:border-[#18D9FF]/40"
-            : "bg-[#FFFFFF] border-[rgba(30,90,160,0.14)] shadow-card-light hover:border-[#1677FF]/40"
+            ? "bg-[#060B14] border-[rgba(0,217,255,0.16)] shadow-[0_4px_20px_rgba(0,0,0,0.5)] hover:border-[#00D9FF]/40 hover:shadow-[0_0_15px_rgba(0,217,255,0.12)]"
+            : "bg-white border-[rgba(15,23,42,0.10)] shadow-card-light hover:border-[#0891B2]/40"
         }`}
       >
         <div className="flex items-center justify-between mb-2">
@@ -81,21 +81,21 @@ export default function MetricCard() {
       <div
         className={`p-4 sm:p-5 rounded-2xl border transition-all duration-200 flex flex-col justify-between hover:-translate-y-0.5 ${
           isDark
-            ? "bg-[#0B1426] border-[rgba(80,150,255,0.15)] shadow-card-dark hover:border-[#18D9FF]/40"
-            : "bg-[#FFFFFF] border-[rgba(30,90,160,0.14)] shadow-card-light hover:border-[#1677FF]/40"
+            ? "bg-[#060B14] border-[rgba(0,217,255,0.16)] shadow-[0_4px_20px_rgba(0,0,0,0.5)] hover:border-[#00D9FF]/40 hover:shadow-[0_0_15px_rgba(0,217,255,0.12)]"
+            : "bg-white border-[rgba(15,23,42,0.10)] shadow-card-light hover:border-[#0891B2]/40"
         }`}
       >
         <div className="flex items-center justify-between mb-2">
           <span
             className={`text-[10px] font-mono uppercase tracking-wider font-semibold ${
-              isDark ? "text-[#8FA3BF]" : "text-[#60738F]"
+              isDark ? "text-[#A8B4C7]" : "text-[#475569]"
             }`}
           >
             THIS MONTH
           </span>
           <div
             className={`w-7 h-7 rounded-lg flex items-center justify-center ${
-              isDark ? "bg-[#18D9FF]/10 text-[#18D9FF]" : "bg-sky-50 text-[#1677FF]"
+              isDark ? "bg-[#00D9FF]/10 text-[#00D9FF]" : "bg-sky-50 text-[#0891B2]"
             }`}
           >
             <TrendingUp className="w-3.5 h-3.5" />
@@ -110,7 +110,7 @@ export default function MetricCard() {
 
         <div className="flex items-center gap-1.5 text-[10.5px] font-mono mt-1">
           <span className="font-semibold text-emerald-500">Active</span>
-          <span className={isDark ? "text-[#60738F]" : "text-[#8A9BB2]"}>monthly outflow</span>
+          <span className={isDark ? "text-[#64748B]" : "text-[#64748B]"}>monthly outflow</span>
         </div>
       </div>
 
@@ -118,21 +118,21 @@ export default function MetricCard() {
       <div
         className={`p-4 sm:p-5 rounded-2xl border transition-all duration-200 flex flex-col justify-between hover:-translate-y-0.5 ${
           isDark
-            ? "bg-[#0B1426] border-[rgba(80,150,255,0.15)] shadow-card-dark hover:border-[#18D9FF]/40"
-            : "bg-[#FFFFFF] border-[rgba(30,90,160,0.14)] shadow-card-light hover:border-[#1677FF]/40"
+            ? "bg-[#060B14] border-[rgba(0,217,255,0.16)] shadow-[0_4px_20px_rgba(0,0,0,0.5)] hover:border-[#00D9FF]/40 hover:shadow-[0_0_15px_rgba(0,217,255,0.12)]"
+            : "bg-white border-[rgba(15,23,42,0.10)] shadow-card-light hover:border-[#0891B2]/40"
         }`}
       >
         <div className="flex items-center justify-between mb-2">
           <span
             className={`text-[10px] font-mono uppercase tracking-wider font-semibold ${
-              isDark ? "text-[#8FA3BF]" : "text-[#60738F]"
+              isDark ? "text-[#A8B4C7]" : "text-[#475569]"
             }`}
           >
             TRANSACTIONS
           </span>
           <div
             className={`w-7 h-7 rounded-lg flex items-center justify-center ${
-              isDark ? "bg-[#8B5CF6]/10 text-[#8B5CF6]" : "bg-indigo-50 text-[#7657E8]"
+              isDark ? "bg-[#8B5CF6]/10 text-[#8B5CF6]" : "bg-indigo-50 text-[#7C3AED]"
             }`}
           >
             <Layers className="w-3.5 h-3.5" />
@@ -153,7 +153,7 @@ export default function MetricCard() {
           >
             {metrics.budgetUtilization || 54}%
           </span>
-          <span className={isDark ? "text-[#60738F]" : "text-[#8A9BB2]"}>budget utilization</span>
+          <span className={isDark ? "text-[#64748B]" : "text-[#64748B]"}>budget utilization</span>
         </div>
       </div>
 
@@ -161,14 +161,14 @@ export default function MetricCard() {
       <div
         className={`p-4 sm:p-5 rounded-2xl border transition-all duration-200 flex flex-col justify-between hover:-translate-y-0.5 ${
           isDark
-            ? "bg-[#0B1426] border-[rgba(80,150,255,0.15)] shadow-card-dark hover:border-[#18D9FF]/40"
-            : "bg-[#FFFFFF] border-[rgba(30,90,160,0.14)] shadow-card-light hover:border-[#1677FF]/40"
+            ? "bg-[#060B14] border-[rgba(0,217,255,0.16)] shadow-[0_4px_20px_rgba(0,0,0,0.5)] hover:border-[#00D9FF]/40 hover:shadow-[0_0_15px_rgba(0,217,255,0.12)]"
+            : "bg-white border-[rgba(15,23,42,0.10)] shadow-card-light hover:border-[#0891B2]/40"
         }`}
       >
         <div className="flex items-center justify-between mb-2">
           <span
             className={`text-[10px] font-mono uppercase tracking-wider font-semibold ${
-              isDark ? "text-[#8FA3BF]" : "text-[#60738F]"
+              isDark ? "text-[#A8B4C7]" : "text-[#475569]"
             }`}
           >
             TOP CATEGORY
@@ -190,7 +190,7 @@ export default function MetricCard() {
 
         <div className="flex items-center gap-1.5 text-[10.5px] font-mono mt-1">
           <span className="font-semibold text-amber-500">{formatINR(topCategoryAmount)}</span>
-          <span className={isDark ? "text-[#60738F]" : "text-[#8A9BB2]"}>· {topCategoryPct}% of total</span>
+          <span className={isDark ? "text-[#64748B]" : "text-[#64748B]"}>· {topCategoryPct}% of total</span>
         </div>
       </div>
     </div>

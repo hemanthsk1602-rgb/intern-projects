@@ -3,25 +3,25 @@
 @tailwind utilities;
 
 :root {
-  --background: #F4F8FC;
-  --foreground: #10213A;
+  --background: #F5F8FC;
+  --foreground: #0F172A;
   --card-bg: #FFFFFF;
   --card-elevated: #F8FBFF;
-  --card-border: rgba(30, 90, 160, 0.14);
-  --text-primary: #10213A;
-  --text-secondary: #60738F;
-  --text-muted: #8A9BB2;
+  --card-border: rgba(15, 23, 42, 0.10);
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
 }
 
 .dark {
-  --background: #050914;
-  --foreground: #F5F8FF;
-  --card-bg: #0B1426;
-  --card-elevated: #0F1B31;
-  --card-border: rgba(80, 150, 255, 0.15);
-  --text-primary: #F5F8FF;
-  --text-secondary: #8FA3BF;
-  --text-muted: #60738F;
+  --background: #03060D;
+  --foreground: #F4F7FB;
+  --card-bg: #060B14;
+  --card-elevated: #09111F;
+  --card-border: rgba(0, 217, 255, 0.15);
+  --text-primary: #F4F7FB;
+  --text-secondary: #A8B4C7;
+  --text-muted: #64748B;
 }
 
 body {
@@ -44,21 +44,21 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(143, 163, 191, 0.25);
+  background: rgba(168, 180, 199, 0.25);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(38, 132, 255, 0.45);
+  background: rgba(0, 217, 255, 0.45);
 }
 
 /* Subtle, Restrained Glow Utilities */
 .text-glow-cyan {
-  text-shadow: 0 0 10px rgba(24, 217, 255, 0.35);
+  text-shadow: 0 0 10px rgba(0, 217, 255, 0.4);
 }
 
 .text-glow-blue {
-  text-shadow: 0 0 10px rgba(38, 132, 255, 0.35);
+  text-shadow: 0 0 10px rgba(59, 130, 246, 0.4);
 }
 
 /* Reduced motion accessibility */
@@ -72,3 +72,4 @@ body {
     scroll-behavior: auto !important;
   }
 }
+

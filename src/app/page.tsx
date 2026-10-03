@@ -15,10 +15,10 @@ const FinancialOrbit = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="w-full h-[380px] sm:h-[400px] md:h-[430px] rounded-3xl border border-[rgba(80,150,255,0.15)] dark:bg-[#07101F]/80 bg-white flex items-center justify-center">
+      <div className="w-full max-w-5xl h-[520px] sm:h-[560px] md:h-[620px] mx-auto rounded-3xl border border-[rgba(0,217,255,0.2)] dark:bg-[#03060D]/80 bg-white flex items-center justify-center">
         <div className="flex flex-col items-center gap-2.5">
-          <div className="w-8 h-8 rounded-full border-2 border-[#18D9FF] border-t-transparent animate-spin" />
-          <span className="text-xs font-mono text-[#18D9FF] tracking-wider">
+          <div className="w-8 h-8 rounded-full border-2 border-[#00D9FF] border-t-transparent animate-spin" />
+          <span className="text-xs font-mono text-[#00D9FF] tracking-wider">
             CALIBRATING 3D SPATIAL ORBIT...
           </span>
         </div>
