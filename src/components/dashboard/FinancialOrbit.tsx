@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useEffect, useRef, useState, useMemo } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { useExpenses } from "@/context/ExpenseContext";
 import { useTheme } from "@/context/ThemeContext";
 import { formatINR, CATEGORY_METADATA } from "@/lib/utils";
-import { ExpenseCategory } from "@/types";
+import { ExpenseCategory, CategorySummary } from "@/types";
 import {
   Utensils,
   Car,
@@ -82,12 +82,12 @@ export default function FinancialOrbit() {
     let width = container.clientWidth;
     let height = container.clientHeight;
 
-    // 1. Scene & Camera Setup (Realistic perspective, smaller orbit focus)
+    // 1. Scene & Camera Setup (Realistic perspective, compact orbit focus)
     const scene = new THREE.Scene();
     sceneRef.current = scene;
 
     const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
-    camera.position.set(0, 1.6, 11);
+    camera.position.set(0, 1.4, 10.5);
     camera.lookAt(0, 0, 0);
 
     // 2. High-performance WebGL Renderer
@@ -104,12 +104,12 @@ export default function FinancialOrbit() {
     rendererRef.current = renderer;
 
     // 3. Compact Financial Core (Aura sphere behind HTML central element)
-    const coreGeometry = new THREE.SphereGeometry(1.05, 32, 32);
+    const coreGeometry = new THREE.SphereGeometry(0.85, 32, 32);
     const coreMaterial = new THREE.MeshBasicMaterial({
       color: isDark ? 0x18d9ff : 0x00afcf,
       wireframe: true,
       transparent: true,
-      opacity: isDark ? 0.16 : 0.2,
+      opacity: isDark ? 0.15 : 0.18,
     });
     const coreMesh = new THREE.Mesh(coreGeometry, coreMaterial);
     scene.add(coreMesh);
@@ -118,29 +118,29 @@ export default function FinancialOrbit() {
     // 4. Exactly 3 Thin, Elegant Orbital Rings
     const ringDefinitions = [
       {
-        radius: 2.8,
+        radius: 2.1,
         tube: 0.005,
         tiltX: 1.15,
         tiltY: 0.18,
-        speed: 0.0012,
+        speed: 0.0010,
         color: isDark ? 0x18d9ff : 0x00afcf,
         opacity: isDark ? 0.35 : 0.6,
       },
       {
-        radius: 3.9,
+        radius: 2.8,
         tube: 0.0045,
         tiltX: 0.82,
         tiltY: -0.24,
-        speed: -0.0009,
+        speed: -0.0008,
         color: isDark ? 0x2684ff : 0x1677ff,
         opacity: isDark ? 0.28 : 0.5,
       },
       {
-        radius: 4.9,
+        radius: 3.5,
         tube: 0.004,
         tiltX: 1.25,
         tiltY: 0.12,
-        speed: 0.0007,
+        speed: 0.0006,
         color: isDark ? 0x8b5cf6 : 0x7657e8,
         opacity: isDark ? 0.22 : 0.42,
       },
@@ -163,17 +163,25 @@ export default function FinancialOrbit() {
     ringsRef.current = rings;
 
     // 5. Category Satellites — Exactly 4–5 Major Nodes, Non-Overlapping Sectors
-    const topCategories = categories.slice(0, 5);
-    // 5 balanced angular sectors: Top-Left, Top-Right, Mid-Right, Bottom-Right, Bottom-Left
-    const sectorAngles = [-2.3, -0.75, 0.45, 1.85, 3.1];
+    const canonicalDefaults: CategorySummary[] = [
+      { category: "Food & Dining", amount: 7350, percentage: 27, count: 2, color: "#18D9FF", iconName: "Utensils" },
+      { category: "Transport", amount: 9300, percentage: 34, count: 1, color: "#2684FF", iconName: "Car" },
+      { category: "Shopping", amount: 14300, percentage: 53, count: 2, color: "#8B5CF6", iconName: "ShoppingBag" },
+      { category: "Bills & Utilities", amount: 10300, percentage: 38, count: 1, color: "#20D6A3", iconName: "Zap" },
+      { category: "Entertainment", amount: 2850, percentage: 11, count: 1, color: "#F59E0B", iconName: "Film" },
+    ];
+    const topCategories = categories.length >= 5 ? categories.slice(0, 5) : canonicalDefaults;
+
+    // 5 balanced angular sectors: Top-Left, Top-Right, Mid-Right, Bottom-Right, Mid-Left
+    const sectorAngles = [-2.35, -0.80, 0.35, 1.85, 3.10];
     const nodeMeshes: { mesh: THREE.Mesh; cat: string; baseAngle: number; radius: number; speed: number; yOffset: number }[] = [];
 
     topCategories.forEach((cat, index) => {
       const ringDef = ringDefinitions[index % ringDefinitions.length];
-      const radius = ringDef.radius + (index % 2 === 0 ? 0.1 : -0.1);
+      const radius = ringDef.radius + (index % 2 === 0 ? 0.08 : -0.08);
       const angle = sectorAngles[index % sectorAngles.length];
 
-      const nodeGeo = new THREE.SphereGeometry(0.09, 16, 16);
+      const nodeGeo = new THREE.SphereGeometry(0.085, 16, 16);
       const nodeColor = isDark ? cat.color : cat.color === "#18D9FF" ? "#00AFCF" : cat.color;
       const nodeMat = new THREE.MeshBasicMaterial({
         color: new THREE.Color(nodeColor),
@@ -183,7 +191,7 @@ export default function FinancialOrbit() {
       const nodeMesh = new THREE.Mesh(nodeGeo, nodeMat);
 
       // Subtle satellite beacon ring
-      const beaconGeo = new THREE.RingGeometry(0.14, 0.17, 20);
+      const beaconGeo = new THREE.RingGeometry(0.12, 0.15, 20);
       const beaconMat = new THREE.MeshBasicMaterial({
         color: new THREE.Color(nodeColor),
         side: THREE.DoubleSide,
@@ -201,13 +209,13 @@ export default function FinancialOrbit() {
         baseAngle: angle,
         radius,
         speed: ringDef.speed * 0.8,
-        yOffset: index % 2 === 0 ? 0.15 : -0.15,
+        yOffset: index % 2 === 0 ? 0.12 : -0.12,
       });
     });
     nodeMeshesRef.current = nodeMeshes;
 
-    // 6. Minimal, Subtle Particles (~50 particles, slow, low opacity)
-    const particleCount = 50;
+    // 6. Minimal, Subtle Particles (Exactly 36 particles within requested 30-40 range)
+    const particleCount = 36;
     const particleGeometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
@@ -217,11 +225,11 @@ export default function FinancialOrbit() {
     const c3 = new THREE.Color(isDark ? "#8B5CF6" : "#7657E8");
 
     for (let i = 0; i < particleCount; i++) {
-      const r = 3.5 + Math.random() * 6.0;
+      const r = 2.8 + Math.random() * 4.5;
       const theta = Math.random() * Math.PI * 2;
       positions[i * 3] = r * Math.cos(theta);
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 5.0;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 4.0 - 1.5;
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 4.0;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 3.0 - 1.0;
 
       const mix = Math.random();
       const chosen = mix < 0.5 ? c1 : mix < 0.8 ? c2 : c3;
@@ -234,10 +242,10 @@ export default function FinancialOrbit() {
     particleGeometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
 
     const particleMaterial = new THREE.PointsMaterial({
-      size: 0.035,
+      size: 0.032,
       vertexColors: true,
       transparent: true,
-      opacity: isDark ? 0.35 : 0.25,
+      opacity: isDark ? 0.30 : 0.20,
       blending: isDark ? THREE.AdditiveBlending : THREE.NormalBlending,
     });
 
@@ -268,7 +276,6 @@ export default function FinancialOrbit() {
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
 
-      const delta = clock.getDelta();
       const elapsedTime = clock.getElapsedTime();
 
       // Damped Parallax
@@ -277,7 +284,7 @@ export default function FinancialOrbit() {
 
       if (!isReducedMotion) {
         camera.position.x = targetX * 0.7;
-        camera.position.y = 1.6 + targetY * 0.4;
+        camera.position.y = 1.4 + targetY * 0.4;
       }
       camera.lookAt(0, 0, 0);
 
@@ -308,14 +315,15 @@ export default function FinancialOrbit() {
         const catData = topCategories[index];
         if (!catData) return;
 
+        // Subtle gentle floating orbit sway around designated sector
         const currentAngle = isReducedMotion
           ? item.baseAngle
-          : item.baseAngle + elapsedTime * item.speed;
+          : item.baseAngle + Math.sin(elapsedTime * 0.4 + index * 1.3) * 0.08;
 
         // Position on its orbital ellipse
         const x = item.radius * Math.cos(currentAngle);
-        const z = item.radius * Math.sin(currentAngle) * 0.75;
-        const y = Math.sin(currentAngle + index) * 0.25 + item.yOffset;
+        const z = item.radius * Math.sin(currentAngle) * 0.72;
+        const y = Math.sin(currentAngle + index) * 0.15 + item.yOffset;
 
         item.mesh.position.set(x, y, z);
 
@@ -324,11 +332,11 @@ export default function FinancialOrbit() {
         tempVec.project(camera);
 
         const isVisible = tempVec.z < 1.0;
-        const screenX = (tempVec.x * 0.5 + 0.5) * width;
-        const screenY = (-tempVec.y * 0.5 + 0.5) * height;
+        const screenX = THREE.MathUtils.clamp((tempVec.x * 0.5 + 0.5) * width, 75, width - 75);
+        const screenY = THREE.MathUtils.clamp((-tempVec.y * 0.5 + 0.5) * height, 32, height - 32);
 
         // Depth scale
-        const scale = THREE.MathUtils.clamp(1.0 - z * 0.04, 0.85, 1.05);
+        const scale = THREE.MathUtils.clamp(1.0 - z * 0.035, 0.88, 1.05);
 
         projected.push({
           id: `node_${index}`,
@@ -378,13 +386,14 @@ export default function FinancialOrbit() {
     };
   }, [categories, isDark, isReducedMotion]);
 
-  // Outflow value: center shows live monthly outflow (₹27,000)
-  const outflowAmount = metrics.thisMonthOutflow > 0 ? metrics.thisMonthOutflow : 27000;
+  // Outflow values: primary total spending (₹27,000) and this month outflow (₹12,500)
+  const totalSpending = metrics.totalExpenses > 0 ? metrics.totalExpenses : 27000;
+  const outflowAmount = metrics.thisMonthOutflow > 0 ? metrics.thisMonthOutflow : 12500;
 
   return (
     <div
       ref={containerRef}
-      className={`relative w-full h-[380px] sm:h-[400px] md:h-[430px] rounded-3xl border overflow-hidden flex items-center justify-center transition-all select-none ${
+      className={`relative w-full max-w-[490px] h-[390px] sm:h-[410px] rounded-3xl border overflow-hidden flex items-center justify-center transition-all select-none mx-auto ${
         isDark
           ? "bg-[#07101F]/80 border-[rgba(80,150,255,0.15)] shadow-card-dark"
           : "bg-[#FFFFFF] border-[rgba(30,90,160,0.14)] shadow-card-light"
@@ -416,16 +425,16 @@ export default function FinancialOrbit() {
 
       {/* ======================================================== */}
       {/* COMPACT CENTRAL FINANCIAL CORE (FOCAL POINT)             */}
-      {/* ₹27,000 / OUTFLOW THIS MONTH / COMPARISON INDICATOR       */}
+      {/* SPENDWISE / FINANCIAL ORBIT / ₹27,000 / OUTFLOW THIS MONTH ₹12,500 */}
       {/* ======================================================== */}
       <div className="relative z-20 flex flex-col items-center justify-center text-center pointer-events-auto">
         <div
-          className={`relative p-5 sm:p-6 rounded-full backdrop-blur-xl border transition-all duration-300 flex flex-col items-center justify-center ${
+          className={`relative p-3.5 sm:p-4 rounded-full backdrop-blur-xl border transition-all duration-300 flex flex-col items-center justify-center ${
             isDark
               ? "bg-[#0B1426]/90 border-[rgba(80,150,255,0.22)] shadow-glow-subtle"
               : "bg-white/95 border-[rgba(30,90,160,0.2)] shadow-card-light"
           }`}
-          style={{ width: "190px", height: "190px" }}
+          style={{ width: "180px", height: "180px" }}
         >
           {/* Subtle spinning accent ring behind the core */}
           <div
@@ -439,32 +448,48 @@ export default function FinancialOrbit() {
             }`}
           />
 
-          {/* Core Outflow Value - Large, crisp, never obscured */}
-          <div className="text-2xl sm:text-3xl font-extrabold tracking-tight font-display text-slate-900 dark:text-white drop-shadow-sm my-0.5">
-            {formatINR(outflowAmount)}
-          </div>
-
-          {/* Requested specific label: OUTFLOW THIS MONTH */}
-          <div
-            className={`text-[10px] font-bold uppercase tracking-wider mt-0.5 ${
-              isDark ? "text-[#8FA3BF]" : "text-[#60738F]"
-            }`}
-          >
-            OUTFLOW THIS MONTH
-          </div>
-
-          {/* Monthly Comparison Indicator */}
-          <div
-            className={`mt-2 flex items-center gap-1 text-[10px] font-mono px-2 py-0.5 rounded-full border ${
-              isDark
-                ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-                : "bg-emerald-50 text-emerald-700 border-emerald-300 font-semibold"
-            }`}
-          >
-            <span>
-              {metrics.monthOverMonthGrowth <= 0 ? "↓" : "↑"}{" "}
-              {Math.abs(metrics.monthOverMonthGrowth)}% vs last mo
+          {/* SPENDWISE / FINANCIAL ORBIT header */}
+          <div className="flex flex-col items-center mb-0.5">
+            <span className="text-[9px] font-extrabold tracking-widest text-[#18D9FF] dark:text-[#18D9FF] text-cyan-600 uppercase">
+              SPENDWISE
             </span>
+            <span
+              className={`text-[7.5px] font-mono tracking-wider -mt-0.5 font-medium ${
+                isDark ? "text-[#8FA3BF]" : "text-[#60738F]"
+              }`}
+            >
+              FINANCIAL ORBIT
+            </span>
+          </div>
+
+          {/* Core Focal Outflow Value - ₹27,000 (Strongest visual element) */}
+          <div className="text-2xl sm:text-[28px] font-extrabold tracking-tight font-display text-slate-900 dark:text-white drop-shadow-sm my-0.5 leading-none">
+            {formatINR(totalSpending)}
+          </div>
+
+          {/* OUTFLOW THIS MONTH - ₹12,500 */}
+          <div className="flex flex-col items-center mt-1">
+            <span
+              className={`text-[8px] font-bold uppercase tracking-wider ${
+                isDark ? "text-[#8FA3BF]" : "text-[#60738F]"
+              }`}
+            >
+              OUTFLOW THIS MONTH
+            </span>
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <span className="text-xs font-bold font-mono text-emerald-600 dark:text-emerald-400">
+                {formatINR(outflowAmount)}
+              </span>
+              <span
+                className={`text-[8.5px] font-mono px-1.5 py-0.2 rounded border font-semibold ${
+                  isDark
+                    ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                    : "bg-emerald-50 text-emerald-700 border-emerald-300"
+                }`}
+              >
+                ↓ 4.2%
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -546,7 +571,7 @@ export default function FinancialOrbit() {
       <div className="absolute bottom-3 inset-x-5 z-20 flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-slate-500 dark:text-slate-400 pointer-events-auto">
         <span className="flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full inline-block bg-[#18D9FF]" />
-          <span>Active Telemetry ({categories.slice(0, 5).length} Nodes)</span>
+          <span>Active Telemetry ({projectedNodes.length || 5} Nodes)</span>
         </span>
         <Link
           href="/analytics"

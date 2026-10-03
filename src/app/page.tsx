@@ -44,7 +44,7 @@ export default function DashboardPage() {
       {/* ======================================================== */}
       {/* HERO SECTION: THE 3D FINANCIAL ORBIT                   */}
       {/* ======================================================== */}
-      <section className="relative w-full">
+      <section className="relative w-full flex justify-center">
         <FinancialOrbit />
       </section>
 
